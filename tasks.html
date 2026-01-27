@@ -68,36 +68,89 @@
             padding: 15px 40px;
             background: var(--cyan-dim);
             border-bottom: 1px solid var(--cyan-border);
+            transition: all 0.3s;
+        }
+        .sync-bar.has-changes {
+            background: rgba(255, 107, 0, 0.15);
+            border-bottom-color: var(--orange);
+        }
+        .sync-bar.synced {
+            background: rgba(0, 255, 136, 0.1);
+            border-bottom-color: var(--green);
         }
         .sync-info {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
             color: var(--cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .sync-info .pending {
-            color: var(--orange);
-            margin-left: 15px;
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+        .sync-bar.has-changes .sync-dot {
+            background: var(--orange);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .pending-badge {
+            background: var(--orange);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
         .sync-actions {
             display: flex;
             gap: 10px;
         }
         .sync-btn {
-            padding: 8px 20px;
-            border: 1px solid var(--cyan);
+            padding: 10px 24px;
+            border: 2px solid var(--cyan);
             background: transparent;
             color: var(--cyan);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
+            border-radius: 4px;
+            font-weight: 600;
         }
         .sync-btn:hover {
             background: var(--cyan);
             color: #000;
+            transform: translateY(-1px);
         }
         .sync-btn.primary {
-            background: var(--cyan);
+            background: var(--orange);
+            border-color: var(--orange);
+            color: #000;
+        }
+        .sync-btn.primary:hover {
+            background: #ff8533;
+            border-color: #ff8533;
+        }
+        .sync-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .sync-btn.success {
+            background: var(--green);
+            border-color: var(--green);
             color: #000;
         }
         
@@ -368,24 +421,28 @@
         .toast {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            padding: 15px 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 18px 32px;
             background: var(--green);
             color: #000;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            transform: translateY(100px);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,255,136,0.3);
         }
         .toast.show {
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
         .toast.error {
             background: var(--red);
             color: #fff;
+            box-shadow: 0 10px 40px rgba(255,68,68,0.3);
         }
         
         /* Mobile */
@@ -411,17 +468,20 @@
         </div>
     </nav>
     
-    <div class="sync-bar">
+    <div class="sync-bar" id="syncBar">
         <div class="sync-info">
-            📋 Synced from Google Sheets
-            <span class="pending" id="pendingChanges"></span>
+            <div class="sync-status">
+                <div class="sync-dot" id="syncDot"></div>
+                <span id="syncStatusText">✓ Synced with Google Sheets</span>
+            </div>
+            <span class="pending-badge" id="pendingBadge" style="display:none;">0 changes</span>
         </div>
         <div class="sync-actions">
             <button class="sync-btn" onclick="window.open('https://docs.google.com/spreadsheets/d/1LIdaTvRvKEZOMJbqXcBIrA5Xq6bEnzfiiFkFp_A6pTY', '_blank')">
-                OPEN SHEETS
+                📊 OPEN SHEETS
             </button>
-            <button class="sync-btn primary" onclick="requestSync()">
-                🔄 SYNC TO SHEETS
+            <button class="sync-btn primary" id="syncBtn" onclick="requestSync()" disabled>
+                ↗️ SYNC CHANGES
             </button>
         </div>
     </div>
@@ -553,11 +613,23 @@
         }
         
         function updatePendingChanges() {
-            const el = document.getElementById('pendingChanges');
+            const syncBar = document.getElementById('syncBar');
+            const badge = document.getElementById('pendingBadge');
+            const statusText = document.getElementById('syncStatusText');
+            const syncBtn = document.getElementById('syncBtn');
+            
             if (changes.length > 0) {
-                el.textContent = `⚠️ ${changes.length} cambios pendientes de sincronizar`;
+                syncBar.classList.add('has-changes');
+                syncBar.classList.remove('synced');
+                badge.style.display = 'inline';
+                badge.textContent = `${changes.length} cambio${changes.length > 1 ? 's' : ''}`;
+                statusText.textContent = '⚠️ Cambios sin sincronizar';
+                syncBtn.disabled = false;
             } else {
-                el.textContent = '';
+                syncBar.classList.remove('has-changes');
+                badge.style.display = 'none';
+                statusText.textContent = '✓ Synced with Google Sheets';
+                syncBtn.disabled = true;
             }
         }
         
@@ -746,54 +818,60 @@
         
         async function requestSync() {
             if (changes.length === 0) {
-                showToast('No changes to sync');
+                showToast('No hay cambios para sincronizar', true);
                 return;
             }
             
-            // Save sync request locally
-            const syncData = {
-                changes,
-                tasks,
-                requestedAt: new Date().toISOString()
-            };
-            localStorage.setItem('task_sync_request', JSON.stringify(syncData));
+            const syncBtn = document.getElementById('syncBtn');
+            const syncBar = document.getElementById('syncBar');
             
             // Build commands for Nuria
             const commands = changes.filter(c => c.type === 'status' && c.row).map(c => ({
                 row: c.row,
-                status: c.status
+                status: c.status,
+                title: c.title
             }));
             
             if (commands.length === 0) {
-                showToast('No sheet updates needed');
+                showToast('No hay actualizaciones de estado', true);
                 return;
             }
             
-            // Save to file for Nuria to pick up
-            const syncFile = {
-                commands,
-                requestedAt: new Date().toISOString()
-            };
+            // Format message for Nuria
+            const syncLines = commands.map(c => `Row ${c.row} → ${c.status}`).join(', ');
+            const msg = `sync tasks: ${syncLines}`;
             
-            // Store in localStorage for display
-            localStorage.setItem('pending_sheet_sync', JSON.stringify(syncFile));
-            
-            // Show what will be synced
-            const summary = commands.map(c => `• Row ${c.row} → ${c.status}`).join('\n');
-            
-            // Clear changes after successful queue
-            changes = [];
-            localStorage.setItem('task_changes', JSON.stringify(changes));
-            updatePendingChanges();
-            
-            showToast('✅ Changes queued! Tell Nuria: "sync tasks"');
-            
-            // Also show a modal with copy-able text
-            const msg = `sync tasks:\n${summary}`;
-            if (confirm(`Changes queued for sync:\n\n${summary}\n\nCopy command for Nuria?`)) {
-                navigator.clipboard.writeText(msg).then(() => {
-                    showToast('Copied! Paste to Nuria');
-                });
+            // Copy to clipboard
+            try {
+                await navigator.clipboard.writeText(msg);
+                
+                // Clear changes
+                changes = [];
+                localStorage.setItem('task_changes', JSON.stringify(changes));
+                
+                // Update UI to show success
+                syncBar.classList.remove('has-changes');
+                syncBar.classList.add('synced');
+                syncBtn.classList.add('success');
+                syncBtn.textContent = '✓ COPIED!';
+                document.getElementById('syncStatusText').textContent = '📋 Copiado! Pégalo a Nuria';
+                document.getElementById('pendingBadge').style.display = 'none';
+                
+                showToast('✅ Copiado! Pega el mensaje a Nuria por WhatsApp');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    syncBtn.classList.remove('success');
+                    syncBtn.textContent = '↗️ SYNC CHANGES';
+                    syncBtn.disabled = true;
+                    syncBar.classList.remove('synced');
+                    document.getElementById('syncStatusText').textContent = '✓ Synced with Google Sheets';
+                }, 5000);
+                
+            } catch (err) {
+                // Fallback: show the text to copy manually
+                prompt('Copia este mensaje y envíalo a Nuria:', msg);
+                showToast('Copia el mensaje y envíalo a Nuria');
             }
         }
         
