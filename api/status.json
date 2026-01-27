@@ -1,17 +1,16 @@
 {
-  "lastUpdate": "2026-01-27T13:20:00+01:00",
+  "lastUpdate": "2026-01-27T13:35:00+01:00",
   "tasks": [
     {
       "id": "followers-download",
-      "name": "Descargando 68k followers @harto_fr",
-      "status": "running",
-      "progress": 5,
+      "name": "Descargando followers @harto_fr",
+      "status": "waiting",
+      "progress": 0,
       "steps": [
-        {"name": "Conectando a Twitter API", "status": "running", "detail": "..."},
-        {"name": "Descargando en batches", "status": "pending", "detail": "Con delays para evitar rate limit"},
-        {"name": "Guardando progreso", "status": "pending"},
+        {"name": "Conectando a Twitter API", "status": "complete", "detail": "✅"},
+        {"name": "Descargando followers", "status": "blocked", "detail": "⚠️ Rate limit (429)"},
+        {"name": "Esperando reset", "status": "running", "detail": "~15 min"},
         {"name": "Categorizando contactos", "status": "pending"},
-        {"name": "Generando prospectos", "status": "pending"},
         {"name": "Actualizando CRM", "status": "pending"}
       ],
       "startedAt": "2026-01-27T13:20:00+01:00"
@@ -25,8 +24,9 @@
     }
   ],
   "logs": [
-    {"time": "13:20", "msg": "🚀 Iniciando descarga de 68k followers"},
-    {"time": "13:20", "msg": "⏳ Descargando en batches con delays..."},
+    {"time": "13:35", "msg": "⚠️ Rate limit 429 - esperando reset"},
+    {"time": "13:27", "msg": "❌ Twitter bloqueó la descarga de followers"},
+    {"time": "13:20", "msg": "🚀 Iniciando descarga de followers"},
     {"time": "13:15", "msg": "✅ CRM following completado (769)"}
   ]
 }
