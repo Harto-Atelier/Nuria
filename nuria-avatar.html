@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURIA // Avatar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .nuria-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #4d57a0;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+        
+        .face {
+            position: relative;
+        }
+        
+        .eyes {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .eye {
+            width: 60px;
+            height: 60px;
+            background: #FF6B00;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255,107,0,0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(255,107,0,0.4); }
+            50% { box-shadow: 0 0 50px rgba(255,107,0,0.6); }
+        }
+        
+        .eye::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 18px;
+            height: 18px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 6px;
+        }
+        
+        .eye::after {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 32px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 3px;
+        }
+        
+        .eye.blink {
+            height: 10px;
+            border-radius: 10px;
+            transform: translateY(25px);
+        }
+        .eye.blink::before, .eye.blink::after {
+            display: none;
+        }
+        
+        .blush {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: rgba(255,150,150,0.35);
+            border-radius: 50%;
+            top: 65px;
+        }
+        .blush-l { left: -10px; }
+        .blush-r { right: -10px; }
+        
+        .mouth {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 7px;
+            border: 2px solid #FF6B00;
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            animation: talk 0.3s ease-in-out infinite;
+        }
+        
+        @keyframes talk {
+            0%, 100% { height: 7px; width: 14px; }
+            50% { height: 10px; width: 18px; }
+        }
+        
+        .face {
+            animation: bounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Status indicator */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #00FF88;
+            letter-spacing: 2px;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #00FF88;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nuria-container">
+        <div class="name">NURIA</div>
+        <div class="face">
+            <div class="eyes">
+                <div class="eye" id="eyeL"></div>
+                <div class="eye" id="eyeR"></div>
+            </div>
+            <div class="blush blush-l"></div>
+            <div class="blush blush-r"></div>
+            <div class="mouth"></div>
+        </div>
+        <div class="status">
+            <div class="status-dot"></div>
+            ONLINE
+        </div>
+    </div>
+    
+    <script>
+        const eyeL = document.getElementById('eyeL');
+        const eyeR = document.getElementById('eyeR');
+        
+        // Random blink
+        function blink() {
+            eyeL.classList.add('blink');
+            eyeR.classList.add('blink');
+            setTimeout(() => {
+                eyeL.classList.remove('blink');
+                eyeR.classList.remove('blink');
+            }, 150);
+        }
+        
+        // Blink every 2-5 seconds
+        function scheduleBlink() {
+            const delay = 2000 + Math.random() * 3000;
+            setTimeout(() => {
+                blink();
+                scheduleBlink();
+            }, delay);
+        }
+        scheduleBlink();
+    </script>
+</body>
+</html>

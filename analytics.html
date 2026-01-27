@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANALYTICS // HARTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #111111;
+            --cyan: #4d57a0;
+            --cyan-dim: rgba(77, 87, 160, 0.15);
+            --cyan-border: rgba(77, 87, 160, 0.4);
+            --orange: #FF6B00;
+            --green: #00FF88;
+            --red: #FF4444;
+            --yellow: #FFD700;
+            --purple: #A855F7;
+            --text: #ffffff;
+            --muted: #666666;
+            --border: #222222;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+        
+        /* Hero */
+        .hero {
+            padding: 50px 40px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        .hero-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+        }
+        .hero-sub {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+        }
+        
+        /* Stats Overview */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-bottom: 1px solid var(--border);
+        }
+        .stat-card {
+            padding: 30px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        .stat-card:last-child { border-right: none; }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cyan);
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Section */
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Category Breakdown */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .category-card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            transition: all 0.2s;
+        }
+        .category-card:hover {
+            border-color: var(--cyan-border);
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .category-name {
+            font-weight: 600;
+        }
+        .category-icon { font-size: 1.5rem; }
+        .category-stats {
+            display: flex;
+            gap: 20px;
+        }
+        .category-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--cyan);
+        }
+        .category-stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        .category-bar {
+            height: 4px;
+            background: var(--border);
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        .category-bar-fill {
+            height: 100%;
+            background: var(--cyan);
+            transition: width 0.5s ease;
+        }
+        
+        /* Tier Breakdown */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+        .tier-card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            text-align: center;
+        }
+        .tier-emoji { font-size: 2rem; margin-bottom: 10px; }
+        .tier-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .tier-range {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 15px;
+        }
+        .tier-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .tier-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+        
+        /* Top Contacts */
+        .top-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .top-section {
+            border: 1px solid var(--border);
+            padding: 25px;
+        }
+        .top-section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        .top-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .top-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            transition: background 0.2s;
+        }
+        .top-item:hover {
+            background: var(--cyan-dim);
+        }
+        .top-rank {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--muted);
+            width: 25px;
+        }
+        .top-avatar {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--cyan);
+        }
+        .top-info { flex: 1; min-width: 0; }
+        .top-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .top-name .verified { color: var(--cyan); margin-left: 5px; }
+        .top-handle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+        .top-followers {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--cyan);
+        }
+        
+        /* Pipeline Stats */
+        .pipeline-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+        }
+        .pipeline-stage {
+            border: 1px solid var(--border);
+            border-right: none;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .pipeline-stage:last-child { border-right: 1px solid var(--border); }
+        .pipeline-stage::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--border);
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+        .pipeline-stage:last-child::after { display: none; }
+        .pipeline-icon { font-size: 1.5rem; margin-bottom: 10px; }
+        .pipeline-name {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .pipeline-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .pipeline-stage.active .pipeline-value { color: var(--cyan); }
+        
+        /* Footer */
+        .footer {
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+        
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .stat-card { border-bottom: 1px solid var(--border); }
+            .category-grid { grid-template-columns: repeat(2, 1fr); }
+            .tier-grid { grid-template-columns: repeat(3, 1fr); }
+            .top-grid { grid-template-columns: 1fr; }
+            .pipeline-grid { grid-template-columns: repeat(3, 1fr); }
+            .pipeline-stage { border-bottom: 1px solid var(--border); }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .category-grid { grid-template-columns: 1fr; }
+            .tier-grid { grid-template-columns: repeat(2, 1fr); }
+            .pipeline-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">ANALYTICS // HARTO</div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="crm.html">CRM</a>
+            <a href="outreach.html">Outreach</a>
+            <a href="analytics.html" class="active">Analytics</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <h1 class="hero-title">NETWORK ANALYSIS</h1>
+        <div class="hero-sub">66,427 FOLLOWERS ANALYZED</div>
+    </section>
+    
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="totalContacts">-</div>
+            <div class="stat-label">Total Contacts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="verifiedCount">-</div>
+            <div class="stat-label">Verified</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="highValueCount">-</div>
+            <div class="stat-label">High Value</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalReach">-</div>
+            <div class="stat-label">Total Reach</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="avgFollowers">-</div>
+            <div class="stat-label">Avg Followers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="categories">-</div>
+            <div class="stat-label">Categories</div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="section-header">
+            <div class="section-title">// PIPELINE STATUS</div>
+            <div class="section-subtitle">Track your outreach funnel (data saved locally)</div>
+        </div>
+        <div class="pipeline-grid" id="pipelineGrid">
+            <div class="pipeline-stage active">
+                <div class="pipeline-icon">📋</div>
+                <div class="pipeline-name">Prospects</div>
+                <div class="pipeline-value" id="pipeProspect">-</div>
+            </div>
+            <div class="pipeline-stage">
+                <div class="pipeline-icon">📩</div>
+                <div class="pipeline-name">Contacted</div>
+                <div class="pipeline-value" id="pipeContacted">0</div>
+            </div>
+            <div class="pipeline-stage">
+                <div class="pipeline-icon">💬</div>
+                <div class="pipeline-name">Replied</div>
+                <div class="pipeline-value" id="pipeReplied">0</div>
+            </div>
+            <div class="pipeline-stage">
+                <div class="pipeline-icon">📅</div>
+                <div class="pipeline-name">Meeting</div>
+                <div class="pipeline-value" id="pipeMeeting">0</div>
+            </div>
+            <div class="pipeline-stage">
+                <div class="pipeline-icon">✅</div>
+                <div class="pipeline-name">Closed</div>
+                <div class="pipeline-value" id="pipeClosed">0</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="section-header">
+            <div class="section-title">// FOLLOWER TIERS</div>
+            <div class="section-subtitle">Breakdown by audience size</div>
+        </div>
+        <div class="tier-grid" id="tierGrid">
+            <div class="tier-card">
+                <div class="tier-emoji">🐋</div>
+                <div class="tier-name">MEGA</div>
+                <div class="tier-range">1M+ followers</div>
+                <div class="tier-value" id="tierMega">-</div>
+                <div class="tier-label">contacts</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-emoji">🦈</div>
+                <div class="tier-name">MACRO</div>
+                <div class="tier-range">100K - 1M</div>
+                <div class="tier-value" id="tierMacro">-</div>
+                <div class="tier-label">contacts</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-emoji">🐬</div>
+                <div class="tier-name">MID</div>
+                <div class="tier-range">10K - 100K</div>
+                <div class="tier-value" id="tierMid">-</div>
+                <div class="tier-label">contacts</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-emoji">🐟</div>
+                <div class="tier-name">MICRO</div>
+                <div class="tier-range">1K - 10K</div>
+                <div class="tier-value" id="tierMicro">-</div>
+                <div class="tier-label">contacts</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-emoji">🦐</div>
+                <div class="tier-name">NANO</div>
+                <div class="tier-range">< 1K</div>
+                <div class="tier-value" id="tierNano">-</div>
+                <div class="tier-label">contacts</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="section-header">
+            <div class="section-title">// CATEGORY BREAKDOWN</div>
+            <div class="section-subtitle">Distribution by interest area</div>
+        </div>
+        <div class="category-grid" id="categoryGrid">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="section-header">
+            <div class="section-title">// TOP CONTACTS BY CATEGORY</div>
+            <div class="section-subtitle">Highest reach in each segment</div>
+        </div>
+        <div class="top-grid" id="topGrid">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+    
+    <footer class="footer">
+        Data analyzed from @hlotvirus followers · Powered by Nuria 🟧
+    </footer>
+    
+    <script>
+        let contacts = [];
+        
+        function formatNum(n) {
+            if (n >= 1000000000) return (n/1000000000).toFixed(1) + 'B';
+            if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+            if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+            return n?.toString() || '0';
+        }
+        
+        const categoryMeta = {
+            ordinals: { icon: '🟧', color: '#FF6B00' },
+            artist: { icon: '🎨', color: '#A855F7' },
+            collector: { icon: '💎', color: '#00FF88' },
+            trader: { icon: '📈', color: '#FFD700' },
+            developer: { icon: '💻', color: '#4d57a0' },
+            marketing: { icon: '📣', color: '#FF4444' },
+            brand: { icon: '🏢', color: '#3B82F6' },
+            nft_eth: { icon: 'Ξ', color: '#8B5CF6' },
+            general: { icon: '👤', color: '#666666' }
+        };
+        
+        async function loadAnalytics() {
+            try {
+                const res = await fetch('data/crm.json');
+                contacts = await res.json();
+                computeAnalytics();
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+        }
+        
+        function computeAnalytics() {
+            // Basic stats
+            const totalContacts = contacts.length;
+            const verified = contacts.filter(c => c.verified).length;
+            const highValue = contacts.filter(c => c.verified || c.followers >= 10000).length;
+            const totalReach = contacts.reduce((sum, c) => sum + (c.followers || 0), 0);
+            const avgFollowers = Math.round(totalReach / totalContacts);
+            
+            document.getElementById('totalContacts').textContent = formatNum(totalContacts);
+            document.getElementById('verifiedCount').textContent = formatNum(verified);
+            document.getElementById('highValueCount').textContent = formatNum(highValue);
+            document.getElementById('totalReach').textContent = formatNum(totalReach);
+            document.getElementById('avgFollowers').textContent = formatNum(avgFollowers);
+            
+            // Categories
+            const categories = {};
+            contacts.forEach(c => {
+                const cat = c.category || 'general';
+                if (!categories[cat]) categories[cat] = { count: 0, followers: 0, verified: 0 };
+                categories[cat].count++;
+                categories[cat].followers += c.followers || 0;
+                if (c.verified) categories[cat].verified++;
+            });
+            
+            document.getElementById('categories').textContent = Object.keys(categories).length;
+            
+            // Render categories
+            const maxCount = Math.max(...Object.values(categories).map(c => c.count));
+            document.getElementById('categoryGrid').innerHTML = Object.entries(categories)
+                .sort((a, b) => b[1].count - a[1].count)
+                .map(([name, data]) => {
+                    const meta = categoryMeta[name] || categoryMeta.general;
+                    const pct = (data.count / maxCount * 100).toFixed(0);
+                    return `
+                        <div class="category-card">
+                            <div class="category-header">
+                                <div class="category-name">${name.charAt(0).toUpperCase() + name.slice(1)}</div>
+                                <div class="category-icon">${meta.icon}</div>
+                            </div>
+                            <div class="category-stats">
+                                <div>
+                                    <div class="category-stat-value">${formatNum(data.count)}</div>
+                                    <div class="category-stat-label">Contacts</div>
+                                </div>
+                                <div>
+                                    <div class="category-stat-value">${formatNum(data.followers)}</div>
+                                    <div class="category-stat-label">Reach</div>
+                                </div>
+                                <div>
+                                    <div class="category-stat-value">${data.verified}</div>
+                                    <div class="category-stat-label">Verified</div>
+                                </div>
+                            </div>
+                            <div class="category-bar">
+                                <div class="category-bar-fill" style="width: ${pct}%; background: ${meta.color}"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            
+            // Tiers
+            const tiers = { mega: 0, macro: 0, mid: 0, micro: 0, nano: 0 };
+            contacts.forEach(c => {
+                const f = c.followers || 0;
+                if (f >= 1000000) tiers.mega++;
+                else if (f >= 100000) tiers.macro++;
+                else if (f >= 10000) tiers.mid++;
+                else if (f >= 1000) tiers.micro++;
+                else tiers.nano++;
+            });
+            
+            document.getElementById('tierMega').textContent = formatNum(tiers.mega);
+            document.getElementById('tierMacro').textContent = formatNum(tiers.macro);
+            document.getElementById('tierMid').textContent = formatNum(tiers.mid);
+            document.getElementById('tierMicro').textContent = formatNum(tiers.micro);
+            document.getElementById('tierNano').textContent = formatNum(tiers.nano);
+            
+            // Top contacts by category
+            const topCategories = ['ordinals', 'artist', 'collector', 'trader'];
+            document.getElementById('topGrid').innerHTML = topCategories.map(cat => {
+                const meta = categoryMeta[cat] || categoryMeta.general;
+                const top = contacts
+                    .filter(c => c.category === cat)
+                    .sort((a, b) => (b.followers || 0) - (a.followers || 0))
+                    .slice(0, 5);
+                
+                return `
+                    <div class="top-section">
+                        <div class="top-section-title">${meta.icon} TOP ${cat.toUpperCase()}</div>
+                        <div class="top-list">
+                            ${top.map((c, i) => `
+                                <div class="top-item">
+                                    <div class="top-rank">${i + 1}</div>
+                                    <div class="top-avatar">${(c.name || c.username || '?').substring(0, 2).toUpperCase()}</div>
+                                    <div class="top-info">
+                                        <div class="top-name">${c.name || c.username}${c.verified ? '<span class="verified">✓</span>' : ''}</div>
+                                        <div class="top-handle">@${c.username}</div>
+                                    </div>
+                                    <div class="top-followers">${formatNum(c.followers)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Pipeline from localStorage
+            const statuses = JSON.parse(localStorage.getItem('crm_statuses') || '{}');
+            const pipeline = { prospect: 0, contacted: 0, replied: 0, meeting: 0, closed: 0 };
+            
+            Object.values(statuses).forEach(s => {
+                if (pipeline[s] !== undefined) pipeline[s]++;
+            });
+            
+            // Everyone without explicit status is a prospect
+            pipeline.prospect = totalContacts - (pipeline.contacted + pipeline.replied + pipeline.meeting + pipeline.closed);
+            
+            document.getElementById('pipeProspect').textContent = formatNum(pipeline.prospect);
+            document.getElementById('pipeContacted').textContent = pipeline.contacted;
+            document.getElementById('pipeReplied').textContent = pipeline.replied;
+            document.getElementById('pipeMeeting').textContent = pipeline.meeting;
+            document.getElementById('pipeClosed').textContent = pipeline.closed;
+        }
+        
+        loadAnalytics();
+    </script>
+</body>
+</html>

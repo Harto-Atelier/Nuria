@@ -1,64 +1,40 @@
-# 📋 TASKS — Harto Atelier
+# Pending Tasks - Harto Atelier
 
-*Actualizado: 2026-01-26 18:30*
+Last synced: 2026-01-27
 
----
+## Superrare
+| Responsable | Tarea | Descripción | Estado |
+|-------------|-------|-------------|--------|
+| Arturo | Rellenar info proyecto + calls | [Doc](https://docs.google.com/document/d/1EJJwBCa-ZONr-W4xBX8GWHyt2_x5DTVqJBZHzPk8XyU/) | Pending |
+| Arturo | Crear marketing images | Teaser, Announcement, Now live assets | Pending |
+| Clara | Test mint | - | Pending |
+| Clara | Leer y probar | manifold.xyz, efficax.diid.art | Pending |
+| Clara | Finalizar codigo | [GitHub](https://github.com/Harto-Atelier/error-states) | Pending |
+| Arturo | Crear obras digitales | NFT = 0.5 ETH x 30 | Pending |
+| Arturo | Crear obras fisicas | Big (130x97cm): 6 ETH, Small (65x46cm): 2.5 ETH x 3 | Pending |
+| Sergio | Gestionar pagos | Cobros 65%/35, splits.org | Pending |
 
-## 🔴 URGENTE (Esta semana)
+## ICONIC
+| Responsable | Tarea | Descripción | Estado |
+|-------------|-------|-------------|--------|
+| Sergio | Cobrar segunda factura | Preguntar direcciones + packaging | To do |
+| Sergio | Enviar obras museo | 1 of 1 museo | To do |
+| Sergio | Caja obra museo | - | To do |
+| Juliette | Enviar obras Paul US | - | To do |
+| Arturo | Cortar A5 | Cortar impresiones | To do |
+| Arturo | Imprimir A5 | Certificado autenticidad | To do |
+| Arturo | Imprimir A5 | About the artist | To do |
+| Juliette | Packaging | Sobres con certificados | To do |
 
-### Mañana — Martes 27 Enero
-- [ ] **10:30** — Reunión restructuración con Núria Nadal (Teams)
-  - Tema: Caminos estratégicos empresa 2026
-  - Participantes: Sergio, Núria, tú
+## POL
+| Responsable | Tarea | Descripción | Estado |
+|-------------|-------|-------------|--------|
+| Sergio y Clara | Enviar POLs | [Tasks](https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/) | Pending |
 
-### Esta semana
-- [ ] **Enviar movimientos Binance Enero** a Sergio
-  - Para: Factura Magic Eden / Exquisite
-  - Contacto: finance@hartostudio.com
-
-- [ ] **Responder Juliette** — Renovación contrato Carrer Manso 74
-  - Vencimiento: Enero 2027
-  - Decidir: ¿renovar? ¿condiciones?
-
----
-
-## 🟡 PRÓXIMAMENTE
-
-### Sábado 31 Enero
-- [ ] **10:00-13:00** — Zoo con los niños (invitación Juliette)
-
-### Pendiente respuesta
-- [ ] Nifty Gateway — Cierre de plataforma (revisar si tienes obras ahí)
-- [ ] Exquisite Analysis — Spreadsheet compartido por gon esp
-
----
-
-## 🟢 BACKLOG (Revisar)
-
-### Starred antiguos
-- [ ] Elena Rodriguez (Spactiva) — Documentación PRL (Sept 2025)
-- [ ] Clicktrans — Mensaje de Peter sobre Escultura (Ago 2025)
-- [ ] Factura Sicnova3D pendiente (Abr 2025)
-
-### Proyectos
-- [ ] Harto Strategy — Deploy Vercel (rarity fix pusheado, pendiente build)
-- [ ] BACKUP_ORGANIZADO — Copiar a disco duro externo (1.6GB listo)
+## Facturas
+| Responsable | Tarea | Estado |
+|-------------|-------|--------|
+| Juliette | Facturas y gastos (10h) | Pending |
 
 ---
-
-## ✅ COMPLETADO HOY
-
-- [x] Fix rarity calculator (usa all-metadata.json ahora)
-- [x] Organizar Desktop/Downloads/Documents → BACKUP_ORGANIZADO
-- [x] Limpiar ~50 emails promocionales
-- [x] Marcar notificaciones Vercel/GitHub como leídas
-
----
-
-## 📊 Estado Email
-
-| Métrica | Valor |
-|---------|-------|
-| Unread importantes | ~15-20 |
-| Promociones archivadas | 50 |
-| Notificaciones limpiadas | 30 |
+Source: [Google Sheets](https://docs.google.com/spreadsheets/d/1LIdaTvRvKEZOMJbqXcBIrA5Xq6bEnzfiiFkFp_A6pTY/)

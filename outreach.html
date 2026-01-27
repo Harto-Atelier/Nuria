@@ -3,400 +3,610 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outreach Tracker — Harto</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>OUTREACH // HARTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000;
-            --card: #111;
-            --primary: #FF6B00;
-            --green: #22C55E;
-            --yellow: #EAB308;
-            --blue: #3B82F6;
-            --red: #EF4444;
-            --text: #fff;
-            --muted: #71717A;
-            --border: #27272A;
+            --bg: #0a0a0a;
+            --card: #111111;
+            --cyan: #4d57a0;
+            --cyan-dim: rgba(77, 87, 160, 0.15);
+            --cyan-border: rgba(77, 87, 160, 0.4);
+            --orange: #FF6B00;
+            --green: #00FF88;
+            --red: #FF4444;
+            --yellow: #FFD700;
+            --purple: #A855F7;
+            --text: #ffffff;
+            --muted: #666666;
+            --border: #222222;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; }
         
-        .header {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Navigation */
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
         }
-        .title { font-size: 1.8rem; font-weight: 800; }
-        .back-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 10px 20px;
-            border-radius: 10px;
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: var(--muted);
             text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
         }
+        .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
         
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 20px;
+        /* Hero */
+        .hero {
+            padding: 50px 40px;
+            border-bottom: 1px solid var(--border);
             text-align: center;
         }
-        .stat-value { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 5px; }
-        
-        .priority-section {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-        .section-title {
-            font-size: 1.3rem;
+        .hero-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .priority-badge {
-            background: var(--red);
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-        }
-        .priority-badge.p2 { background: var(--yellow); color: #000; }
-        .priority-badge.p3 { background: var(--blue); }
-        
-        .contact-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
+            letter-spacing: 6px;
             margin-bottom: 10px;
         }
-        .contact-info { display: flex; align-items: center; gap: 15px; }
-        .contact-avatar {
+        .hero-sub {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+        }
+        
+        /* Stats */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-bottom: 1px solid var(--border);
+        }
+        .stat-box {
+            padding: 30px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        .stat-box:last-child { border-right: none; }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        .stat-box.active .stat-value { color: var(--green); }
+        
+        /* Funnel */
+        .funnel-section {
+            padding: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .funnel-visual {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 5px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .funnel-bar {
+            flex: 1;
+            max-width: 150px;
+            background: var(--cyan-dim);
+            border: 1px solid var(--cyan-border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .funnel-bar:hover {
+            background: var(--cyan);
+        }
+        .funnel-bar:hover .funnel-label {
+            color: #000;
+        }
+        .funnel-fill {
+            width: 100%;
+            background: var(--cyan);
+            transition: height 0.5s ease;
+        }
+        .funnel-label {
+            position: absolute;
+            bottom: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--cyan);
+            text-align: center;
+            width: 100%;
+        }
+        .funnel-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* Target List */
+        .targets-section {
+            padding: 40px;
+        }
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .target-card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            transition: all 0.2s;
+        }
+        .target-card:hover {
+            border-color: var(--cyan-border);
+        }
+        .target-card.contacted {
+            border-color: var(--yellow);
+            background: rgba(255, 215, 0, 0.05);
+        }
+        .target-card.replied {
+            border-color: var(--green);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .target-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .target-main {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .target-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #ff9500);
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--cyan);
         }
-        .contact-name { font-weight: 600; }
-        .contact-handle { color: var(--muted); font-size: 0.85rem; }
-        .contact-followers { color: var(--primary); font-weight: 600; }
-        .contact-category {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+        .target-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .target-name .verified { color: var(--cyan); }
+        .target-handle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
             color: var(--muted);
         }
+        .target-followers {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan);
+            font-weight: 600;
+        }
         
-        .contact-actions { display: flex; gap: 8px; }
-        .action-btn {
-            background: var(--card);
+        .target-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border: 1px solid;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .target-tag.ordinals { border-color: var(--orange); color: var(--orange); }
+        .target-tag.artist { border-color: var(--purple); color: var(--purple); }
+        .target-tag.collector { border-color: var(--green); color: var(--green); }
+        
+        .target-bio {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .target-status {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .status-btn {
+            flex: 1;
+            padding: 8px;
             border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 15px;
-            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
             cursor: pointer;
-            font-size: 0.85rem;
-            text-decoration: none;
+            transition: all 0.2s;
         }
-        .action-btn:hover { border-color: var(--primary); }
-        .action-btn.primary { background: var(--primary); border-color: var(--primary); }
-        
-        .status-dropdown {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
+        .status-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
         }
-        .status-dropdown.contacted { border-color: var(--yellow); color: var(--yellow); }
-        .status-dropdown.replied { border-color: var(--green); color: var(--green); }
-        .status-dropdown.meeting { border-color: var(--blue); color: var(--blue); }
-        .status-dropdown.closed { border-color: var(--primary); color: var(--primary); }
+        .status-btn.active {
+            background: var(--cyan);
+            border-color: var(--cyan);
+            color: #000;
+        }
         
-        .message-template {
-            background: rgba(255,107,0,0.1);
-            border: 1px solid rgba(255,107,0,0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            line-height: 1.5;
+        .target-message {
             display: none;
+            margin-bottom: 15px;
         }
-        .message-template.show { display: block; }
-        .copy-btn {
-            background: var(--primary);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
+        .target-message.show { display: block; }
+        .message-box {
+            background: rgba(77, 87, 160, 0.1);
+            border: 1px solid var(--cyan-border);
+            padding: 15px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            width: 100%;
             margin-top: 10px;
+            padding: 10px;
+            background: var(--cyan);
+            border: none;
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
         }
         
+        .target-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .action-btn.primary {
+            background: var(--cyan);
+            border-color: var(--cyan);
+            color: #000;
+        }
+        
+        /* Load More */
+        .load-section {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border);
+        }
+        .load-btn {
+            padding: 15px 50px;
+            border: 1px solid var(--cyan);
+            background: transparent;
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .load-btn:hover {
+            background: var(--cyan-dim);
+        }
+        
+        /* Mobile */
         @media (max-width: 768px) {
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-            .contact-row { flex-direction: column; gap: 15px; text-align: center; }
-            .contact-actions { width: 100%; justify-content: center; }
+            .stats-section { grid-template-columns: repeat(2, 1fr); }
+            .stat-box { border-bottom: 1px solid var(--border); }
+            .funnel-visual { height: 150px; }
+            .targets-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="title">📩 Outreach Tracker</div>
-        <a href="index.html" class="back-btn">← Dashboard</a>
-    </div>
+    <nav class="nav">
+        <div class="nav-brand">OUTREACH // HARTO</div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="crm.html">CRM</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="analytics.html">Analytics</a>
+        </div>
+    </nav>
     
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="stat-value" id="totalTargets">25</div>
-            <div class="stat-label">Targets</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" id="contacted">0</div>
-            <div class="stat-label">Contactados</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" id="replied">0</div>
-            <div class="stat-label">Respondieron</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" id="meetings">0</div>
-            <div class="stat-label">Meetings</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value" id="closed">0</div>
-            <div class="stat-label">Cerrados</div>
-        </div>
-    </div>
+    <section class="hero">
+        <h1 class="hero-title">OUTREACH</h1>
+        <div class="hero-sub">WHALE ACQUISITION PROTOCOL</div>
+    </section>
     
-    <!-- Priority 1: Whales -->
-    <div class="priority-section">
-        <div class="section-title">
-            🐋 Prioridad 1: Whales <span class="priority-badge">ESTA SEMANA</span>
+    <section class="stats-section">
+        <div class="stat-box">
+            <div class="stat-value" id="statProspects">-</div>
+            <div class="stat-label">Prospects</div>
         </div>
-        
-        <div class="contact-row">
-            <div class="contact-info">
-                <div class="contact-avatar">JC</div>
-                <div>
-                    <div class="contact-name">John Cena ✓</div>
-                    <div class="contact-handle">@JohnCena</div>
-                </div>
-                <div class="contact-followers">12.7M</div>
-                <span class="contact-category" style="border-color: var(--primary); color: var(--primary);">ordinals</span>
-            </div>
-            <div class="contact-actions">
-                <select class="status-dropdown" onchange="updateStatus(this)">
-                    <option value="pending">⏳ Pendiente</option>
-                    <option value="contacted">📩 Contactado</option>
-                    <option value="replied">💬 Respondió</option>
-                    <option value="meeting">📅 Meeting</option>
-                    <option value="closed">✅ Cerrado</option>
-                </select>
-                <button class="action-btn" onclick="toggleMessage(this)">📝 Ver mensaje</button>
-                <a href="https://x.com/JohnCena" target="_blank" class="action-btn">Ver perfil</a>
-                <a href="https://x.com/messages/compose?recipient_id=JohnCena" target="_blank" class="action-btn primary">DM</a>
-            </div>
+        <div class="stat-box">
+            <div class="stat-value" id="statContacted">0</div>
+            <div class="stat-label">Contacted</div>
         </div>
-        <div class="message-template">
-            Hey John! Been following your journey into the Bitcoin space.<br><br>
-            I'm an artist creating generative art inscribed directly on Bitcoin (Ordinals). My latest collection explores the intersection of code and beauty.<br><br>
-            Would love to show you what's possible when art meets the Bitcoin blockchain. No pitch, just sharing art with someone who gets it.<br><br>
-            🟧
-            <button class="copy-btn" onclick="copyMessage(this)">📋 Copiar mensaje</button>
+        <div class="stat-box">
+            <div class="stat-value" id="statReplied">0</div>
+            <div class="stat-label">Replied</div>
         </div>
-        
-        <div class="contact-row">
-            <div class="contact-info">
-                <div class="contact-avatar">DH</div>
-                <div>
-                    <div class="contact-name">Dan Held ✓</div>
-                    <div class="contact-handle">@danheld</div>
-                </div>
-                <div class="contact-followers">836K</div>
-                <span class="contact-category" style="border-color: var(--primary); color: var(--primary);">ordinals</span>
-            </div>
-            <div class="contact-actions">
-                <select class="status-dropdown">
-                    <option value="pending">⏳ Pendiente</option>
-                    <option value="contacted">📩 Contactado</option>
-                    <option value="replied">💬 Respondió</option>
-                    <option value="meeting">📅 Meeting</option>
-                    <option value="closed">✅ Cerrado</option>
-                </select>
-                <button class="action-btn" onclick="toggleMessage(this)">📝 Ver mensaje</button>
-                <a href="https://x.com/danheld" target="_blank" class="action-btn">Ver perfil</a>
-                <a href="https://x.com/messages/compose?recipient_id=danheld" target="_blank" class="action-btn primary">DM</a>
-            </div>
+        <div class="stat-box">
+            <div class="stat-value" id="statMeeting">0</div>
+            <div class="stat-label">Meeting</div>
         </div>
-        <div class="message-template">
-            Dan! Your work on Bitcoin education has been huge for the space.<br><br>
-            I've been creating generative art on Ordinals since the early days. Currently working on a new collection exploring mathematical beauty through on-chain art.<br><br>
-            Would value your perspective on the intersection of Bitcoin culture and digital art. Coffee chat?<br><br>
-            🟧
-            <button class="copy-btn" onclick="copyMessage(this)">📋 Copiar mensaje</button>
+        <div class="stat-box active">
+            <div class="stat-value" id="statClosed">0</div>
+            <div class="stat-label">Closed</div>
         </div>
-        
-        <div class="contact-row">
-            <div class="contact-info">
-                <div class="contact-avatar">ZB</div>
-                <div>
-                    <div class="contact-name">Zach Boychuk ✓</div>
-                    <div class="contact-handle">@ZachBoychuk</div>
-                </div>
-                <div class="contact-followers">768K</div>
-                <span class="contact-category" style="border-color: var(--primary); color: var(--primary);">ordinals</span>
-            </div>
-            <div class="contact-actions">
-                <select class="status-dropdown">
-                    <option value="pending">⏳ Pendiente</option>
-                    <option value="contacted">📩 Contactado</option>
-                    <option value="replied">💬 Respondió</option>
-                    <option value="meeting">📅 Meeting</option>
-                    <option value="closed">✅ Cerrado</option>
-                </select>
-                <button class="action-btn" onclick="toggleMessage(this)">📝 Ver mensaje</button>
-                <a href="https://x.com/ZachBoychuk" target="_blank" class="action-btn">Ver perfil</a>
-                <a href="https://x.com/messages/compose?recipient_id=ZachBoychuk" target="_blank" class="action-btn primary">DM</a>
-            </div>
-        </div>
-        <div class="message-template">
-            Zach! Fellow artist/collector here. Love seeing athletes embrace the NFT space.<br><br>
-            Working on a new Ordinals collection that I think fits your vibe - generative art with a mathematical edge.<br><br>
-            Let me know if you want early access before the public mint.<br><br>
-            🟧
-            <button class="copy-btn" onclick="copyMessage(this)">📋 Copiar mensaje</button>
-        </div>
-        
-        <div class="contact-row">
-            <div class="contact-info">
-                <div class="contact-avatar">MN</div>
-                <div>
-                    <div class="contact-name">Mario Nawfal ✓</div>
-                    <div class="contact-handle">@MarioNawfal</div>
-                </div>
-                <div class="contact-followers">2.9M</div>
-                <span class="contact-category" style="border-color: var(--purple); color: var(--purple);">artist</span>
-            </div>
-            <div class="contact-actions">
-                <select class="status-dropdown">
-                    <option value="pending">⏳ Pendiente</option>
-                    <option value="contacted">📩 Contactado</option>
-                    <option value="replied">💬 Respondió</option>
-                    <option value="meeting">📅 Meeting</option>
-                    <option value="closed">✅ Cerrado</option>
-                </select>
-                <button class="action-btn" onclick="toggleMessage(this)">📝 Ver mensaje</button>
-                <a href="https://x.com/MarioNawfal" target="_blank" class="action-btn">Ver perfil</a>
-                <a href="https://x.com/messages/compose?recipient_id=MarioNawfal" target="_blank" class="action-btn primary">DM</a>
-            </div>
-        </div>
-        <div class="message-template">
-            Mario! Big fan of your X Spaces.<br><br>
-            I'm an artist working at the intersection of generative art and Bitcoin. Would love to join one of your shows to discuss how Ordinals are changing digital art ownership.<br><br>
-            My work has been featured in galleries worldwide and sold to collectors globally.<br><br>
-            Open to a quick chat?<br><br>
-            🟧
-            <button class="copy-btn" onclick="copyMessage(this)">📋 Copiar mensaje</button>
-        </div>
-        
-        <div class="contact-row">
-            <div class="contact-info">
-                <div class="contact-avatar">MG</div>
-                <div>
-                    <div class="contact-name">Matthew Grok ✓</div>
-                    <div class="contact-handle">@matthewgrok</div>
-                </div>
-                <div class="contact-followers">1.3M</div>
-                <span class="contact-category" style="border-color: var(--red); color: var(--red);">marketing</span>
-            </div>
-            <div class="contact-actions">
-                <select class="status-dropdown">
-                    <option value="pending">⏳ Pendiente</option>
-                    <option value="contacted">📩 Contactado</option>
-                    <option value="replied">💬 Respondió</option>
-                    <option value="meeting">📅 Meeting</option>
-                    <option value="closed">✅ Cerrado</option>
-                </select>
-                <button class="action-btn" onclick="toggleMessage(this)">📝 Ver mensaje</button>
-                <a href="https://x.com/matthewgrok" target="_blank" class="action-btn">Ver perfil</a>
-                <a href="https://x.com/messages/compose?recipient_id=matthewgrok" target="_blank" class="action-btn primary">DM</a>
-            </div>
-        </div>
-        <div class="message-template">
-            Matthew! Your growth strategies are next level.<br><br>
-            I'm launching a major art drop soon and looking for the right marketing partner. 66k engaged followers in the crypto art space, verified artist.<br><br>
-            Would love to discuss a collab that benefits us both.<br><br>
-            🟧
-            <button class="copy-btn" onclick="copyMessage(this)">📋 Copiar mensaje</button>
-        </div>
-    </div>
+    </section>
     
-    <!-- More contacts link -->
-    <div style="text-align: center; padding: 30px;">
-        <a href="crm.html" class="action-btn primary" style="padding: 15px 40px; font-size: 1rem;">
-            Ver los 66,427 contactos en CRM →
-        </a>
+    <section class="funnel-section">
+        <div class="section-header">
+            <div class="section-title">// CONVERSION FUNNEL</div>
+            <div class="section-subtitle">Track your outreach progress</div>
+        </div>
+        <div class="funnel-visual">
+            <div class="funnel-bar" style="height: 100%;">
+                <div class="funnel-label">
+                    <span class="funnel-count" id="funnelProspects">-</span>
+                    PROSPECTS
+                </div>
+            </div>
+            <div class="funnel-bar" style="height: 70%;">
+                <div class="funnel-label">
+                    <span class="funnel-count" id="funnelContacted">0</span>
+                    CONTACTED
+                </div>
+            </div>
+            <div class="funnel-bar" style="height: 40%;">
+                <div class="funnel-label">
+                    <span class="funnel-count" id="funnelReplied">0</span>
+                    REPLIED
+                </div>
+            </div>
+            <div class="funnel-bar" style="height: 20%;">
+                <div class="funnel-label">
+                    <span class="funnel-count" id="funnelMeeting">0</span>
+                    MEETING
+                </div>
+            </div>
+            <div class="funnel-bar" style="height: 10%;">
+                <div class="funnel-label">
+                    <span class="funnel-count" id="funnelClosed">0</span>
+                    CLOSED
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="targets-section">
+        <div class="section-header">
+            <div class="section-title">// HIGH-VALUE TARGETS</div>
+            <div class="section-subtitle">Verified accounts with 100K+ followers who follow you</div>
+        </div>
+        <div class="targets-grid" id="targetsGrid">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+    
+    <div class="load-section">
+        <button class="load-btn" id="loadMore">LOAD MORE TARGETS</button>
     </div>
     
     <script>
-        function toggleMessage(btn) {
-            const template = btn.closest('.contact-row').nextElementSibling;
-            template.classList.toggle('show');
+        let allContacts = [];
+        let displayCount = 12;
+        let statuses = JSON.parse(localStorage.getItem('crm_statuses') || '{}');
+        
+        function formatNum(n) {
+            if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+            if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+            return n?.toString() || '0';
         }
         
-        function copyMessage(btn) {
-            const template = btn.closest('.message-template');
-            const text = template.innerText.replace('📋 Copiar mensaje', '').trim();
-            navigator.clipboard.writeText(text);
-            btn.innerText = '✅ Copiado!';
-            setTimeout(() => btn.innerText = '📋 Copiar mensaje', 2000);
-        }
-        
-        function updateStatus(select) {
-            select.className = 'status-dropdown ' + select.value;
-            updateStats();
+        function generateMessage(contact) {
+            const templates = [
+                `Hey ${contact.name?.split(' ')[0] || contact.username}! 👋
+
+Noticed you're into ${contact.category === 'ordinals' ? 'Ordinals' : 'the crypto art space'}. I'm a generative artist creating work directly on Bitcoin.
+
+Would love to show you my latest collection. No pitch, just sharing art with someone who gets it.
+
+🟧`,
+                `Hi ${contact.name?.split(' ')[0] || contact.username}!
+
+Fellow ${contact.category || 'crypto'} enthusiast here. I create generative art inscribed on Bitcoin (Ordinals).
+
+Currently working on a new drop that I think fits your vibe. Let me know if you want early access.
+
+🟧`,
+                `${contact.name?.split(' ')[0] || contact.username}! 
+
+Your work in the space caught my attention. I'm an artist exploring the intersection of code and Bitcoin.
+
+Would value your perspective on my latest collection. Coffee chat?
+
+🟧`
+            ];
+            return templates[Math.floor(Math.random() * templates.length)];
         }
         
         function updateStats() {
-            const selects = document.querySelectorAll('.status-dropdown');
-            let contacted = 0, replied = 0, meetings = 0, closed = 0;
-            selects.forEach(s => {
-                if (s.value === 'contacted') contacted++;
-                if (s.value === 'replied') { contacted++; replied++; }
-                if (s.value === 'meeting') { contacted++; replied++; meetings++; }
-                if (s.value === 'closed') { contacted++; replied++; meetings++; closed++; }
+            const pipeline = { prospect: 0, contacted: 0, replied: 0, meeting: 0, closed: 0 };
+            
+            allContacts.forEach(c => {
+                const status = statuses[c.username] || 'prospect';
+                if (pipeline[status] !== undefined) pipeline[status]++;
             });
-            document.getElementById('contacted').textContent = contacted;
-            document.getElementById('replied').textContent = replied;
-            document.getElementById('meetings').textContent = meetings;
-            document.getElementById('closed').textContent = closed;
+            
+            document.getElementById('statProspects').textContent = formatNum(pipeline.prospect);
+            document.getElementById('statContacted').textContent = pipeline.contacted;
+            document.getElementById('statReplied').textContent = pipeline.replied;
+            document.getElementById('statMeeting').textContent = pipeline.meeting;
+            document.getElementById('statClosed').textContent = pipeline.closed;
+            
+            document.getElementById('funnelProspects').textContent = formatNum(allContacts.length);
+            document.getElementById('funnelContacted').textContent = pipeline.contacted;
+            document.getElementById('funnelReplied').textContent = pipeline.replied;
+            document.getElementById('funnelMeeting').textContent = pipeline.meeting;
+            document.getElementById('funnelClosed').textContent = pipeline.closed;
         }
+        
+        function renderTargets() {
+            const showing = allContacts.slice(0, displayCount);
+            
+            document.getElementById('targetsGrid').innerHTML = showing.map(c => {
+                const initials = (c.name || c.username || '?').substring(0, 2).toUpperCase();
+                const verified = c.verified ? '<span class="verified">✓</span>' : '';
+                const status = statuses[c.username] || 'prospect';
+                const message = generateMessage(c);
+                
+                return `
+                    <div class="target-card ${status !== 'prospect' ? status : ''}" data-username="${c.username}">
+                        <div class="target-header">
+                            <div class="target-main">
+                                <div class="target-avatar">${initials}</div>
+                                <div>
+                                    <div class="target-name">${c.name || c.username}${verified}</div>
+                                    <div class="target-handle">@${c.username}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="target-followers">${formatNum(c.followers)}</div>
+                                <span class="target-tag ${c.category}">${c.category}</span>
+                            </div>
+                        </div>
+                        <div class="target-bio">${c.bio || 'No bio available'}</div>
+                        <div class="target-status">
+                            <button class="status-btn ${status === 'prospect' ? 'active' : ''}" onclick="setStatus('${c.username}', 'prospect')">⏳ PROSPECT</button>
+                            <button class="status-btn ${status === 'contacted' ? 'active' : ''}" onclick="setStatus('${c.username}', 'contacted')">📩 CONTACTED</button>
+                            <button class="status-btn ${status === 'replied' ? 'active' : ''}" onclick="setStatus('${c.username}', 'replied')">💬 REPLIED</button>
+                        </div>
+                        <div class="target-message" id="msg-${c.username}">
+                            <div class="message-box">${message}</div>
+                            <button class="copy-btn" onclick="copyMessage('${c.username}')">📋 COPY MESSAGE</button>
+                        </div>
+                        <div class="target-actions">
+                            <button class="action-btn" onclick="toggleMessage('${c.username}')">💬 MESSAGE</button>
+                            <a href="https://x.com/${c.username}" target="_blank" class="action-btn">PROFILE</a>
+                            <a href="https://x.com/messages/compose?recipient_id=${c.username}" target="_blank" class="action-btn primary">DM →</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function setStatus(username, status) {
+            statuses[username] = status;
+            localStorage.setItem('crm_statuses', JSON.stringify(statuses));
+            updateStats();
+            renderTargets();
+        }
+        
+        function toggleMessage(username) {
+            const el = document.getElementById('msg-' + username);
+            el.classList.toggle('show');
+        }
+        
+        function copyMessage(username) {
+            const contact = allContacts.find(c => c.username === username);
+            const message = generateMessage(contact);
+            navigator.clipboard.writeText(message);
+            
+            const btn = event.target;
+            btn.textContent = '✓ COPIED';
+            setTimeout(() => btn.textContent = '📋 COPY MESSAGE', 2000);
+        }
+        
+        document.getElementById('loadMore').addEventListener('click', () => {
+            displayCount += 12;
+            renderTargets();
+        });
+        
+        async function loadData() {
+            try {
+                const res = await fetch('data/crm.json');
+                const data = await res.json();
+                
+                // Filter high-value targets: verified OR 100K+ followers
+                allContacts = data
+                    .filter(c => c.verified || c.followers >= 100000)
+                    .sort((a, b) => (b.followers || 0) - (a.followers || 0));
+                
+                updateStats();
+                renderTargets();
+            } catch (e) {
+                document.getElementById('targetsGrid').innerHTML = '<p style="color: var(--red);">Error loading data</p>';
+            }
+        }
+        
+        loadData();
     </script>
 </body>
 </html>

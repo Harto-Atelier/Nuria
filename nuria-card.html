@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NURIA STATUS</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #ffffff;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .card {
+            width: 600px;
+            height: 400px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+            border: 1px solid #222;
+            position: relative;
+            padding: 30px;
+        }
+        
+        /* Grid background */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(77, 87, 160, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(77, 87, 160, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4d57a0 0%, #6d77c0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #4d57a0;
+        }
+        
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00FF88;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00FF88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-text {
+            font-size: 0.7rem;
+            color: #00FF88;
+            letter-spacing: 2px;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .title {
+            font-size: 0.7rem;
+            color: #4d57a0;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ffffff;
+            margin-bottom: 25px;
+            max-height: 120px;
+            overflow: hidden;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat {
+            background: rgba(77, 87, 160, 0.1);
+            border: 1px solid rgba(77, 87, 160, 0.3);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #4d57a0;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.6rem;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #444;
+        }
+        
+        .timestamp {
+            color: #666;
+        }
+        
+        .signature {
+            color: #4d57a0;
+        }
+        
+        /* Accent line */
+        .accent-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #4d57a0, #FF6B00, #4d57a0);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="accent-line"></div>
+        
+        <div class="header">
+            <div class="brand">
+                <div class="avatar">🟧</div>
+                <div class="name">NURIA</div>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <div class="status-text">ONLINE</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="title">// STATUS UPDATE</div>
+            <div class="message" id="message">
+                CRM actualizado con 70,044 contactos. Dashboard desplegado. Todo funcionando correctamente.
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value" id="stat1">70K</div>
+                    <div class="stat-label">CONTACTS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat2">18</div>
+                    <div class="stat-label">TASKS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat3">25</div>
+                    <div class="stat-label">FILES</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat4">✓</div>
+                    <div class="stat-label">SYNCED</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="timestamp" id="timestamp">27 ENE 2026 · 18:17</div>
+            <div class="signature">HARTO COMMAND CENTER</div>
+        </div>
+    </div>
+    
+    <script>
+        // Update timestamp
+        const now = new Date();
+        const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+        document.getElementById('timestamp').textContent = 
+            `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} · ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        // URL params for customization
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('msg')) document.getElementById('message').textContent = params.get('msg');
+        if (params.get('s1')) document.getElementById('stat1').textContent = params.get('s1');
+        if (params.get('s2')) document.getElementById('stat2').textContent = params.get('s2');
+        if (params.get('s3')) document.getElementById('stat3').textContent = params.get('s3');
+        if (params.get('s4')) document.getElementById('stat4').textContent = params.get('s4');
+    </script>
+</body>
+</html>

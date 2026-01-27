@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TASKS // HARTO</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #111111;
+            --cyan: #4d57a0;
+            --cyan-dim: rgba(77, 87, 160, 0.15);
+            --cyan-border: rgba(77, 87, 160, 0.4);
+            --orange: #FF6B00;
+            --green: #00FF88;
+            --red: #FF4444;
+            --yellow: #FFD700;
+            --purple: #A855F7;
+            --text: #ffffff;
+            --muted: #666666;
+            --border: #222222;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+        }
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+        
+        /* Sync Bar */
+        .sync-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: var(--cyan-dim);
+            border-bottom: 1px solid var(--cyan-border);
+        }
+        .sync-info {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+        }
+        .sync-info .pending {
+            color: var(--orange);
+            margin-left: 15px;
+        }
+        .sync-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .sync-btn {
+            padding: 8px 20px;
+            border: 1px solid var(--cyan);
+            background: transparent;
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sync-btn:hover {
+            background: var(--cyan);
+            color: #000;
+        }
+        .sync-btn.primary {
+            background: var(--cyan);
+            color: #000;
+        }
+        
+        /* Stats */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-bottom: 1px solid var(--border);
+        }
+        .stat-box {
+            padding: 25px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        .stat-box:last-child { border-right: none; }
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-box.warning .stat-value { color: var(--orange); }
+        .stat-box.success .stat-value { color: var(--green); }
+        
+        /* Filters */
+        .filters-bar {
+            display: flex;
+            gap: 15px;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .filter-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .filter-btn {
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+        
+        /* Task List */
+        .tasks-container {
+            padding: 30px 40px;
+        }
+        
+        .project-section {
+            margin-bottom: 30px;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--cyan-dim);
+            border: 1px solid var(--cyan-border);
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .project-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .project-stats {
+            display: flex;
+            gap: 20px;
+        }
+        .project-stat {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+        .project-stat.pending { color: var(--orange); }
+        .project-stat.done { color: var(--green); }
+        
+        /* Task Card */
+        .task-card {
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        .task-card:hover {
+            border-color: var(--cyan-border);
+        }
+        .task-card.done {
+            opacity: 0.5;
+        }
+        .task-card.done .task-title {
+            text-decoration: line-through;
+        }
+        
+        .task-main {
+            display: grid;
+            grid-template-columns: 50px 120px 1fr 150px 120px 100px;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 15px;
+        }
+        
+        .task-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            color: transparent;
+            font-size: 14px;
+        }
+        .task-checkbox:hover {
+            border-color: var(--green);
+        }
+        .task-checkbox.checked {
+            border-color: var(--green);
+            background: var(--green);
+            color: #000;
+        }
+        
+        .task-owner {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+        }
+        
+        .task-content {
+            min-width: 0;
+        }
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        .task-desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .task-desc a {
+            color: var(--cyan);
+        }
+        
+        .task-hours {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .task-status {
+            display: flex;
+            gap: 5px;
+        }
+        .status-btn {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .status-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .status-btn.pending.active {
+            border-color: var(--yellow);
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--yellow);
+        }
+        .status-btn.todo.active {
+            border-color: var(--orange);
+            background: rgba(255, 107, 0, 0.1);
+            color: var(--orange);
+        }
+        .status-btn.done.active {
+            border-color: var(--green);
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--green);
+        }
+        
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        
+        /* Add Task */
+        .add-task-section {
+            padding: 20px 40px;
+            border-top: 1px solid var(--border);
+            background: var(--cyan-dim);
+        }
+        .add-task-form {
+            display: grid;
+            grid-template-columns: 150px 150px 1fr 100px 120px;
+            gap: 15px;
+            align-items: center;
+        }
+        .add-input, .add-select {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .add-input:focus, .add-select:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .add-btn {
+            padding: 12px 20px;
+            border: 1px solid var(--cyan);
+            background: var(--cyan);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .add-btn:hover {
+            background: #5d67b0;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            background: var(--green);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.error {
+            background: var(--red);
+            color: #fff;
+        }
+        
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .stats-section { grid-template-columns: repeat(3, 1fr); }
+            .task-main { 
+                grid-template-columns: 40px 1fr;
+                gap: 10px;
+            }
+            .task-owner, .task-hours, .task-status { display: none; }
+            .add-task-form { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">TASKS // HARTO</div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="crm.html">CRM</a>
+            <a href="tasks.html" class="active">Tasks</a>
+            <a href="analytics.html">Analytics</a>
+        </div>
+    </nav>
+    
+    <div class="sync-bar">
+        <div class="sync-info">
+            📋 Synced from Google Sheets
+            <span class="pending" id="pendingChanges"></span>
+        </div>
+        <div class="sync-actions">
+            <button class="sync-btn" onclick="window.open('https://docs.google.com/spreadsheets/d/1LIdaTvRvKEZOMJbqXcBIrA5Xq6bEnzfiiFkFp_A6pTY', '_blank')">
+                OPEN SHEETS
+            </button>
+            <button class="sync-btn primary" onclick="requestSync()">
+                🔄 SYNC TO SHEETS
+            </button>
+        </div>
+    </div>
+    
+    <section class="stats-section">
+        <div class="stat-box warning">
+            <div class="stat-value" id="statPending">-</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="statTodo">-</div>
+            <div class="stat-label">To Do</div>
+        </div>
+        <div class="stat-box success">
+            <div class="stat-value" id="statDone">-</div>
+            <div class="stat-label">Done</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="statHours">-</div>
+            <div class="stat-label">Est. Hours</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" id="statTeam">-</div>
+            <div class="stat-label">Team</div>
+        </div>
+    </section>
+    
+    <div class="filters-bar">
+        <div class="filter-group">
+            <span class="filter-label">STATUS:</span>
+            <button class="filter-btn active" data-filter="all" onclick="setFilter('status', 'all')">All</button>
+            <button class="filter-btn" data-filter="Pending" onclick="setFilter('status', 'Pending')">Pending</button>
+            <button class="filter-btn" data-filter="To do" onclick="setFilter('status', 'To do')">To Do</button>
+            <button class="filter-btn" data-filter="Done" onclick="setFilter('status', 'Done')">Done</button>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">OWNER:</span>
+            <button class="filter-btn active" data-owner="all" onclick="setFilter('owner', 'all')">All</button>
+            <button class="filter-btn" data-owner="Arturo" onclick="setFilter('owner', 'Arturo')">Arturo</button>
+            <button class="filter-btn" data-owner="Juliette" onclick="setFilter('owner', 'Juliette')">Juliette</button>
+            <button class="filter-btn" data-owner="Sergio" onclick="setFilter('owner', 'Sergio')">Sergio</button>
+            <button class="filter-btn" data-owner="Clara" onclick="setFilter('owner', 'Clara')">Clara</button>
+        </div>
+    </div>
+    
+    <div class="tasks-container" id="tasksContainer">
+        <!-- Populated by JS -->
+    </div>
+    
+    <div class="add-task-section">
+        <div class="add-task-form">
+            <select class="add-select" id="newOwner">
+                <option value="">Owner...</option>
+                <option value="Arturo">Arturo</option>
+                <option value="Juliette">Juliette</option>
+                <option value="Sergio">Sergio</option>
+                <option value="Clara">Clara</option>
+                <option value="Raul">Raul</option>
+            </select>
+            <select class="add-select" id="newProject">
+                <option value="">Project...</option>
+                <option value="Superrare">Superrare</option>
+                <option value="ICONIC">ICONIC</option>
+                <option value="POL">POL</option>
+                <option value="Facturas y gastos">Facturas</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" class="add-input" id="newTitle" placeholder="Task description...">
+            <input type="number" class="add-input" id="newHours" placeholder="Hours" min="0">
+            <button class="add-btn" onclick="addTask()">+ ADD TASK</button>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Task data - will be loaded and modified
+        let tasks = [];
+        let changes = JSON.parse(localStorage.getItem('task_changes') || '[]');
+        let filters = { status: 'all', owner: 'all' };
+        
+        // Initial data from Google Sheets
+        const initialTasks = [
+            { id: 1, owner: "Juliette", hours: 10, project: "Facturas y gastos", title: "Facturas y gastos", desc: "", status: "Pending", row: 33 },
+            { id: 2, owner: "Arturo", hours: 1, project: "Superrare", title: "Rellenar info proyecto + calls", desc: "https://docs.google.com/document/d/1EJJwBCa-ZONr-W4xBX8GWHyt2_x5DTVqJBZHzPk8XyU/", status: "Pending", row: 34 },
+            { id: 3, owner: "Arturo", hours: 2, project: "Superrare", title: "Crear marketing images", desc: "Teaser, Announcement, Now live assets", status: "Pending", row: 35 },
+            { id: 4, owner: "Clara", hours: 1, project: "Superrare", title: "Test mint", desc: "", status: "Pending", row: 36 },
+            { id: 5, owner: "Clara", hours: 2, project: "Superrare", title: "Leer y probar", desc: "manifold.xyz + efficax.diid.art", status: "Pending", row: 37 },
+            { id: 6, owner: "Clara", hours: 8, project: "Superrare", title: "Finalizar codigo", desc: "https://github.com/Harto-Atelier/error-states", status: "Pending", row: 38 },
+            { id: 7, owner: "Arturo", hours: 2, project: "Superrare", title: "Crear obras digitales", desc: "NFT = 0.5 ETH x 30", status: "Pending", row: 39 },
+            { id: 8, owner: "Arturo", hours: 10, project: "Superrare", title: "Crear obras fisicas", desc: "Big: 6 ETH, Small: 2.5 ETH x 3", status: "Pending", row: 40 },
+            { id: 9, owner: "Sergio", hours: 1, project: "Superrare", title: "Gestionar pagos", desc: "Cobros 65%/35, splits.org", status: "Pending", row: 41 },
+            { id: 10, owner: "Sergio", hours: 1, project: "ICONIC", title: "Cobrar segunda factura", desc: "Preguntar direcciones + packaging", status: "To do", row: 42 },
+            { id: 11, owner: "Sergio", hours: 1, project: "ICONIC", title: "Enviar obras museo", desc: "1 of 1 museo", status: "To do", row: 43 },
+            { id: 12, owner: "Sergio", hours: 1, project: "ICONIC", title: "Caja obra museo", desc: "", status: "To do", row: 44 },
+            { id: 13, owner: "Juliette", hours: 1, project: "ICONIC", title: "Enviar obras Paul US", desc: "", status: "To do", row: 45 },
+            { id: 14, owner: "Arturo", hours: 1, project: "ICONIC", title: "Cortar A5", desc: "Cortar impresiones", status: "To do", row: 46 },
+            { id: 15, owner: "Arturo", hours: 1, project: "ICONIC", title: "Imprimir A5 - Certificado", desc: "Certificado de autenticidad", status: "To do", row: 47 },
+            { id: 16, owner: "Arturo", hours: 1, project: "ICONIC", title: "Imprimir A5 - About", desc: "About the artist", status: "To do", row: 48 },
+            { id: 17, owner: "Juliette", hours: 1, project: "ICONIC", title: "Packaging sobres", desc: "Sobres con certificados", status: "To do", row: 49 },
+            { id: 18, owner: "Sergio y Clara", hours: 5, project: "POL", title: "Enviar POLs", desc: "https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/", status: "Pending", row: 50 }
+        ];
+        
+        // Load tasks with local modifications
+        function loadTasks() {
+            const localTasks = JSON.parse(localStorage.getItem('tasks_data') || 'null');
+            tasks = localTasks || [...initialTasks];
+            applyFilters();
+            updateStats();
+            updatePendingChanges();
+        }
+        
+        function saveTasks() {
+            localStorage.setItem('tasks_data', JSON.stringify(tasks));
+        }
+        
+        function updateStats() {
+            const pending = tasks.filter(t => t.status === 'Pending').length;
+            const todo = tasks.filter(t => t.status === 'To do').length;
+            const done = tasks.filter(t => t.status === 'Done').length;
+            const hours = tasks.filter(t => t.status !== 'Done').reduce((sum, t) => sum + (parseInt(t.hours) || 0), 0);
+            const team = [...new Set(tasks.map(t => t.owner.split(' ')[0]))].length;
+            
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statTodo').textContent = todo;
+            document.getElementById('statDone').textContent = done;
+            document.getElementById('statHours').textContent = hours + 'h';
+            document.getElementById('statTeam').textContent = team;
+        }
+        
+        function updatePendingChanges() {
+            const el = document.getElementById('pendingChanges');
+            if (changes.length > 0) {
+                el.textContent = `⚠️ ${changes.length} cambios pendientes de sincronizar`;
+            } else {
+                el.textContent = '';
+            }
+        }
+        
+        function setFilter(type, value) {
+            filters[type] = value;
+            
+            // Update button states
+            if (type === 'status') {
+                document.querySelectorAll('[data-filter]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === value);
+                });
+            } else {
+                document.querySelectorAll('[data-owner]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.owner === value);
+                });
+            }
+            
+            applyFilters();
+        }
+        
+        function applyFilters() {
+            let filtered = tasks;
+            
+            if (filters.status !== 'all') {
+                filtered = filtered.filter(t => t.status === filters.status);
+            }
+            if (filters.owner !== 'all') {
+                filtered = filtered.filter(t => t.owner.includes(filters.owner));
+            }
+            
+            renderTasks(filtered);
+        }
+        
+        function renderTasks(filteredTasks) {
+            // Group by project
+            const projects = {};
+            filteredTasks.forEach(t => {
+                if (!projects[t.project]) projects[t.project] = [];
+                projects[t.project].push(t);
+            });
+            
+            const container = document.getElementById('tasksContainer');
+            
+            if (Object.keys(projects).length === 0) {
+                container.innerHTML = '<p style="padding: 40px; text-align: center; color: var(--muted);">No tasks found</p>';
+                return;
+            }
+            
+            container.innerHTML = Object.entries(projects).map(([projectName, projectTasks]) => {
+                const pending = projectTasks.filter(t => t.status === 'Pending').length;
+                const done = projectTasks.filter(t => t.status === 'Done').length;
+                
+                return `
+                    <div class="project-section">
+                        <div class="project-header">
+                            <div class="project-name">${projectName.toUpperCase()}</div>
+                            <div class="project-stats">
+                                <span class="project-stat pending">${pending} pending</span>
+                                <span class="project-stat done">${done} done</span>
+                            </div>
+                        </div>
+                        ${projectTasks.map(t => renderTaskCard(t)).join('')}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderTaskCard(task) {
+            const isDone = task.status === 'Done';
+            const descHtml = task.desc ? task.desc.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">Link</a>') : '-';
+            
+            return `
+                <div class="task-card ${isDone ? 'done' : ''}" data-id="${task.id}">
+                    <div class="task-main">
+                        <div class="task-checkbox ${isDone ? 'checked' : ''}" onclick="toggleDone(${task.id})">
+                            ${isDone ? '✓' : ''}
+                        </div>
+                        <div class="task-owner">${task.owner}</div>
+                        <div class="task-content">
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-desc">${descHtml}</div>
+                        </div>
+                        <div class="task-hours">${task.hours ? task.hours + ' hours' : '-'}</div>
+                        <div class="task-status">
+                            <button class="status-btn pending ${task.status === 'Pending' ? 'active' : ''}" onclick="setTaskStatus(${task.id}, 'Pending')">PENDING</button>
+                            <button class="status-btn todo ${task.status === 'To do' ? 'active' : ''}" onclick="setTaskStatus(${task.id}, 'To do')">TO DO</button>
+                            <button class="status-btn done ${task.status === 'Done' ? 'active' : ''}" onclick="setTaskStatus(${task.id}, 'Done')">DONE</button>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function toggleDone(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.status = task.status === 'Done' ? 'Pending' : 'Done';
+                recordChange(task, 'status');
+                saveTasks();
+                applyFilters();
+                updateStats();
+            }
+        }
+        
+        function setTaskStatus(id, status) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.status = status;
+                recordChange(task, 'status');
+                saveTasks();
+                applyFilters();
+                updateStats();
+            }
+        }
+        
+        function deleteTask(id) {
+            if (confirm('¿Eliminar esta tarea?')) {
+                const task = tasks.find(t => t.id === id);
+                if (task) {
+                    recordChange(task, 'delete');
+                }
+                tasks = tasks.filter(t => t.id !== id);
+                saveTasks();
+                applyFilters();
+                updateStats();
+                showToast('Task deleted');
+            }
+        }
+        
+        function addTask() {
+            const owner = document.getElementById('newOwner').value;
+            const project = document.getElementById('newProject').value;
+            const title = document.getElementById('newTitle').value;
+            const hours = document.getElementById('newHours').value;
+            
+            if (!owner || !project || !title) {
+                showToast('Please fill owner, project and title', true);
+                return;
+            }
+            
+            const newTask = {
+                id: Date.now(),
+                owner,
+                project,
+                title,
+                desc: '',
+                hours: parseInt(hours) || 0,
+                status: 'Pending',
+                row: null,
+                isNew: true
+            };
+            
+            tasks.push(newTask);
+            recordChange(newTask, 'add');
+            saveTasks();
+            applyFilters();
+            updateStats();
+            
+            // Clear form
+            document.getElementById('newOwner').value = '';
+            document.getElementById('newProject').value = '';
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newHours').value = '';
+            
+            showToast('Task added! Click SYNC to save to Sheets');
+        }
+        
+        function recordChange(task, type) {
+            changes.push({
+                id: task.id,
+                row: task.row,
+                type,
+                status: task.status,
+                owner: task.owner,
+                project: task.project,
+                title: task.title,
+                hours: task.hours,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('task_changes', JSON.stringify(changes));
+            updatePendingChanges();
+        }
+        
+        function requestSync() {
+            if (changes.length === 0) {
+                showToast('No changes to sync');
+                return;
+            }
+            
+            // Generate sync instructions for Nuria
+            const syncData = {
+                changes,
+                tasks,
+                requestedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('task_sync_request', JSON.stringify(syncData));
+            
+            // Show instructions
+            const instructions = changes.map(c => {
+                if (c.type === 'status') {
+                    return `Row ${c.row}: Set status to "${c.status}"`;
+                } else if (c.type === 'add') {
+                    return `Add new: ${c.owner} | ${c.project} | ${c.title}`;
+                } else if (c.type === 'delete') {
+                    return `Delete row ${c.row}`;
+                }
+            }).join('\n');
+            
+            alert(`📋 Sync requested!\n\nChanges to apply:\n${instructions}\n\nNuria will sync these to Google Sheets on the next heartbeat.`);
+            
+            showToast('Sync requested! Nuria will update Sheets');
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        // Init
+        loadTasks();
+    </script>
+</body>
+</html>
