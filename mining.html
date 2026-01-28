@@ -10,10 +10,13 @@
     body { font-family: 'JetBrains Mono', monospace; background: #0a0a0a; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     .animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
+    .opp-card:hover { transform: translateY(-2px); }
+    .opp-card { transition: all 0.2s; }
+    #scanLog::-webkit-scrollbar { width: 4px; }
+    #scanLog::-webkit-scrollbar-thumb { background: #f59e0b33; border-radius: 2px; }
   </style>
 </head>
 <body class="min-h-screen text-gray-100">
-  <!-- Header -->
   <header class="border-b border-amber-500/30 bg-amber-500/5">
     <div class="max-w-6xl mx-auto px-4 py-6">
       <div class="flex items-center justify-between">
@@ -34,87 +37,124 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <!-- Info Banner -->
+    <!-- Info -->
     <div class="p-4 border border-amber-500/30 bg-amber-500/5 mb-6 rounded-lg">
       <p class="text-sm text-gray-200">
-        Find inscriptions listed for <span class="text-amber-400 font-bold">less than their UTXO value</span>.
-        Buy → Split UTXO → Extract excess sats → <span class="text-green-400">Profit</span>
+        Escanea <span class="text-amber-400 font-bold">todos los listings de Magic Eden</span> ordenados por menor precio.
+        Encuentra inscripciones con UTXOs mayores que el precio → Buy → Split → <span class="text-green-400">Profit</span>
       </p>
     </div>
 
     <!-- Controls -->
-    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-      <div class="flex items-center gap-4">
-        <input type="text" id="collectionSlug" value="exquisite" placeholder="Collection slug..." 
-          class="px-3 py-2 bg-gray-900 border border-amber-500/30 rounded text-sm text-gray-200 w-40">
-        <input type="number" id="maxPrice" value="10000" placeholder="Max sats" 
-          class="px-3 py-2 bg-gray-900 border border-amber-500/30 rounded text-sm text-gray-200 w-32">
-        <button id="scanBtn" onclick="startScan()"
-          class="flex items-center gap-2 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase transition-all disabled:opacity-50 rounded">
-          <span id="scanText">⛏️ Scan</span>
-        </button>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="p-4 border border-gray-800 bg-black/30 rounded-lg space-y-3">
+        <h3 class="text-xs text-gray-500 uppercase font-bold">Filtros</h3>
+        <div class="flex flex-wrap gap-3">
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Colección (vacío = todas)</label>
+            <input type="text" id="collectionSlug" value="" placeholder="Todas las colecciones" 
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-44 outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Precio mín (sats)</label>
+            <input type="number" id="minPrice" value="546" 
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-28 outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Precio máx (sats)</label>
+            <input type="number" id="maxPrice" value="50000" 
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-28 outline-none">
+          </div>
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Páginas a escanear</label>
+            <input type="number" id="maxPages" value="10" min="1" max="50"
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-20 outline-none">
+          </div>
+        </div>
       </div>
-      <div id="resultCount" class="text-sm text-green-400 hidden"></div>
+      <div class="p-4 border border-gray-800 bg-black/30 rounded-lg flex flex-col justify-between">
+        <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">Acción</h3>
+        <div class="flex items-center gap-3">
+          <button id="scanBtn" onclick="startScan()"
+            class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase font-bold transition-all disabled:opacity-50 rounded-lg cursor-pointer">
+            <span id="scanText">⛏️ ESCANEAR TODO</span>
+          </button>
+          <button onclick="stopScan()" id="stopBtn"
+            class="px-4 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 text-sm transition-all rounded-lg hidden cursor-pointer">
+            ⏹ Stop
+          </button>
+        </div>
+        <p class="text-[10px] text-gray-600 mt-2">20 listings por página · 1.5s entre requests · ~2s entre UTXO checks</p>
+      </div>
     </div>
 
     <!-- Stats Grid -->
-    <div id="statsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 hidden">
-      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
-        <p class="text-xs text-gray-500 uppercase mb-1">Scanned</p>
-        <p id="statScanned" class="text-2xl font-bold text-amber-400">0</p>
+    <div id="statsGrid" class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6 hidden">
+      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
+        <p class="text-[10px] text-gray-500 uppercase">Listings</p>
+        <p id="statListings" class="text-xl font-bold text-amber-400">0</p>
       </div>
-      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
-        <p class="text-xs text-gray-500 uppercase mb-1">Opportunities</p>
-        <p id="statOpps" class="text-2xl font-bold text-green-400">0</p>
+      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
+        <p class="text-[10px] text-gray-500 uppercase">Checked</p>
+        <p id="statChecked" class="text-xl font-bold text-gray-300">0</p>
       </div>
-      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
-        <p class="text-xs text-gray-500 uppercase mb-1">Best Profit</p>
-        <p id="statBest" class="text-2xl font-bold text-green-400">0</p>
+      <div class="p-3 border border-green-500/30 bg-black/30 rounded-lg text-center">
+        <p class="text-[10px] text-gray-500 uppercase">Oportunidades</p>
+        <p id="statOpps" class="text-xl font-bold text-green-400">0</p>
       </div>
-      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
-        <p class="text-xs text-gray-500 uppercase mb-1">Status</p>
-        <p id="statStatus" class="text-lg font-bold text-amber-400">Idle</p>
+      <div class="p-3 border border-green-500/30 bg-black/30 rounded-lg text-center">
+        <p class="text-[10px] text-gray-500 uppercase">Mejor profit</p>
+        <p id="statBest" class="text-xl font-bold text-green-400">—</p>
+      </div>
+      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
+        <p class="text-[10px] text-gray-500 uppercase">Estado</p>
+        <p id="statStatus" class="text-sm font-bold text-amber-400">Idle</p>
       </div>
     </div>
 
     <!-- Progress -->
-    <div id="progressBar" class="mb-6 hidden">
+    <div id="progressBar" class="mb-4 hidden">
       <div class="flex justify-between text-xs text-gray-500 mb-1">
-        <span id="progressText">Scanning...</span>
+        <span id="progressText">Escaneando...</span>
         <span id="progressPct">0%</span>
       </div>
-      <div class="w-full bg-gray-800 rounded-full h-2">
-        <div id="progressFill" class="bg-amber-400 h-2 rounded-full transition-all" style="width: 0%"></div>
+      <div class="w-full bg-gray-800 rounded-full h-1.5">
+        <div id="progressFill" class="bg-amber-400 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
       </div>
     </div>
 
     <!-- Log -->
-    <div id="scanLog" class="mb-6 p-4 border border-gray-800 bg-black/50 rounded-lg max-h-48 overflow-y-auto text-xs text-gray-400 hidden">
-    </div>
+    <div id="scanLog" class="mb-6 p-3 border border-gray-800 bg-black/50 rounded-lg max-h-40 overflow-y-auto text-[11px] text-gray-500 font-mono hidden"></div>
 
     <!-- Empty State -->
     <div id="emptyState" class="flex items-center justify-center py-20 border border-dashed border-amber-500/30 rounded-lg">
       <div class="text-center space-y-4">
         <span class="text-5xl">⛏️</span>
-        <p class="text-sm text-gray-400">Click "Scan" to search for opportunities</p>
+        <p class="text-sm text-gray-400">Pulsa "Escanear" para buscar oportunidades en Magic Eden</p>
+        <p class="text-xs text-gray-600">Escanea listings de cualquier colección, ordenados por menor precio</p>
       </div>
     </div>
 
-    <!-- Results -->
-    <div id="resultsList" class="space-y-3 hidden"></div>
+    <!-- Results Table -->
+    <div id="resultsSection" class="hidden">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-bold text-green-400" id="resultsTitle">Oportunidades</h2>
+        <span id="resultCount" class="text-xs text-gray-500"></span>
+      </div>
+      <div id="resultsList" class="space-y-2"></div>
+    </div>
 
     <!-- How It Works -->
     <div class="mt-8 p-4 border border-amber-500/20 bg-black/30 rounded-lg">
-      <h3 class="font-bold text-amber-400 text-sm mb-3">⛏️ HOW SAT MINING WORKS</h3>
+      <h3 class="font-bold text-amber-400 text-sm mb-3">⛏️ CÓMO FUNCIONA</h3>
       <ul class="space-y-2 text-xs text-gray-400">
-        <li><span class="text-amber-400">1.</span> Some inscriptions sit on UTXOs with more sats than the listing price</li>
-        <li><span class="text-amber-400">2.</span> Buy the inscription at the listed price</li>
-        <li><span class="text-amber-400">3.</span> Use <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord wallet split</code> to separate inscription from excess sats</li>
-        <li><span class="text-amber-400">4.</span> Keep the inscription + pocket the extra sats as profit</li>
+        <li><span class="text-amber-400">1.</span> Se buscan los listings más baratos de Magic Eden (todas las colecciones o una específica)</li>
+        <li><span class="text-amber-400">2.</span> Para cada listing, se comprueba el valor real del UTXO vía Hiro API</li>
+        <li><span class="text-amber-400">3.</span> Si el UTXO tiene más sats que el precio → <span class="text-green-400">oportunidad de arbitraje</span></li>
+        <li><span class="text-amber-400">4.</span> Compras la inscripción → <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord wallet split</code> → sacas los sats extra</li>
       </ul>
-      <p class="text-[10px] text-amber-400/60 mt-3">⚠️ DYOR: Verify UTXO values before buying. Split fees ~750 sats.</p>
+      <p class="text-[10px] text-amber-400/60 mt-3">⚠️ DYOR: Verifica UTXO antes de comprar. Split fee ~750 sats. Profit mínimo mostrado: 1000 sats.</p>
     </div>
   </main>
 
@@ -122,23 +162,25 @@
     const SPLIT_FEE = 750;
     const MIN_PROFIT = 1000;
     let scanning = false;
+    let shouldStop = false;
 
-    function log(msg) {
+    function log(msg, type = 'info') {
       const el = document.getElementById('scanLog');
       el.classList.remove('hidden');
       const time = new Date().toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-      el.innerHTML += `<div>[${time}] ${msg}</div>`;
+      const colors = { info: 'text-gray-500', ok: 'text-green-400', warn: 'text-amber-400', error: 'text-red-400' };
+      el.innerHTML += `<div class="${colors[type] || colors.info}">[${time}] ${msg}</div>`;
       el.scrollTop = el.scrollHeight;
     }
 
-    function formatSats(s) {
+    function fmt(s) {
       if (s >= 1000000) return (s/1000000).toFixed(2) + 'M';
       if (s >= 1000) return (s/1000).toFixed(1) + 'k';
-      return s + '';
+      return s.toLocaleString();
     }
 
     function updateProgress(current, total, text) {
-      const pct = Math.round((current / total) * 100);
+      const pct = total > 0 ? Math.round((current / total) * 100) : 0;
       document.getElementById('progressFill').style.width = pct + '%';
       document.getElementById('progressPct').textContent = pct + '%';
       if (text) document.getElementById('progressText').textContent = text;
@@ -146,183 +188,228 @@
 
     async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    // Fetch listings from Magic Eden
-    async function fetchListings(slug, maxPrice) {
-      log(`Fetching listings for "${slug}" under ${maxPrice} sats...`);
+    function stopScan() {
+      shouldStop = true;
+      document.getElementById('statStatus').textContent = 'Parando...';
+      log('⏹ Scan detenido por usuario', 'warn');
+    }
+
+    // Fetch with retry on rate limit
+    async function fetchWithRetry(url, retries = 3) {
+      for (let i = 0; i < retries; i++) {
+        const res = await fetch(url);
+        if (res.ok) return await res.json();
+        if (res.status === 429) {
+          const wait = (i + 1) * 15000;
+          log(`⏳ Rate limit - esperando ${wait/1000}s...`, 'warn');
+          await sleep(wait);
+        } else {
+          throw new Error(`HTTP ${res.status}`);
+        }
+      }
+      return null;
+    }
+
+    // Fetch listings from Magic Eden - ALL collections or specific one
+    async function fetchListings(slug, minPrice, maxPrice, maxPages) {
       const listings = [];
-      let offset = 0;
       const limit = 20;
 
-      for (let page = 0; page < 5; page++) {
+      for (let page = 0; page < maxPages; page++) {
+        if (shouldStop) break;
+        
+        const offset = page * limit;
+        let url = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?sortBy=priceAsc&limit=${limit}&offset=${offset}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        if (slug) url += `&collectionSymbol=${slug}`;
+
+        log(`📄 Página ${page + 1}/${maxPages} (offset ${offset})...`);
+
         try {
-          const url = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?collectionSymbol=${slug}&limit=${limit}&offset=${offset}&sortBy=priceAsc&minPrice=0&maxPrice=${maxPrice}`;
-          const res = await fetch(url);
-          if (!res.ok) { log(`⚠️ API error: ${res.status}`); break; }
-          const data = await res.json();
-          const tokens = data.tokens || data || [];
-          if (!Array.isArray(tokens) || tokens.length === 0) break;
+          const data = await fetchWithRetry(url);
+          if (!data) { log('❌ No se pudo obtener datos', 'error'); break; }
           
+          const tokens = data.tokens || data || [];
+          if (!Array.isArray(tokens) || tokens.length === 0) {
+            log(`📄 Página ${page + 1}: vacía — fin`, 'warn');
+            break;
+          }
+
           tokens.forEach(t => {
-            if (t.listedPrice && t.listedPrice <= maxPrice) {
+            const price = t.listedPrice;
+            if (price && price >= minPrice && price <= maxPrice) {
               listings.push({
                 id: t.id,
-                name: t.meta?.name || t.id?.substring(0, 12) + '...',
-                price: t.listedPrice,
+                name: t.meta?.name || t.id?.substring(0, 16) + '...',
+                collection: t.collection?.name || t.collectionSymbol || '—',
+                collectionSlug: t.collectionSymbol || '',
+                price: price,
                 imageUrl: t.contentURI || t.meta?.imageURI || '',
               });
             }
           });
-          
-          log(`Page ${page + 1}: Found ${tokens.length} items (total: ${listings.length})`);
-          offset += limit;
+
+          document.getElementById('statListings').textContent = listings.length;
+          log(`✅ Página ${page + 1}: +${tokens.length} listings (total: ${listings.length})`, 'ok');
+
           if (tokens.length < limit) break;
-          await sleep(1500);
+          await sleep(1500); // Rate limit respect
         } catch (e) {
-          log(`❌ Fetch error: ${e.message}`);
-          break;
+          log(`❌ Error en página ${page + 1}: ${e.message}`, 'error');
+          await sleep(5000);
         }
       }
       return listings;
     }
 
-    // Get UTXO value for an inscription
+    // Get UTXO value via Hiro API
     async function getOutputValue(inscriptionId) {
-      // Try Hiro API first
       try {
-        const res = await fetch(`https://api.hiro.so/ordinals/v1/inscriptions/${inscriptionId}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.value || data.output_value) return parseInt(data.value || data.output_value);
+        const data = await fetchWithRetry(`https://api.hiro.so/ordinals/v1/inscriptions/${inscriptionId}`);
+        if (data && (data.value || data.output_value)) {
+          return parseInt(data.value || data.output_value);
         }
       } catch (e) {}
-
-      // Fallback: try parsing from ordinals.com
-      try {
-        const res = await fetch(`https://ordinals.com/inscription/${inscriptionId}`);
-        if (res.ok) {
-          const text = await res.text();
-          const match = text.match(/value\s*\n?\s*(\d+)/i);
-          if (match) return parseInt(match[1]);
-        }
-      } catch (e) {}
-
       return null;
+    }
+
+    function renderOpportunity(opp, idx) {
+      const list = document.getElementById('resultsList');
+      const card = document.createElement('a');
+      card.href = `https://magiceden.io/ordinals/item-details/${opp.id}`;
+      card.target = '_blank';
+      card.className = 'opp-card block p-4 border border-green-500/30 hover:border-green-500/60 hover:bg-green-500/5 rounded-lg group';
+      card.innerHTML = `
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="text-lg font-bold text-green-400/60 w-7 flex-shrink-0">#${idx}</span>
+            ${opp.imageUrl ? `<img src="${opp.imageUrl}" class="w-12 h-12 rounded object-cover bg-gray-800 flex-shrink-0" onerror="this.style.display='none'">` : ''}
+            <div class="min-w-0">
+              <p class="font-bold text-gray-200 group-hover:text-green-400 transition-colors text-sm truncate">${opp.name}</p>
+              <p class="text-[10px] text-gray-500 truncate">${opp.collection}</p>
+              <span class="inline-block mt-1 px-2 py-0.5 bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold rounded">+${fmt(opp.profit)} sats PROFIT</span>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0 text-xs space-y-1">
+            <p class="text-gray-500">UTXO: <span class="text-gray-300 font-bold">${fmt(opp.outputValue)}</span></p>
+            <p class="text-gray-500">Precio: <span class="text-amber-400">${fmt(opp.price)}</span></p>
+            <p class="text-gray-500">Fee: <span class="text-gray-400">${fmt(SPLIT_FEE)}</span></p>
+            <p class="text-green-400 font-bold text-sm">+${fmt(opp.profit)}</p>
+          </div>
+        </div>
+      `;
+      list.appendChild(card);
     }
 
     async function startScan() {
       if (scanning) return;
       scanning = true;
+      shouldStop = false;
 
       const slug = document.getElementById('collectionSlug').value.trim();
-      const maxPrice = parseInt(document.getElementById('maxPrice').value) || 10000;
-      const btn = document.getElementById('scanBtn');
-      
-      btn.disabled = true;
-      document.getElementById('scanText').textContent = '⏳ Scanning...';
+      const minPrice = parseInt(document.getElementById('minPrice').value) || 546;
+      const maxPrice = parseInt(document.getElementById('maxPrice').value) || 50000;
+      const maxPages = parseInt(document.getElementById('maxPages').value) || 10;
+
+      // UI setup
+      document.getElementById('scanBtn').disabled = true;
+      document.getElementById('stopBtn').classList.remove('hidden');
+      document.getElementById('scanText').textContent = '⏳ Escaneando...';
       document.getElementById('emptyState').classList.add('hidden');
-      document.getElementById('resultsList').classList.add('hidden');
+      document.getElementById('resultsSection').classList.add('hidden');
       document.getElementById('resultsList').innerHTML = '';
       document.getElementById('statsGrid').classList.remove('hidden');
       document.getElementById('progressBar').classList.remove('hidden');
       document.getElementById('scanLog').innerHTML = '';
       document.getElementById('scanLog').classList.remove('hidden');
-      document.getElementById('statStatus').textContent = 'Scanning...';
+      document.getElementById('statStatus').textContent = 'Buscando...';
+      document.getElementById('statListings').textContent = '0';
+      document.getElementById('statChecked').textContent = '0';
+      document.getElementById('statOpps').textContent = '0';
+      document.getElementById('statBest').textContent = '—';
 
-      log(`🚀 Starting scan: ${slug}, max ${maxPrice} sats`);
+      const mode = slug ? `"${slug}"` : 'TODAS las colecciones';
+      log(`🚀 Escaneando ${mode} | ${fmt(minPrice)}-${fmt(maxPrice)} sats | ${maxPages} páginas`, 'ok');
 
-      // Step 1: Fetch listings
-      const listings = await fetchListings(slug, maxPrice);
-      document.getElementById('statScanned').textContent = listings.length;
+      // Step 1: Fetch all listings
+      const listings = await fetchListings(slug, minPrice, maxPrice, maxPages);
+      document.getElementById('statListings').textContent = listings.length;
 
-      if (listings.length === 0) {
-        log('No listings found under that price.');
-        document.getElementById('statStatus').textContent = 'No listings';
-        btn.disabled = false;
-        document.getElementById('scanText').textContent = '⛏️ Scan';
-        scanning = false;
+      if (listings.length === 0 || shouldStop) {
+        document.getElementById('statStatus').textContent = shouldStop ? 'Parado' : 'Sin listings';
+        log(shouldStop ? '⏹ Parado' : '⚠️ No se encontraron listings', 'warn');
+        resetUI();
         return;
       }
 
       // Step 2: Check UTXO values
-      log(`Checking UTXO values for ${listings.length} inscriptions...`);
+      log(`\n🔍 Comprobando UTXO de ${listings.length} inscripciones...`, 'ok');
+      document.getElementById('statStatus').textContent = 'Checking UTXOs...';
+      
       const opportunities = [];
       let bestProfit = 0;
+      let checked = 0;
 
       for (let i = 0; i < listings.length; i++) {
+        if (shouldStop) break;
+        
         const item = listings[i];
-        updateProgress(i + 1, listings.length, `Checking ${i + 1}/${listings.length}...`);
-        
+        checked++;
+        document.getElementById('statChecked').textContent = checked;
+        updateProgress(i + 1, listings.length, `Checking ${i + 1}/${listings.length} — ${item.name}`);
+
         const outputValue = await getOutputValue(item.id);
-        
-        if (outputValue) {
+
+        if (outputValue !== null) {
           const profit = outputValue - item.price - SPLIT_FEE;
-          log(`${item.name}: Listed ${item.price} sats, UTXO ${outputValue} sats → ${profit > 0 ? '✅ +' + profit : '❌ ' + profit}`);
           
           if (profit > MIN_PROFIT) {
-            opportunities.push({
-              ...item,
-              outputValue,
-              profit,
-              profitUsd: (profit / 100000000 * 100000).toFixed(2) // rough estimate
-            });
+            const opp = { ...item, outputValue, profit };
+            opportunities.push(opp);
+            opportunities.sort((a, b) => b.profit - a.profit);
+            
             if (profit > bestProfit) bestProfit = profit;
             document.getElementById('statOpps').textContent = opportunities.length;
-            document.getElementById('statBest').textContent = formatSats(bestProfit);
+            document.getElementById('statBest').textContent = fmt(bestProfit);
+            
+            log(`💰 ${item.name} (${item.collection}) — Precio: ${fmt(item.price)}, UTXO: ${fmt(outputValue)}, PROFIT: +${fmt(profit)}`, 'ok');
+
+            // Show results section and re-render sorted
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsList').innerHTML = '';
+            opportunities.forEach((o, idx) => renderOpportunity(o, idx + 1));
+            document.getElementById('resultCount').textContent = `${opportunities.length} encontradas`;
+          } else if (profit > 0) {
+            log(`⚡ ${item.name} — profit ${fmt(profit)} sats (bajo mínimo)`, 'info');
+          } else {
+            log(`· ${item.name} — UTXO ${fmt(outputValue)}, precio ${fmt(item.price)} → sin profit`);
           }
         } else {
-          log(`${item.name}: ⚠️ Could not get UTXO value`);
+          log(`· ${item.name} — no se pudo leer UTXO`);
         }
 
-        // Rate limit
-        await sleep(2000);
+        await sleep(2000); // Hiro rate limit
       }
 
       // Done
-      updateProgress(1, 1, 'Done!');
-      document.getElementById('statStatus').textContent = 'Complete';
-      log(`✅ Scan complete: ${opportunities.length} opportunities found`);
-
-      // Render results
-      if (opportunities.length > 0) {
-        opportunities.sort((a, b) => b.profit - a.profit);
-        document.getElementById('resultCount').textContent = `${opportunities.length} opportunities found`;
-        document.getElementById('resultCount').classList.remove('hidden');
-        
-        const list = document.getElementById('resultsList');
-        list.classList.remove('hidden');
-        
-        opportunities.forEach((opp, idx) => {
-          const card = document.createElement('a');
-          card.href = `https://magiceden.io/ordinals/item-details/${opp.id}`;
-          card.target = '_blank';
-          card.className = 'block p-4 border border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-500/5 transition-all rounded-lg group';
-          card.innerHTML = `
-            <div class="flex items-center justify-between gap-4">
-              <div class="flex items-center gap-4">
-                <span class="text-2xl font-bold text-amber-400/50 w-8">#${idx + 1}</span>
-                ${opp.imageUrl ? `<img src="${opp.imageUrl}" class="w-14 h-14 rounded object-cover bg-gray-800" onerror="this.style.display='none'">` : ''}
-                <div>
-                  <p class="font-bold text-gray-200 group-hover:text-amber-400 transition-colors">${opp.name}</p>
-                  <div class="flex items-center gap-3 mt-1">
-                    <span class="px-2 py-0.5 bg-green-500/20 text-green-400 border border-green-500/30 text-sm font-bold rounded">+${formatSats(opp.profit)} PROFIT</span>
-                    <span class="text-xs text-gray-500">≈ $${opp.profitUsd}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="text-right flex-shrink-0 text-xs">
-                <p class="text-gray-500">UTXO: <span class="text-gray-300">${formatSats(opp.outputValue)}</span></p>
-                <p class="text-gray-500">Price: <span class="text-amber-400">${formatSats(opp.price)}</span></p>
-                <p class="text-green-400 font-bold">+${formatSats(opp.profit)}</p>
-              </div>
-            </div>
-          `;
-          list.appendChild(card);
-        });
+      updateProgress(1, 1, '¡Completado!');
+      document.getElementById('statStatus').textContent = shouldStop ? 'Parado' : '✅ Completo';
+      const total = opportunities.reduce((s, o) => s + o.profit, 0);
+      log(`\n✅ Scan terminado: ${opportunities.length} oportunidades, profit total potencial: ${fmt(total)} sats`, 'ok');
+      
+      if (opportunities.length === 0) {
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('emptyState').querySelector('p').textContent = 'No se encontraron oportunidades en este rango';
       }
 
-      btn.disabled = false;
-      document.getElementById('scanText').textContent = '⛏️ Scan';
+      resetUI();
+    }
+
+    function resetUI() {
+      document.getElementById('scanBtn').disabled = false;
+      document.getElementById('stopBtn').classList.add('hidden');
+      document.getElementById('scanText').textContent = '⛏️ ESCANEAR TODO';
       scanning = false;
+      shouldStop = false;
     }
   </script>
 </body>
