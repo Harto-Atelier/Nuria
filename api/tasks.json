@@ -1,42 +1,42 @@
 {
-  "lastUpdate": "2026-01-27T13:05:00+01:00",
+  "lastUpdate": "2026-01-28T13:08:00+01:00",
   "mits": [
     {
       "id": 1,
-      "title": "Reunión restructuración",
-      "meta": "Hoy 10:30 • Teams",
+      "title": "Comprar en Aldi",
+      "meta": "Sergio • Aprobado hoy",
       "xp": 50,
       "done": false,
-      "date": "2026-01-27",
+      "date": "2026-01-28",
       "priority": "urgent"
     },
     {
       "id": 2,
+      "title": "Depreciar activos mal estado",
+      "meta": "Sergio • Cámara 10k",
+      "xp": 50,
+      "done": false,
+      "date": "2026-01-28",
+      "priority": "urgent"
+    },
+    {
+      "id": 3,
       "title": "Enviar movimientos Binance",
       "meta": "Sergio • Finance",
       "xp": 50,
       "done": false,
       "date": "2026-01-27",
-      "priority": "urgent"
-    },
-    {
-      "id": 3,
-      "title": "Responder Juliette",
-      "meta": "Contrato Manso",
-      "xp": 50,
-      "done": false,
-      "date": "2026-01-27",
-      "priority": "urgent"
+      "priority": "normal"
     }
   ],
   "tasks": [
     {
       "id": 4,
-      "title": "Zoo con los niños",
-      "meta": "Sábado 31 • 10:00",
+      "title": "Ver video YouTube",
+      "meta": "Sergio • Pending review",
       "xp": 15,
       "done": false,
-      "date": "2026-01-31",
+      "date": "2026-01-28",
       "priority": "normal"
     },
     {
@@ -56,24 +56,5 @@
       "priority": "low"
     }
   ],
-  "events": [
-    {
-      "time": "10:30",
-      "title": "Reunión Núria Nadal",
-      "meta": "Teams • Restructuración",
-      "date": "2026-01-27"
-    },
-    {
-      "time": "11:30",
-      "title": "Mint",
-      "meta": "",
-      "date": "2026-01-27"
-    },
-    {
-      "time": "13:00",
-      "title": "Dinia en el piso",
-      "meta": "Hasta 15:00",
-      "date": "2026-01-27"
-    }
-  ]
+  "events": []
 }
