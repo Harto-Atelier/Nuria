@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Laura Zarate",
+      "subject": "RE: Nominas Enero 2026 - Harto Studio",
+      "time": "13:28",
+      "unread": true
+    },
+    {
       "sender": "\"Núria",
       "subject": "Nadal\" <nnadal@centregestor.es>",
       "time": "13:23",
@@ -53,14 +59,8 @@
       "subject": "Se ha 29V0QFI5FABrealizado la recogida",
       "time": "10:46",
       "unread": true
-    },
-    {
-      "sender": "sgseaux@gmail.com",
-      "subject": "Exquisite Daily Report - 2026-01-28",
-      "time": "10:28",
-      "unread": true
     }
   ],
   "unreadCount": 9,
-  "updated": "2026-01-28T12:26:11.017Z"
+  "updated": "2026-01-28T12:34:09.376Z"
 }

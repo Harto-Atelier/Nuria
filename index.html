@@ -1643,7 +1643,7 @@
                 document.getElementById('dataUpdated').textContent = timeStr;
                 console.log('✅ Dashboard data loaded');
             } catch (err) {
-                console.log('Using static data:', err);
+                console.error('❌ Error loading dashboard data:', err);
             }
         }
         
@@ -1752,11 +1752,20 @@
             taskList.innerHTML = tasksHtml || '<div style="color: var(--muted); padding: 15px;">No pending tasks 🎉</div>';
         }
         
-        // Load data on page load
-        loadDashboardData();
+        // Load data when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('📄 DOM ready, loading data...');
+                loadDashboardData();
+            });
+        } else {
+            console.log('📄 DOM already ready, loading data...');
+            loadDashboardData();
+        }
         
-        // AUTO-REFRESH: Reload calendar data every 5 minutes
-        setInterval(loadDashboardData, 5 * 60 * 1000); // 5 minutes = 300000ms
+        // AUTO-REFRESH: Reload data every 5 minutes
+        setInterval(loadDashboardData, 5 * 60 * 1000);
+        
         // Render team status
         function renderTeamStatus(data) {
             const agentEmojis = { nuria: '🟧', amy: '📋', jack: '🔧', pepe: '🎨' };
