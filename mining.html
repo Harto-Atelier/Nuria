@@ -3,554 +3,696 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sat Mining | Harto Dashboard</title>
+  <title>⛏️ Sat Mining | Harto</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
-    body { font-family: 'JetBrains Mono', monospace; background: #0a0a0a; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
-    .opp-card { transition: all 0.2s; animation: slideIn 0.3s ease-out; }
-    .opp-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34,197,94,0.1); }
-    #scanLog::-webkit-scrollbar { width: 4px; }
-    #scanLog::-webkit-scrollbar-thumb { background: #f59e0b33; border-radius: 2px; }
-    .speed-badge { font-variant-numeric: tabular-nums; }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+    :root {
+      --amber: #f59e0b; --green: #22c55e; --red: #ef4444; --blue: #3b82f6;
+      --bg: #0a0a0a; --surface: #111; --border: #222;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'JetBrains Mono', monospace; background: var(--bg); margin: 0; }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
+    @keyframes glow { 0%,100% { box-shadow: 0 0 5px rgba(34,197,94,.2) } 50% { box-shadow: 0 0 20px rgba(34,197,94,.4) } }
+    .slide-up { animation: slideUp .3s ease-out }
+    .glow-green { animation: glow 2s ease-in-out infinite }
+    .pulse { animation: pulse 2s ease-in-out infinite }
+    .tabnum { font-variant-numeric: tabular-nums }
+    .opp:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34,197,94,.15) }
+    .opp { transition: all .2s }
+    #log::-webkit-scrollbar { width: 3px }
+    #log::-webkit-scrollbar-thumb { background: #f59e0b22; border-radius: 2px }
+    .tag { padding: 2px 6px; border-radius: 4px; font-size: 10px; border: 1px solid; display: inline-block }
+    .tag-green { color: var(--green); border-color: rgba(34,197,94,.3); background: rgba(34,197,94,.1) }
+    .tag-amber { color: var(--amber); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.1) }
+    .tag-red { color: var(--red); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.1) }
+    .tag-blue { color: var(--blue); border-color: rgba(59,130,246,.3); background: rgba(59,130,246,.1) }
+    select, input { outline: none; }
+    @media (max-width: 768px) {
+      .hide-mobile { display: none !important; }
+      .stack-mobile { flex-direction: column !important; }
+      .full-mobile { width: 100% !important; }
+    }
   </style>
 </head>
 <body class="min-h-screen text-gray-100">
-  <header class="border-b border-amber-500/30 bg-amber-500/5">
-    <div class="max-w-6xl mx-auto px-4 py-6">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <div class="p-3 bg-amber-500/20 rounded-lg border border-amber-500/30">
-            <span class="text-3xl">⛏️</span>
-          </div>
-          <div>
-            <h1 class="text-2xl font-bold text-amber-400">SAT MINING</h1>
-            <p class="text-sm text-gray-500">UTXO Arbitrage Scanner · <span class="text-amber-400/60">v2 turbo</span></p>
-          </div>
+
+  <!-- HEADER -->
+  <header class="border-b border-amber-500/30 bg-amber-500/5 sticky top-0 z-50 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">⛏️</span>
+        <div>
+          <h1 class="text-lg font-bold text-amber-400 leading-tight">SAT MINING</h1>
+          <p class="text-[10px] text-gray-500">v3 turbo · <span id="btcPrice" class="text-amber-400">Loading BTC...</span></p>
         </div>
-        <div class="flex items-center gap-3">
-          <button onclick="clearCache()" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Limpiar caché">🗑️ Cache</button>
-          <span id="cacheCount" class="text-[10px] text-gray-600"></span>
-          <span class="px-2 py-1 text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded">🔒 INTERNAL</span>
-          <a href="index.html" class="text-xs text-gray-500 hover:text-amber-400 transition-colors">← Dashboard</a>
-        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleAutoScan()" id="autoScanBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Auto-scan cada 5 min">🔄 Auto</button>
+        <button onclick="exportCSV()" id="exportBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer hidden" title="Exportar CSV">📥 CSV</button>
+        <button onclick="toggleSound()" id="soundBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Alertas sonoras">🔇</button>
+        <button onclick="clearCache()" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Limpiar caché">🗑️ <span id="cacheCount"></span></button>
+        <button onclick="toggleHistory()" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Historial">📊</button>
+        <a href="index.html" class="px-2 py-1 text-[10px] text-gray-500 hover:text-amber-400 transition-colors">← Dash</a>
       </div>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8">
-    <div class="p-4 border border-amber-500/30 bg-amber-500/5 mb-6 rounded-lg">
-      <p class="text-sm text-gray-200">
-        Escanea <span class="text-amber-400 font-bold">todos los listings de Magic Eden</span> ordenados por menor precio.
-        <span class="text-green-400">3x paralelo</span> + caché local = mucho más rápido.
-      </p>
+  <!-- HISTORY PANEL (hidden by default) -->
+  <div id="historyPanel" class="hidden border-b border-gray-800 bg-black/50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">📊 Historial de Scans</h3>
+      <div id="historyList" class="space-y-1 max-h-40 overflow-y-auto text-[11px]"></div>
+      <button onclick="clearHistory()" class="mt-2 text-[10px] text-red-400/60 hover:text-red-400 cursor-pointer">Limpiar historial</button>
     </div>
+  </div>
 
-    <!-- Controls -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <div class="p-4 border border-gray-800 bg-black/30 rounded-lg space-y-3">
-        <h3 class="text-xs text-gray-500 uppercase font-bold">Filtros</h3>
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <!-- CONTROLS -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <!-- Filters -->
+      <div class="lg:col-span-2 p-4 border border-gray-800 bg-black/30 rounded-lg space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs text-gray-500 uppercase font-bold">Filtros</h3>
+          <div id="autoScanStatus" class="hidden">
+            <span class="tag tag-blue pulse">🔄 Auto-scan ON · <span id="autoCountdown">5:00</span></span>
+          </div>
+        </div>
         <div class="flex flex-wrap gap-3">
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Colección (vacío = todas)</label>
-            <input type="text" id="collectionSlug" value="" placeholder="Todas las colecciones" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-44 outline-none">
+            <label class="text-[10px] text-gray-500 block mb-1">Colección</label>
+            <input type="text" id="collectionSlug" value="" placeholder="Todas" 
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-40">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Precio mín</label>
+            <label class="text-[10px] text-gray-500 block mb-1">Mín sats</label>
             <input type="number" id="minPrice" value="546" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-28 outline-none">
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Precio máx</label>
+            <label class="text-[10px] text-gray-500 block mb-1">Máx sats</label>
             <input type="number" id="maxPrice" value="50000" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-28 outline-none">
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
           </div>
           <div>
             <label class="text-[10px] text-gray-500 block mb-1">Páginas</label>
             <input type="number" id="maxPages" value="10" min="1" max="50"
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-20 outline-none">
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-16">
           </div>
           <div>
             <label class="text-[10px] text-gray-500 block mb-1">Paralelo</label>
-            <select id="concurrency" class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-20 outline-none">
+            <select id="concurrency" class="px-3 py-2 bg-gray-900 border border-gray-700 rounded text-sm text-gray-200 w-16">
               <option value="1">×1</option>
               <option value="3" selected>×3</option>
               <option value="5">×5</option>
               <option value="8">×8</option>
             </select>
           </div>
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Min profit</label>
+            <input type="number" id="minProfit" value="1000" 
+              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
+          </div>
         </div>
-        <!-- Quick presets -->
-        <div class="flex flex-wrap gap-2 pt-1">
-          <span class="text-[10px] text-gray-600">Quick:</span>
+        <!-- Presets -->
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[10px] text-gray-600 leading-6">Quick:</span>
           <button onclick="setPreset('',546,50000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Todo &lt;50k</button>
           <button onclick="setPreset('',546,10000,20)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Todo &lt;10k</button>
-          <button onclick="setPreset('exquisite',546,50000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Exquisite</button>
-          <button onclick="setPreset('bitcoin-frogs',546,100000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">BTC Frogs</button>
-          <button onclick="setPreset('nodemonkes',546,100000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">NodeMonkes</button>
+          <button onclick="setPreset('',10000,200000,15)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">10k-200k</button>
+          <button onclick="setPreset('exquisite',546,100000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Exquisite</button>
+          <button onclick="setPreset('bitcoin-frogs',546,200000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Frogs</button>
+          <button onclick="setPreset('nodemonkes',546,200000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">NodeMonkes</button>
+          <button onclick="setPreset('quantum_cats',546,500000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Q.Cats</button>
+          <button onclick="setPreset('bitmap',546,5000,20)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Bitmap</button>
         </div>
       </div>
+
+      <!-- Action -->
       <div class="p-4 border border-gray-800 bg-black/30 rounded-lg flex flex-col justify-between">
         <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">Acción</h3>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
           <button id="scanBtn" onclick="startScan()"
-            class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase font-bold transition-all disabled:opacity-50 rounded-lg cursor-pointer">
-            <span id="scanText">⛏️ ESCANEAR</span>
+            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase font-bold transition-all disabled:opacity-50 rounded-lg cursor-pointer">
+            <span id="scanText">⛏️ SCAN</span>
           </button>
-          <button onclick="stopScan()" id="stopBtn"
-            class="px-4 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 text-sm transition-all rounded-lg hidden cursor-pointer">
-            ⏹
-          </button>
+          <button onclick="stopScan()" id="stopBtn" class="px-4 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 text-sm transition-all rounded-lg hidden cursor-pointer">⏹</button>
         </div>
-        <div class="flex justify-between mt-2">
-          <p class="text-[10px] text-gray-600">20/página · paralelo configurable · caché 24h</p>
-          <p class="text-[10px] text-gray-600 speed-badge" id="speedInfo"></p>
+        <div class="mt-3 space-y-1 text-[10px] text-gray-600">
+          <div class="flex justify-between"><span>Atajos:</span><span class="text-gray-500">Enter=Scan · Esc=Stop · S=Sound</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Stats Grid -->
-    <div id="statsGrid" class="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6 hidden">
-      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">Listings</p>
-        <p id="statListings" class="text-xl font-bold text-amber-400 speed-badge">0</p>
+    <!-- STATS -->
+    <div id="statsGrid" class="grid grid-cols-3 md:grid-cols-7 gap-2 mb-4 hidden">
+      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Listings</p>
+        <p id="statListings" class="text-lg font-bold text-amber-400 tabnum">0</p>
       </div>
-      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">Checked</p>
-        <p id="statChecked" class="text-xl font-bold text-gray-300 speed-badge">0</p>
+      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Checked</p>
+        <p id="statChecked" class="text-lg font-bold text-gray-300 tabnum">0</p>
       </div>
-      <div class="p-3 border border-blue-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">Cached</p>
-        <p id="statCached" class="text-xl font-bold text-blue-400 speed-badge">0</p>
+      <div class="p-2 border border-blue-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Cached</p>
+        <p id="statCached" class="text-lg font-bold text-blue-400 tabnum">0</p>
       </div>
-      <div class="p-3 border border-green-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">Opps</p>
-        <p id="statOpps" class="text-xl font-bold text-green-400 speed-badge">0</p>
+      <div class="p-2 border border-green-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Opps</p>
+        <p id="statOpps" class="text-lg font-bold text-green-400 tabnum">0</p>
       </div>
-      <div class="p-3 border border-green-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">Mejor</p>
-        <p id="statBest" class="text-xl font-bold text-green-400 speed-badge">—</p>
+      <div class="p-2 border border-green-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Mejor</p>
+        <p id="statBest" class="text-lg font-bold text-green-400 tabnum">—</p>
       </div>
-      <div class="p-3 border border-amber-500/30 bg-black/30 rounded-lg text-center">
-        <p class="text-[10px] text-gray-500 uppercase">ETA</p>
-        <p id="statEta" class="text-lg font-bold text-amber-400 speed-badge">—</p>
+      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">Speed</p>
+        <p id="statSpeed" class="text-lg font-bold text-amber-400 tabnum">—</p>
+      </div>
+      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
+        <p class="text-[9px] text-gray-500 uppercase">ETA</p>
+        <p id="statEta" class="text-lg font-bold text-amber-400 tabnum">—</p>
       </div>
     </div>
 
-    <!-- Progress -->
+    <!-- PROGRESS -->
     <div id="progressBar" class="mb-4 hidden">
-      <div class="flex justify-between text-xs text-gray-500 mb-1">
-        <span id="progressText">Escaneando...</span>
+      <div class="flex justify-between text-[10px] text-gray-500 mb-1">
+        <span id="progressText">...</span>
         <span id="progressPct">0%</span>
       </div>
-      <div class="w-full bg-gray-800 rounded-full h-1.5">
-        <div id="progressFill" class="bg-gradient-to-r from-amber-500 to-green-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+      <div class="w-full bg-gray-800 rounded-full h-1">
+        <div id="progressFill" class="bg-gradient-to-r from-amber-500 to-green-500 h-1 rounded-full transition-all duration-300" style="width:0%"></div>
       </div>
     </div>
 
-    <!-- Log -->
-    <div id="scanLog" class="mb-6 p-3 border border-gray-800 bg-black/50 rounded-lg max-h-36 overflow-y-auto text-[11px] text-gray-500 font-mono hidden"></div>
+    <!-- LOG -->
+    <div id="log" class="mb-4 p-3 border border-gray-800 bg-black/50 rounded max-h-32 overflow-y-auto text-[10px] font-mono hidden"></div>
 
-    <!-- Empty State -->
-    <div id="emptyState" class="flex items-center justify-center py-20 border border-dashed border-amber-500/30 rounded-lg">
-      <div class="text-center space-y-4">
+    <!-- EMPTY STATE -->
+    <div id="emptyState" class="flex items-center justify-center py-16 border border-dashed border-amber-500/30 rounded-lg">
+      <div class="text-center space-y-3">
         <span class="text-5xl">⛏️</span>
-        <p class="text-sm text-gray-400">Pulsa "Escanear" para buscar oportunidades</p>
-        <p class="text-xs text-gray-600">Todas las colecciones · Menor precio · Checks paralelos</p>
+        <p class="text-sm text-gray-400">Busca oportunidades de arbitraje UTXO</p>
+        <p class="text-xs text-gray-600">Enter para escanear · Listings baratos con UTXOs gordos = profit</p>
       </div>
     </div>
 
-    <!-- Results -->
-    <div id="resultsSection" class="hidden">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-sm font-bold text-green-400">💰 Oportunidades</h2>
+    <!-- OPPORTUNITIES -->
+    <div id="oppsSection" class="hidden">
+      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div class="flex items-center gap-3">
-          <span id="resultCount" class="text-xs text-gray-500"></span>
-          <span id="totalProfit" class="text-xs text-green-400 font-bold"></span>
+          <h2 class="text-sm font-bold text-green-400">💰 Oportunidades</h2>
+          <span id="oppCount" class="tag tag-green tabnum"></span>
+          <span id="totalProfit" class="text-xs text-green-400 font-bold tabnum"></span>
+          <span id="totalUsd" class="text-xs text-green-400/60 tabnum"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="sortOpps" onchange="rerenderOpps()" class="px-2 py-1 text-[10px] bg-gray-800 border border-gray-700 rounded text-gray-400">
+            <option value="profit">↓ Profit</option>
+            <option value="price">↑ Precio</option>
+            <option value="ratio">↓ Ratio</option>
+            <option value="collection">A-Z Colección</option>
+          </select>
+          <input type="text" id="filterOpps" oninput="rerenderOpps()" placeholder="Filtrar..." class="px-2 py-1 text-[10px] bg-gray-800 border border-gray-700 rounded text-gray-400 w-24">
         </div>
       </div>
-      <div id="resultsList" class="space-y-2"></div>
+      <div id="oppsList" class="space-y-2"></div>
     </div>
 
-    <!-- All Listings Table -->
-    <div id="allListingsSection" class="mt-6 hidden">
+    <!-- COLLECTION HEATMAP -->
+    <div id="heatmapSection" class="mt-6 hidden">
+      <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">🔥 Collections — UTXO Ratio (UTXO/Price)</h3>
+      <div id="heatmapGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2"></div>
+    </div>
+
+    <!-- ALL LISTINGS -->
+    <div id="allSection" class="mt-6 hidden">
       <details>
-        <summary class="text-sm font-bold text-gray-400 cursor-pointer hover:text-amber-400 transition-colors">
-          📋 Todos los listings escaneados (<span id="allListingsCount">0</span>)
+        <summary class="text-sm font-bold text-gray-400 cursor-pointer hover:text-amber-400">
+          📋 Todos (<span id="allCount">0</span>)
         </summary>
-        <div id="allListingsTable" class="mt-3 space-y-1 max-h-96 overflow-y-auto"></div>
+        <div class="mt-2 overflow-x-auto">
+          <div id="allHeader" class="flex items-center px-3 py-1 text-[9px] text-gray-600 uppercase border-b border-gray-700 min-w-[600px]">
+            <span class="w-24 flex-shrink-0">Colección</span>
+            <span class="flex-1">Nombre</span>
+            <span class="w-16 text-right">Precio</span>
+            <span class="w-16 text-right">UTXO</span>
+            <span class="w-16 text-right">Profit</span>
+            <span class="w-12 text-right">Ratio</span>
+          </div>
+          <div id="allList" class="max-h-80 overflow-y-auto min-w-[600px]"></div>
+        </div>
       </details>
     </div>
 
-    <!-- How It Works -->
+    <!-- HOW IT WORKS -->
     <div class="mt-8 p-4 border border-amber-500/20 bg-black/30 rounded-lg">
-      <h3 class="font-bold text-amber-400 text-sm mb-3">⛏️ CÓMO FUNCIONA</h3>
-      <ul class="space-y-2 text-xs text-gray-400">
-        <li><span class="text-amber-400">1.</span> Busca los listings más baratos en Magic Eden (todas o una colección)</li>
-        <li><span class="text-amber-400">2.</span> Comprueba el UTXO real de cada inscripción (×3 paralelo + caché 24h)</li>
-        <li><span class="text-amber-400">3.</span> Si UTXO > precio + fee → <span class="text-green-400">oportunidad</span></li>
-        <li><span class="text-amber-400">4.</span> Compras → <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord wallet split</code> → profit</li>
-      </ul>
-      <p class="text-[10px] text-amber-400/60 mt-3">⚠️ DYOR · Split fee ~750 sats · Min profit: 1000 sats · Caché 24h en localStorage</p>
+      <h3 class="font-bold text-amber-400 text-xs mb-2">⛏️ CÓMO FUNCIONA</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-[11px] text-gray-400">
+        <div><span class="text-amber-400 font-bold">1.</span> Busca listings baratos en Magic Eden</div>
+        <div><span class="text-amber-400 font-bold">2.</span> Comprueba UTXO real (Hiro + mempool fallback)</div>
+        <div><span class="text-amber-400 font-bold">3.</span> UTXO > precio + 750 fee = <span class="text-green-400">profit</span></div>
+        <div><span class="text-amber-400 font-bold">4.</span> Buy → <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord split</code> → 💰</div>
+      </div>
     </div>
   </main>
 
-  <script>
-    const SPLIT_FEE = 750;
-    const MIN_PROFIT = 1000;
-    const CACHE_TTL = 24 * 60 * 60 * 1000; // 24h
-    let scanning = false;
-    let shouldStop = false;
-    let scanStart = 0;
+<script>
+// === CONFIG ===
+const SPLIT_FEE = 750;
+const CACHE_TTL = 24 * 3600 * 1000;
+const AUTO_SCAN_INTERVAL = 5 * 60 * 1000;
 
-    // === CACHE ===
-    function getCache() {
-      try { return JSON.parse(localStorage.getItem('mining-cache') || '{}'); } catch { return {}; }
-    }
-    function setCache(cache) { localStorage.setItem('mining-cache', JSON.stringify(cache)); }
-    function getCachedValue(id) {
-      const c = getCache();
-      if (c[id] && Date.now() - c[id].t < CACHE_TTL) return c[id].v;
-      return undefined;
-    }
-    function setCachedValue(id, val) {
-      const c = getCache();
-      c[id] = { v: val, t: Date.now() };
-      setCache(c);
-    }
-    function clearCache() {
-      localStorage.removeItem('mining-cache');
-      updateCacheCount();
-      log('🗑️ Caché limpiado', 'warn');
-    }
-    function updateCacheCount() {
-      const c = getCache();
-      const count = Object.keys(c).length;
-      document.getElementById('cacheCount').textContent = count > 0 ? `${count} cached` : '';
-    }
+// === STATE ===
+let scanning = false, shouldStop = false, scanStart = 0;
+let soundEnabled = false, autoScanEnabled = false, autoScanTimer = null, countdownTimer = null;
+let allOpportunities = [], allResults = [];
+let btcUsd = 0;
 
-    // === UI ===
-    function log(msg, type = 'info') {
-      const el = document.getElementById('scanLog');
-      el.classList.remove('hidden');
-      const time = new Date().toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-      const colors = { info: 'text-gray-600', ok: 'text-green-400', warn: 'text-amber-400', error: 'text-red-400', cache: 'text-blue-400' };
-      el.innerHTML += `<div class="${colors[type] || colors.info}">[${time}] ${msg}</div>`;
-      el.scrollTop = el.scrollHeight;
+// === BTC PRICE ===
+async function fetchBtcPrice() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    const d = await r.json();
+    btcUsd = d.bitcoin.usd;
+    document.getElementById('btcPrice').textContent = `BTC $${btcUsd.toLocaleString()}`;
+  } catch { document.getElementById('btcPrice').textContent = 'BTC $—'; }
+}
+function satsToUsd(sats) { return btcUsd > 0 ? (sats / 1e8 * btcUsd).toFixed(2) : null; }
+
+// === CACHE ===
+function getCache() { try { return JSON.parse(localStorage.getItem('m-cache') || '{}') } catch { return {} } }
+function setCache(c) { localStorage.setItem('m-cache', JSON.stringify(c)) }
+function getCached(id) { const c=getCache(); if(c[id]&&Date.now()-c[id].t<CACHE_TTL) return c[id].v; return undefined }
+function setCached(id,v) { const c=getCache(); c[id]={v,t:Date.now()}; setCache(c) }
+function clearCache() { localStorage.removeItem('m-cache'); updCacheCount(); }
+function updCacheCount() { document.getElementById('cacheCount').textContent=Object.keys(getCache()).length||'' }
+
+// === HISTORY ===
+function getHistory() { try { return JSON.parse(localStorage.getItem('m-history')||'[]') } catch { return [] } }
+function addHistory(entry) { const h=getHistory(); h.unshift(entry); if(h.length>20) h.length=20; localStorage.setItem('m-history',JSON.stringify(h)) }
+function clearHistory() { localStorage.removeItem('m-history'); renderHistory() }
+function toggleHistory() { document.getElementById('historyPanel').classList.toggle('hidden'); renderHistory() }
+function renderHistory() {
+  const el=document.getElementById('historyList'); const h=getHistory();
+  if(!h.length) { el.innerHTML='<p class="text-gray-600">Sin historial</p>'; return }
+  el.innerHTML=h.map(e=>`<div class="flex justify-between py-1 border-b border-gray-800/50">
+    <span class="text-gray-500">${e.time}</span>
+    <span class="text-gray-400">${e.slug||'All'} · ${e.listings} listings</span>
+    <span class="${e.opps>0?'text-green-400':'text-gray-600'}">${e.opps} opps${e.opps>0?' · +'+fmt(e.totalProfit):''}</span>
+    <span class="text-gray-600">${e.duration}s</span>
+  </div>`).join('');
+}
+
+// === SOUND ===
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundBtn').textContent = soundEnabled ? '🔊' : '🔇';
+  if (soundEnabled) Notification.requestPermission();
+}
+function playAlert() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(1320, ctx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+    osc.start(); osc.stop(ctx.currentTime + 0.4);
+  } catch {}
+}
+function notifyOpp(opp) {
+  playAlert();
+  if (Notification.permission === 'granted') {
+    new Notification('⛏️ Oportunidad!', { body: `${opp.name} · +${fmt(opp.profit)} sats`, icon: '⛏️' });
+  }
+}
+
+// === AUTO-SCAN ===
+function toggleAutoScan() {
+  autoScanEnabled = !autoScanEnabled;
+  const btn = document.getElementById('autoScanBtn');
+  const status = document.getElementById('autoScanStatus');
+  if (autoScanEnabled) {
+    btn.classList.add('!bg-blue-500/20','!text-blue-400','!border-blue-500/30');
+    status.classList.remove('hidden');
+    startAutoCountdown();
+    if (!scanning) startScan();
+  } else {
+    btn.classList.remove('!bg-blue-500/20','!text-blue-400','!border-blue-500/30');
+    status.classList.add('hidden');
+    clearInterval(autoScanTimer); clearInterval(countdownTimer);
+  }
+}
+function startAutoCountdown() {
+  let remaining = AUTO_SCAN_INTERVAL / 1000;
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    remaining--;
+    const m = Math.floor(remaining/60), s = remaining%60;
+    document.getElementById('autoCountdown').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (remaining <= 0) { remaining = AUTO_SCAN_INTERVAL/1000; if (!scanning) startScan(); }
+  }, 1000);
+}
+
+// === UI HELPERS ===
+function log(msg, type='info') {
+  const el=document.getElementById('log'); el.classList.remove('hidden');
+  const t=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const c={info:'text-gray-600',ok:'text-green-400',warn:'text-amber-400',error:'text-red-400',cache:'text-blue-400'};
+  el.innerHTML+=`<div class="${c[type]||c.info}">[${t}] ${msg}</div>`; el.scrollTop=el.scrollHeight;
+}
+function fmt(s) { if(s>=1e6) return (s/1e6).toFixed(2)+'M'; if(s>=1000) return (s/1000).toFixed(1)+'k'; return s.toLocaleString() }
+function updProgress(cur,tot,txt) {
+  const p=tot>0?Math.round(cur/tot*100):0;
+  document.getElementById('progressFill').style.width=p+'%';
+  document.getElementById('progressPct').textContent=p+'%';
+  if(txt) document.getElementById('progressText').textContent=txt;
+}
+function updEta(checked,total) {
+  if(checked<2) return;
+  const elapsed=(Date.now()-scanStart)/1000, rate=checked/elapsed, rem=(total-checked)/rate;
+  const m=Math.floor(rem/60), s=Math.floor(rem%60);
+  document.getElementById('statEta').textContent=m>0?`${m}m${s}s`:`${s}s`;
+  document.getElementById('statSpeed').textContent=rate.toFixed(1)+'/s';
+}
+function setPreset(slug,min,max,pages) {
+  document.getElementById('collectionSlug').value=slug;
+  document.getElementById('minPrice').value=min;
+  document.getElementById('maxPrice').value=max;
+  document.getElementById('maxPages').value=pages;
+}
+function stopScan() { shouldStop=true; log('⏹ Detenido','warn') }
+
+// === EXPORT ===
+function exportCSV() {
+  if (!allOpportunities.length) return;
+  let csv = 'Name,Collection,Price (sats),UTXO (sats),Profit (sats),Profit (USD),Ratio,ME Link\n';
+  allOpportunities.forEach(o => {
+    const usd = satsToUsd(o.profit) || '';
+    const ratio = (o.outputValue / o.price).toFixed(2);
+    csv += `"${o.name}","${o.collection}",${o.price},${o.outputValue},${o.profit},${usd},${ratio},https://magiceden.io/ordinals/item-details/${o.id}\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`mining-${new Date().toISOString().slice(0,16)}.csv`; a.click();
+}
+
+// === API ===
+async function fetchRetry(url, retries=3) {
+  for (let i=0; i<retries; i++) {
+    try {
+      const r=await fetch(url);
+      if(r.ok) return await r.json();
+      if(r.status===429) { const w=(i+1)*10000; log(`⏳ Rate limit ${w/1000}s`,'warn'); await sleep(w); }
+      else throw new Error('HTTP '+r.status);
+    } catch(e) { if(i===retries-1) throw e; await sleep(3000) }
+  }
+  return null;
+}
+
+async function fetchListings(slug,minP,maxP,maxPg) {
+  const ls=[]; const lim=20;
+  for(let pg=0; pg<maxPg; pg++) {
+    if(shouldStop) break;
+    const off=pg*lim;
+    let url=`/api/me/v2/ord/btc/tokens?sortBy=priceAsc&limit=${lim}&offset=${off}&minPrice=${minP}&maxPrice=${maxP}`;
+    if(slug) url+=`&collectionSymbol=${slug}`;
+    log(`📄 Pág ${pg+1}/${maxPg}`);
+    try {
+      const d=await fetchRetry(url); if(!d){log('❌ Sin datos','error');break}
+      const tk=d.tokens||d||[]; if(!Array.isArray(tk)||!tk.length){log(`Pág ${pg+1}: vacía`,'warn');break}
+      tk.forEach(t=>{const p=t.listedPrice;if(p&&p>=minP&&p<=maxP) ls.push({id:t.id,name:t.meta?.name||t.id?.substring(0,16)+'...',collection:t.collection?.name||t.collectionSymbol||'—',slug:t.collectionSymbol||'',price:p,imageUrl:t.contentURI||t.meta?.imageURI||''})});
+      document.getElementById('statListings').textContent=ls.length;
+      log(`✅ +${tk.length} (total: ${ls.length})`,'ok');
+      if(tk.length<lim) break;
+      await sleep(1000);
+    } catch(e) { log(`❌ ${e.message}`,'error'); await sleep(5000) }
+  }
+  return ls;
+}
+
+async function getOutputValue(id) {
+  const c=getCached(id); if(c!==undefined) return {val:c,cached:true};
+  // Try Hiro first
+  try {
+    const d=await fetchRetry(`/api/hiro/ordinals/v1/inscriptions/${id}`);
+    if(d&&(d.value||d.output_value)){const v=parseInt(d.value||d.output_value);setCached(id,v);return {val:v,cached:false}}
+  } catch{}
+  // Fallback: mempool.space
+  try {
+    if(id.includes('i')) {
+      const txid=id.split('i')[0]; const vout=parseInt(id.split('i')[1])||0;
+      const d=await fetchRetry(`https://mempool.space/api/tx/${txid}`);
+      if(d&&d.vout&&d.vout[vout]){const v=d.vout[vout].value;setCached(id,v);return {val:v,cached:false}}
     }
+  } catch{}
+  setCached(id,null);
+  return {val:null,cached:false};
+}
 
-    function fmt(s) {
-      if (s >= 1000000) return (s/1000000).toFixed(2) + 'M';
-      if (s >= 1000) return (s/1000).toFixed(1) + 'k';
-      return s.toLocaleString();
-    }
+async function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 
-    function updateProgress(current, total, text) {
-      const pct = total > 0 ? Math.round((current / total) * 100) : 0;
-      document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('progressPct').textContent = pct + '%';
-      if (text) document.getElementById('progressText').textContent = text;
-    }
-
-    function updateEta(checked, total) {
-      if (checked < 3) { document.getElementById('statEta').textContent = '...'; return; }
-      const elapsed = (Date.now() - scanStart) / 1000;
-      const rate = checked / elapsed;
-      const remaining = (total - checked) / rate;
-      const mins = Math.floor(remaining / 60);
-      const secs = Math.floor(remaining % 60);
-      document.getElementById('statEta').textContent = mins > 0 ? `${mins}m${secs}s` : `${secs}s`;
-      document.getElementById('speedInfo').textContent = `${rate.toFixed(1)}/s`;
-    }
-
-    function setPreset(slug, min, max, pages) {
-      document.getElementById('collectionSlug').value = slug;
-      document.getElementById('minPrice').value = min;
-      document.getElementById('maxPrice').value = max;
-      document.getElementById('maxPages').value = pages;
-    }
-
-    async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    function stopScan() {
-      shouldStop = true;
-      document.getElementById('statEta').textContent = '⏹';
-      log('⏹ Detenido', 'warn');
-    }
-
-    // === API ===
-    async function fetchWithRetry(url, retries = 3) {
-      for (let i = 0; i < retries; i++) {
-        try {
-          const res = await fetch(url);
-          if (res.ok) return await res.json();
-          if (res.status === 429) {
-            const wait = (i + 1) * 10000;
-            log(`⏳ Rate limit — ${wait/1000}s...`, 'warn');
-            await sleep(wait);
-          } else {
-            throw new Error(`HTTP ${res.status}`);
-          }
-        } catch (e) {
-          if (i === retries - 1) throw e;
-          await sleep(3000);
-        }
-      }
-      return null;
-    }
-
-    async function fetchListings(slug, minPrice, maxPrice, maxPages) {
-      const listings = [];
-      const limit = 20;
-      for (let page = 0; page < maxPages; page++) {
-        if (shouldStop) break;
-        const offset = page * limit;
-        let url = `/api/me/v2/ord/btc/tokens?sortBy=priceAsc&limit=${limit}&offset=${offset}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
-        if (slug) url += `&collectionSymbol=${slug}`;
-        log(`📄 Pág ${page + 1}/${maxPages}...`);
-        try {
-          const data = await fetchWithRetry(url);
-          if (!data) { log('❌ Sin datos', 'error'); break; }
-          const tokens = data.tokens || data || [];
-          if (!Array.isArray(tokens) || tokens.length === 0) { log(`📄 Pág ${page + 1}: vacía`, 'warn'); break; }
-          tokens.forEach(t => {
-            const price = t.listedPrice;
-            if (price && price >= minPrice && price <= maxPrice) {
-              listings.push({
-                id: t.id,
-                name: t.meta?.name || t.id?.substring(0, 16) + '...',
-                collection: t.collection?.name || t.collectionSymbol || '—',
-                price: price,
-                imageUrl: t.contentURI || t.meta?.imageURI || '',
-              });
-            }
-          });
-          document.getElementById('statListings').textContent = listings.length;
-          log(`✅ +${tokens.length} (total: ${listings.length})`, 'ok');
-          if (tokens.length < limit) break;
-          await sleep(1200);
-        } catch (e) {
-          log(`❌ ${e.message}`, 'error');
-          await sleep(5000);
-        }
-      }
-      return listings;
-    }
-
-    async function getOutputValue(inscriptionId) {
-      // Check cache first
-      const cached = getCachedValue(inscriptionId);
-      if (cached !== undefined) return cached;
-      
-      try {
-        const data = await fetchWithRetry(`/api/hiro/ordinals/v1/inscriptions/${inscriptionId}`);
-        if (data && (data.value || data.output_value)) {
-          const val = parseInt(data.value || data.output_value);
-          setCachedValue(inscriptionId, val);
-          return val;
-        }
-      } catch (e) {}
-      setCachedValue(inscriptionId, null);
-      return null;
-    }
-
-    // === PARALLEL CHECKER ===
-    async function checkBatch(items, onResult) {
-      const results = await Promise.allSettled(
-        items.map(async (item) => {
-          const outputValue = await getOutputValue(item.id);
-          return { item, outputValue };
-        })
-      );
-      for (const r of results) {
-        if (r.status === 'fulfilled') onResult(r.value);
-      }
-    }
-
-    // === RENDER ===
-    function renderOpportunity(opp, idx) {
-      const card = document.createElement('a');
-      card.href = `https://magiceden.io/ordinals/item-details/${opp.id}`;
-      card.target = '_blank';
-      card.className = 'opp-card block p-4 border border-green-500/30 hover:border-green-500/60 hover:bg-green-500/5 rounded-lg group';
-      card.innerHTML = `
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex items-center gap-3 min-w-0">
-            <span class="text-lg font-bold text-green-400/60 w-7 flex-shrink-0">#${idx}</span>
-            ${opp.imageUrl ? `<img src="${opp.imageUrl}" class="w-12 h-12 rounded object-cover bg-gray-800 flex-shrink-0" loading="lazy" onerror="this.style.display='none'">` : ''}
-            <div class="min-w-0">
-              <p class="font-bold text-gray-200 group-hover:text-green-400 transition-colors text-sm truncate">${opp.name}</p>
-              <p class="text-[10px] text-gray-500 truncate">${opp.collection}</p>
-              <span class="inline-block mt-1 px-2 py-0.5 bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold rounded">+${fmt(opp.profit)} sats</span>
-            </div>
-          </div>
-          <div class="text-right flex-shrink-0 text-xs space-y-1">
-            <p class="text-gray-500">UTXO: <span class="text-gray-300 font-bold">${fmt(opp.outputValue)}</span></p>
-            <p class="text-gray-500">Precio: <span class="text-amber-400">${fmt(opp.price)}</span></p>
-            <p class="text-green-400 font-bold text-sm">+${fmt(opp.profit)}</p>
-          </div>
-        </div>`;
-      return card;
-    }
-
-    function renderAllListing(item, outputValue) {
-      const profit = outputValue !== null ? outputValue - item.price - SPLIT_FEE : null;
-      const profitColor = profit === null ? 'text-gray-600' : profit > MIN_PROFIT ? 'text-green-400' : profit > 0 ? 'text-amber-400' : 'text-gray-600';
-      const profitText = profit === null ? '?' : (profit > 0 ? '+' : '') + fmt(profit);
-      const el = document.createElement('div');
-      el.className = 'flex items-center justify-between px-3 py-1.5 text-[11px] border-b border-gray-800/50 hover:bg-gray-800/30';
-      el.innerHTML = `
-        <div class="flex items-center gap-2 min-w-0 flex-1">
-          <span class="text-gray-600 w-24 truncate flex-shrink-0">${item.collection}</span>
-          <a href="https://magiceden.io/ordinals/item-details/${item.id}" target="_blank" class="text-gray-400 hover:text-amber-400 truncate">${item.name}</a>
+// === RENDER ===
+function renderOpp(opp,idx) {
+  const usd=satsToUsd(opp.profit); const ratio=(opp.outputValue/opp.price).toFixed(1);
+  const card=document.createElement('a');
+  card.href=`https://magiceden.io/ordinals/item-details/${opp.id}`; card.target='_blank';
+  card.className='opp slide-up block p-3 border border-green-500/30 hover:border-green-500/60 hover:bg-green-500/5 rounded-lg group';
+  card.innerHTML=`<div class="flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3 min-w-0">
+      <span class="text-base font-bold text-green-400/50 w-6 flex-shrink-0 tabnum">${idx}</span>
+      ${opp.imageUrl?`<img src="${opp.imageUrl}" class="w-10 h-10 rounded object-cover bg-gray-800 flex-shrink-0" loading="lazy" onerror="this.style.display='none'">`:''}
+      <div class="min-w-0">
+        <p class="font-bold text-gray-200 group-hover:text-green-400 text-xs truncate">${opp.name}</p>
+        <p class="text-[10px] text-gray-500 truncate">${opp.collection}</p>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="tag tag-green font-bold">+${fmt(opp.profit)}</span>
+          ${usd?`<span class="text-[10px] text-green-400/60">≈$${usd}</span>`:''}
+          <span class="tag tag-amber">${ratio}×</span>
         </div>
-        <div class="flex items-center gap-4 flex-shrink-0">
-          <span class="text-amber-400 w-16 text-right">${fmt(item.price)}</span>
-          <span class="text-gray-400 w-16 text-right">${outputValue !== null ? fmt(outputValue) : '—'}</span>
-          <span class="${profitColor} w-16 text-right font-bold">${profitText}</span>
-        </div>`;
-      return el;
+      </div>
+    </div>
+    <div class="text-right flex-shrink-0 text-[11px] space-y-0.5 hide-mobile">
+      <p class="text-gray-500">UTXO: <span class="text-gray-300 font-bold">${fmt(opp.outputValue)}</span></p>
+      <p class="text-gray-500">Precio: <span class="text-amber-400">${fmt(opp.price)}</span></p>
+      <p class="text-green-400 font-bold">+${fmt(opp.profit)}</p>
+    </div>
+  </div>`;
+  return card;
+}
+
+function rerenderOpps() {
+  const sort=document.getElementById('sortOpps').value;
+  const filter=document.getElementById('filterOpps').value.toLowerCase();
+  let opps=[...allOpportunities];
+  if(filter) opps=opps.filter(o=>(o.name+o.collection).toLowerCase().includes(filter));
+  if(sort==='profit') opps.sort((a,b)=>b.profit-a.profit);
+  else if(sort==='price') opps.sort((a,b)=>a.price-b.price);
+  else if(sort==='ratio') opps.sort((a,b)=>(b.outputValue/b.price)-(a.outputValue/a.price));
+  else if(sort==='collection') opps.sort((a,b)=>a.collection.localeCompare(b.collection));
+  const list=document.getElementById('oppsList'); list.innerHTML='';
+  opps.forEach((o,i)=>list.appendChild(renderOpp(o,i+1)));
+}
+
+function renderHeatmap() {
+  const map={};
+  allResults.forEach(r=>{
+    const col=r.item.collection||'Unknown';
+    if(!map[col]) map[col]={count:0,totalRatio:0,opps:0,bestProfit:0};
+    map[col].count++;
+    if(r.outputValue!==null) {
+      const ratio=r.outputValue/r.item.price;
+      map[col].totalRatio+=ratio;
+      const profit=r.outputValue-r.item.price-SPLIT_FEE;
+      if(profit>1000) { map[col].opps++; if(profit>map[col].bestProfit) map[col].bestProfit=profit }
     }
+  });
+  const cols=Object.entries(map).sort((a,b)=>(b[1].opps||b[1].totalRatio/b[1].count)-(a[1].opps||a[1].totalRatio/a[1].count));
+  if(!cols.length) return;
+  
+  document.getElementById('heatmapSection').classList.remove('hidden');
+  const grid=document.getElementById('heatmapGrid'); grid.innerHTML='';
+  cols.slice(0,12).forEach(([name,d])=>{
+    const avgRatio=d.count>0?(d.totalRatio/d.count).toFixed(2):'—';
+    const color=d.opps>0?'border-green-500/40 bg-green-500/5':parseFloat(avgRatio)>1.2?'border-amber-500/30 bg-amber-500/5':'border-gray-700 bg-black/30';
+    const el=document.createElement('div');
+    el.className=`p-2 border ${color} rounded text-center`;
+    el.innerHTML=`<p class="text-[10px] text-gray-400 truncate font-bold" title="${name}">${name.length>14?name.slice(0,14)+'…':name}</p>
+      <p class="text-sm font-bold tabnum ${d.opps>0?'text-green-400':'text-gray-500'}">${avgRatio}×</p>
+      <p class="text-[9px] text-gray-600">${d.count} items${d.opps>0?' · '+d.opps+' opps':''}</p>
+      ${d.bestProfit>0?`<p class="text-[9px] text-green-400">best +${fmt(d.bestProfit)}</p>`:''}`;
+    grid.appendChild(el);
+  });
+}
 
-    // === MAIN SCAN ===
-    async function startScan() {
-      if (scanning) return;
-      scanning = true;
-      shouldStop = false;
-      scanStart = Date.now();
+function renderAllListing(item,outputValue) {
+  const profit=outputValue!==null?outputValue-item.price-SPLIT_FEE:null;
+  const ratio=outputValue!==null?(outputValue/item.price).toFixed(2):'—';
+  const pc=profit===null?'text-gray-700':profit>1000?'text-green-400':profit>0?'text-amber-400/70':'text-gray-700';
+  const pt=profit===null?'—':profit>0?'+'+fmt(profit):fmt(profit);
+  const el=document.createElement('a');
+  el.href=`https://magiceden.io/ordinals/item-details/${item.id}`; el.target='_blank';
+  el.className='flex items-center px-3 py-1 text-[10px] border-b border-gray-800/30 hover:bg-gray-800/30';
+  el.innerHTML=`<span class="w-24 flex-shrink-0 text-gray-600 truncate">${item.collection}</span>
+    <span class="flex-1 text-gray-400 truncate hover:text-amber-400">${item.name}</span>
+    <span class="w-16 text-right text-amber-400 tabnum">${fmt(item.price)}</span>
+    <span class="w-16 text-right text-gray-400 tabnum">${outputValue!==null?fmt(outputValue):'—'}</span>
+    <span class="w-16 text-right ${pc} font-bold tabnum">${pt}</span>
+    <span class="w-12 text-right text-gray-500 tabnum">${ratio}</span>`;
+  return el;
+}
 
-      const slug = document.getElementById('collectionSlug').value.trim();
-      const minPrice = parseInt(document.getElementById('minPrice').value) || 546;
-      const maxPrice = parseInt(document.getElementById('maxPrice').value) || 50000;
-      const maxPages = parseInt(document.getElementById('maxPages').value) || 10;
-      const concurrency = parseInt(document.getElementById('concurrency').value) || 3;
+// === MAIN SCAN ===
+async function startScan() {
+  if(scanning) return;
+  scanning=true; shouldStop=false; scanStart=Date.now();
+  allOpportunities=[]; allResults=[];
 
-      // Reset UI
-      document.getElementById('scanBtn').disabled = true;
-      document.getElementById('stopBtn').classList.remove('hidden');
-      document.getElementById('scanText').textContent = '⏳ Escaneando...';
-      document.getElementById('emptyState').classList.add('hidden');
-      document.getElementById('resultsSection').classList.add('hidden');
-      document.getElementById('allListingsSection').classList.add('hidden');
-      document.getElementById('resultsList').innerHTML = '';
-      document.getElementById('statsGrid').classList.remove('hidden');
-      document.getElementById('progressBar').classList.remove('hidden');
-      document.getElementById('scanLog').innerHTML = '';
-      document.getElementById('scanLog').classList.remove('hidden');
-      ['statListings','statChecked','statCached','statOpps'].forEach(id => document.getElementById(id).textContent = '0');
-      document.getElementById('statBest').textContent = '—';
-      document.getElementById('statEta').textContent = '...';
-      document.getElementById('speedInfo').textContent = '';
+  const slug=document.getElementById('collectionSlug').value.trim();
+  const minP=parseInt(document.getElementById('minPrice').value)||546;
+  const maxP=parseInt(document.getElementById('maxPrice').value)||50000;
+  const maxPg=parseInt(document.getElementById('maxPages').value)||10;
+  const conc=parseInt(document.getElementById('concurrency').value)||3;
+  const minProfit=parseInt(document.getElementById('minProfit').value)||1000;
 
-      const mode = slug ? `"${slug}"` : 'TODAS';
-      log(`🚀 ${mode} | ${fmt(minPrice)}-${fmt(maxPrice)} sats | ${maxPages}p | ×${concurrency}`, 'ok');
+  // Reset
+  document.getElementById('scanBtn').disabled=true;
+  document.getElementById('stopBtn').classList.remove('hidden');
+  document.getElementById('scanText').textContent='⏳...';
+  document.getElementById('emptyState').classList.add('hidden');
+  document.getElementById('oppsSection').classList.add('hidden');
+  document.getElementById('heatmapSection').classList.add('hidden');
+  document.getElementById('allSection').classList.add('hidden');
+  document.getElementById('oppsList').innerHTML='';
+  document.getElementById('statsGrid').classList.remove('hidden');
+  document.getElementById('progressBar').classList.remove('hidden');
+  document.getElementById('log').innerHTML='';
+  document.getElementById('exportBtn').classList.add('hidden');
+  ['statListings','statChecked','statCached','statOpps'].forEach(id=>document.getElementById(id).textContent='0');
+  ['statBest','statEta','statSpeed'].forEach(id=>document.getElementById(id).textContent='—');
 
-      // Step 1: Fetch listings
-      const listings = await fetchListings(slug, minPrice, maxPrice, maxPages);
-      if (listings.length === 0 || shouldStop) {
-        document.getElementById('statEta').textContent = shouldStop ? '⏹' : '—';
-        log(shouldStop ? '⏹' : '⚠️ Sin listings', 'warn');
-        resetUI(); return;
-      }
+  log(`🚀 ${slug||'ALL'} | ${fmt(minP)}-${fmt(maxP)} | ${maxPg}p ×${conc} | min +${fmt(minProfit)}`,'ok');
 
-      // Step 2: Parallel UTXO checks
-      log(`\n🔍 Checking ${listings.length} UTXOs (×${concurrency} paralelo)...`, 'ok');
+  // Fetch listings
+  const listings=await fetchListings(slug,minP,maxP,maxPg);
+  if(!listings.length||shouldStop){log(shouldStop?'⏹':'Sin listings','warn');finish(slug,0,0,0);return}
 
-      const opportunities = [];
-      const allResults = [];
-      let checked = 0, cached = 0, bestProfit = 0;
+  // Check UTXOs
+  log(`🔍 ${listings.length} UTXOs (×${conc})...`,'ok');
+  let checked=0, cached=0, bestProfit=0;
 
-      // Process in batches
-      for (let i = 0; i < listings.length; i += concurrency) {
-        if (shouldStop) break;
-        const batch = listings.slice(i, i + concurrency);
-        
-        await checkBatch(batch, ({ item, outputValue }) => {
-          checked++;
-          const wasCached = getCachedValue(item.id) !== undefined;
-          if (wasCached) cached++;
-          
-          document.getElementById('statChecked').textContent = checked;
-          document.getElementById('statCached').textContent = cached;
-          updateProgress(checked, listings.length, `${checked}/${listings.length}`);
-          updateEta(checked, listings.length);
-
-          allResults.push({ item, outputValue });
-
-          if (outputValue !== null) {
-            const profit = outputValue - item.price - SPLIT_FEE;
-            if (profit > MIN_PROFIT) {
-              const opp = { ...item, outputValue, profit };
-              opportunities.push(opp);
-              opportunities.sort((a, b) => b.profit - a.profit);
-              if (profit > bestProfit) bestProfit = profit;
-              document.getElementById('statOpps').textContent = opportunities.length;
-              document.getElementById('statBest').textContent = fmt(bestProfit);
-              log(`💰 ${item.name} (${item.collection}) → +${fmt(profit)}`, 'ok');
-
-              // Re-render sorted
-              document.getElementById('resultsSection').classList.remove('hidden');
-              const list = document.getElementById('resultsList');
-              list.innerHTML = '';
-              opportunities.forEach((o, idx) => list.appendChild(renderOpportunity(o, idx + 1)));
-              const total = opportunities.reduce((s, o) => s + o.profit, 0);
-              document.getElementById('resultCount').textContent = `${opportunities.length} encontradas`;
-              document.getElementById('totalProfit').textContent = `Total: +${fmt(total)} sats`;
-            }
-          }
-        });
-
-        // Small delay between batches (not between individual requests)
-        if (i + concurrency < listings.length && !shouldStop) await sleep(800);
-      }
-
-      // Done
-      updateProgress(1, 1, '¡Completado!');
-      const elapsed = ((Date.now() - scanStart) / 1000).toFixed(1);
-      document.getElementById('statEta').textContent = '✅';
-      document.getElementById('speedInfo').textContent = `${elapsed}s total`;
+  for(let i=0; i<listings.length; i+=conc) {
+    if(shouldStop) break;
+    const batch=listings.slice(i,i+conc);
+    const results=await Promise.allSettled(batch.map(async item=>{
+      const r=await getOutputValue(item.id);
+      return {item, outputValue:r.val, wasCached:r.cached};
+    }));
+    
+    for(const r of results) {
+      if(r.status!=='fulfilled') continue;
+      const {item,outputValue,wasCached}=r.value;
+      checked++; if(wasCached) cached++;
+      document.getElementById('statChecked').textContent=checked;
+      document.getElementById('statCached').textContent=cached;
+      updProgress(checked,listings.length,`${checked}/${listings.length}`);
+      updEta(checked,listings.length);
+      allResults.push({item,outputValue});
       
-      const totalProfit = opportunities.reduce((s, o) => s + o.profit, 0);
-      log(`\n✅ Listo en ${elapsed}s: ${checked} checked, ${cached} cached, ${opportunities.length} opps, +${fmt(totalProfit)} sats potencial`, 'ok');
-
-      // Render all listings table
-      if (allResults.length > 0) {
-        const section = document.getElementById('allListingsSection');
-        section.classList.remove('hidden');
-        document.getElementById('allListingsCount').textContent = allResults.length;
-        const table = document.getElementById('allListingsTable');
-        table.innerHTML = '<div class="flex items-center justify-between px-3 py-1 text-[10px] text-gray-600 uppercase border-b border-gray-700"><div class="flex items-center gap-2 flex-1"><span class="w-24">Colección</span><span>Nombre</span></div><div class="flex items-center gap-4"><span class="w-16 text-right">Precio</span><span class="w-16 text-right">UTXO</span><span class="w-16 text-right">Profit</span></div></div>';
-        allResults.sort((a, b) => {
-          const pa = a.outputValue ? a.outputValue - a.item.price - SPLIT_FEE : -Infinity;
-          const pb = b.outputValue ? b.outputValue - b.item.price - SPLIT_FEE : -Infinity;
-          return pb - pa;
-        });
-        allResults.forEach(r => table.appendChild(renderAllListing(r.item, r.outputValue)));
+      if(outputValue!==null) {
+        const profit=outputValue-item.price-SPLIT_FEE;
+        if(profit>minProfit) {
+          const opp={...item,outputValue,profit};
+          allOpportunities.push(opp);
+          if(profit>bestProfit) bestProfit=profit;
+          document.getElementById('statOpps').textContent=allOpportunities.length;
+          document.getElementById('statBest').textContent=fmt(bestProfit);
+          log(`💰 ${item.name} (${item.collection}) +${fmt(profit)}`,'ok');
+          notifyOpp(opp);
+          
+          document.getElementById('oppsSection').classList.remove('hidden');
+          rerenderOpps();
+          const total=allOpportunities.reduce((s,o)=>s+o.profit,0);
+          document.getElementById('oppCount').textContent=allOpportunities.length;
+          document.getElementById('totalProfit').textContent=`+${fmt(total)} sats`;
+          const usd=satsToUsd(total);
+          document.getElementById('totalUsd').textContent=usd?`≈$${usd}`:'';
+        }
       }
-
-      if (opportunities.length === 0 && !shouldStop) {
-        document.getElementById('emptyState').classList.remove('hidden');
-        document.getElementById('emptyState').querySelector('p').textContent = 'No se encontraron oportunidades';
-      }
-
-      updateCacheCount();
-      resetUI();
     }
+    if(i+conc<listings.length&&!shouldStop) await sleep(600);
+  }
 
-    function resetUI() {
-      document.getElementById('scanBtn').disabled = false;
-      document.getElementById('stopBtn').classList.add('hidden');
-      document.getElementById('scanText').textContent = '⛏️ ESCANEAR';
-      scanning = false;
-      shouldStop = false;
-    }
+  // Finish
+  const totalProfit=allOpportunities.reduce((s,o)=>s+o.profit,0);
+  finish(slug,listings.length,allOpportunities.length,totalProfit);
+}
 
-    // Init
-    updateCacheCount();
-  </script>
+function finish(slug,listings,opps,totalProfit) {
+  const elapsed=((Date.now()-scanStart)/1000).toFixed(1);
+  updProgress(1,1,'✅');
+  document.getElementById('statEta').textContent='✅';
+  document.getElementById('statSpeed').textContent=elapsed+'s';
+  log(`✅ ${elapsed}s · ${allResults.length} checked · ${opps} opps · +${fmt(totalProfit)}`,'ok');
+
+  // History
+  addHistory({
+    time:new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}),
+    slug:slug, listings:listings, opps:opps, totalProfit:totalProfit, duration:elapsed
+  });
+
+  // Heatmap
+  if(allResults.length>5) renderHeatmap();
+
+  // All listings
+  if(allResults.length>0) {
+    document.getElementById('allSection').classList.remove('hidden');
+    document.getElementById('allCount').textContent=allResults.length;
+    const list=document.getElementById('allList'); list.innerHTML='';
+    allResults.sort((a,b)=>{
+      const pa=a.outputValue?a.outputValue-a.item.price-SPLIT_FEE:-Infinity;
+      const pb=b.outputValue?b.outputValue-b.item.price-SPLIT_FEE:-Infinity;
+      return pb-pa;
+    });
+    allResults.forEach(r=>list.appendChild(renderAllListing(r.item,r.outputValue)));
+  }
+
+  if(opps>0) document.getElementById('exportBtn').classList.remove('hidden');
+  if(!opps&&!shouldStop) {
+    document.getElementById('emptyState').classList.remove('hidden');
+    document.getElementById('emptyState').querySelector('p').textContent='Sin oportunidades en este rango';
+  }
+
+  updCacheCount();
+  document.getElementById('scanBtn').disabled=false;
+  document.getElementById('stopBtn').classList.add('hidden');
+  document.getElementById('scanText').textContent='⛏️ SCAN';
+  scanning=false; shouldStop=false;
+
+  // Auto-scan restart countdown
+  if(autoScanEnabled) startAutoCountdown();
+}
+
+// === KEYBOARD ===
+document.addEventListener('keydown', e => {
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
+  if(e.key==='Enter') { e.preventDefault(); startScan() }
+  if(e.key==='Escape') stopScan();
+  if(e.key==='s'||e.key==='S') toggleSound();
+});
+
+// === INIT ===
+fetchBtcPrice();
+setInterval(fetchBtcPrice, 60000);
+updCacheCount();
+</script>
 </body>
 </html>
