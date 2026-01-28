@@ -1752,13 +1752,6 @@
             taskList.innerHTML = tasksHtml || '<div style="color: var(--muted); padding: 15px;">No pending tasks 🎉</div>';
         }
         
-        // Initialize dashboard
-        (function init() {
-            console.log('🚀 Initializing dashboard...');
-            loadDashboardData();
-            setInterval(loadDashboardData, 5 * 60 * 1000);
-        })();
-        
         // Render team status
         function renderTeamStatus(data) {
             const agentEmojis = { nuria: '🟧', amy: '📋', jack: '🔧', pepe: '🎨' };
@@ -1799,6 +1792,18 @@
                     ${logHtml}
                 `;
             }
+        }
+        
+        // Initialize dashboard - runs after all functions defined
+        window.addEventListener('load', function() {
+            console.log('🚀 Dashboard ready, loading data...');
+            loadDashboardData();
+            setInterval(loadDashboardData, 5 * 60 * 1000);
+        });
+        // Also run immediately in case load already fired
+        if (document.readyState === 'complete') {
+            console.log('🚀 Page complete, loading data...');
+            loadDashboardData();
         }
     </script>
 </body>
