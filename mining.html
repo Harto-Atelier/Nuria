@@ -219,7 +219,7 @@
         if (shouldStop) break;
         
         const offset = page * limit;
-        let url = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?sortBy=priceAsc&limit=${limit}&offset=${offset}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+        let url = `/api/me/v2/ord/btc/tokens?sortBy=priceAsc&limit=${limit}&offset=${offset}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
         if (slug) url += `&collectionSymbol=${slug}`;
 
         log(`📄 Página ${page + 1}/${maxPages} (offset ${offset})...`);
@@ -264,7 +264,7 @@
     // Get UTXO value via Hiro API
     async function getOutputValue(inscriptionId) {
       try {
-        const data = await fetchWithRetry(`https://api.hiro.so/ordinals/v1/inscriptions/${inscriptionId}`);
+        const data = await fetchWithRetry(`/api/hiro/ordinals/v1/inscriptions/${inscriptionId}`);
         if (data && (data.value || data.output_value)) {
           return parseInt(data.value || data.output_value);
         }

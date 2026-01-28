@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/me/:path*",
+      "destination": "https://api-mainnet.magiceden.dev/:path*"
+    },
+    {
+      "source": "/api/hiro/:path*",
+      "destination": "https://api.hiro.so/:path*"
+    }
+  ]
+}
