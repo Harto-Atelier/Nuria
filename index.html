@@ -1440,8 +1440,11 @@
             location.reload();
         }
         
-        // Initialize Google Sign-In
+        // Initialize Google Sign-In AND Dashboard Data
         window.onload = function() {
+            console.log('🚀 Page loaded, initializing...');
+            
+            // Google Sign-In
             if (!checkAuth()) {
                 google.accounts.id.initialize({
                     client_id: GOOGLE_CLIENT_ID,
@@ -1451,6 +1454,12 @@
                     document.getElementById('googleSignInBtn'),
                     { theme: 'filled_black', size: 'large', text: 'signin_with', shape: 'rectangular' }
                 );
+            }
+            
+            // Load dashboard data
+            if (typeof loadDashboardData === 'function') {
+                loadDashboardData();
+                setInterval(loadDashboardData, 5 * 60 * 1000);
             }
         };
         
@@ -1794,17 +1803,6 @@
             }
         }
         
-        // Initialize dashboard - runs after all functions defined
-        window.addEventListener('load', function() {
-            console.log('🚀 Dashboard ready, loading data...');
-            loadDashboardData();
-            setInterval(loadDashboardData, 5 * 60 * 1000);
-        });
-        // Also run immediately in case load already fired
-        if (document.readyState === 'complete') {
-            console.log('🚀 Page complete, loading data...');
-            loadDashboardData();
-        }
     </script>
 </body>
 </html>
