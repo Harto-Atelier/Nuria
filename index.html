@@ -1802,92 +1802,101 @@
             }
         }
         
-        // Trigger agent task
-        const TRIGGER_API = 'https://hartostrategy.fun/api/trigger';
-        
-        async function triggerTask(agent, taskId) {
-            const btn = event.target;
-            btn.classList.add('loading');
+        // Task labels for preset buttons
+        const TASK_LABELS = {
+            nuria: { 'check-emails': 'Check Emails', 'status-report': 'Status Report' },
+            jack: { 'scan-repos': 'Scan Repos', 'run-diagnostics': 'Run Diagnostics' },
+            pepe: { 'twitter-trends': 'Twitter Trends', 'find-viral': 'Find Viral' },
+            amy: { 'sync-tasks': 'Sync Tasks', 'check-sheets': 'Check Sheets' }
+        };
+        const TASK_PROMPTS = {
+            nuria: { 'check-emails': 'Check unread emails and summarize anything important.', 'status-report': 'Give a quick status report: pending tasks, recent activity.' },
+            jack: { 'scan-repos': 'Check git status on all repos. Report uncommitted changes.', 'run-diagnostics': 'Run system diagnostics: disk space, processes, errors.' },
+            pepe: { 'twitter-trends': 'Scan Twitter for Ordinals, NFT, AI trends.', 'find-viral': 'Search Twitter for viral content >1000 likes in Ordinals/NFT/AI.' },
+            amy: { 'sync-tasks': 'Sync tasks from Google Sheets to dashboard/TASKS.md.', 'check-sheets': 'Check Exquisite project spreadsheet for updates.' }
+        };
+
+        // Queue task directly to Upstash Redis (no backend API needed)
+        async function queueTask(agent, taskId, customPrompt) {
+            const label = customPrompt ? 'Custom Command' : (TASK_LABELS[agent]?.[taskId] || taskId);
+            const prompt = customPrompt || (TASK_PROMPTS[agent]?.[taskId] || taskId);
             
-            try {
-                const res = await fetch(TRIGGER_API, {
+            const queueItem = JSON.stringify({
+                agent: agent,
+                taskId: taskId,
+                label: label,
+                prompt: prompt,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            });
+            
+            // Push to task queue
+            await fetch(`${UPSTASH_URL}/lpush/agent-task-queue/${encodeURIComponent(queueItem)}`, {
+                headers: { 'Authorization': `Bearer ${UPSTASH_TOKEN}` }
+            });
+            
+            // Update activity log
+            const statusRes = await fetch(`${UPSTASH_URL}/get/team-status`, {
+                headers: { 'Authorization': `Bearer ${UPSTASH_TOKEN}` }
+            });
+            if (statusRes.ok) {
+                const result = await statusRes.json();
+                const status = result.result ? JSON.parse(result.result) : { agents: {}, activityLog: [] };
+                const time = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                const actionText = customPrompt 
+                    ? `💬 "${prompt.substring(0, 30)}${prompt.length > 30 ? '...' : ''}"` 
+                    : `📥 ${label}`;
+                status.activityLog = [
+                    { time: time, agent: agent, action: actionText },
+                    ...(status.activityLog || []).slice(0, 9)
+                ];
+                status.updated = new Date().toISOString();
+                await fetch(`${UPSTASH_URL}/set/team-status`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ agent, taskId }),
+                    headers: { 'Authorization': `Bearer ${UPSTASH_TOKEN}` },
+                    body: JSON.stringify(status)
                 });
-                
-                const data = await res.json();
-                
-                if (data.success) {
-                    // Show success feedback
-                    btn.style.background = 'var(--green)';
-                    setTimeout(() => {
-                        btn.style.background = '';
-                        btn.classList.remove('loading');
-                    }, 1000);
-                    
-                    // Refresh team status to show queued task
-                    fetchTeamStatusRealtime();
-                } else {
-                    throw new Error(data.error || 'Failed');
-                }
-            } catch (e) {
-                console.error('Trigger failed:', e);
-                btn.style.background = 'var(--red)';
-                setTimeout(() => {
-                    btn.style.background = '';
-                    btn.classList.remove('loading');
-                }, 1000);
             }
         }
         
-        // Send custom command to agent
+        // Trigger preset task
+        async function triggerTask(agent, taskId) {
+            const btn = event.target;
+            btn.classList.add('loading');
+            try {
+                await queueTask(agent, taskId, null);
+                btn.style.background = 'var(--green)';
+                fetchTeamStatusRealtime();
+                setTimeout(() => { btn.style.background = ''; btn.classList.remove('loading'); }, 1000);
+            } catch (e) {
+                console.error('Trigger failed:', e);
+                btn.style.background = 'var(--red)';
+                setTimeout(() => { btn.style.background = ''; btn.classList.remove('loading'); }, 1000);
+            }
+        }
+        
+        // Send custom command
         async function sendCommand() {
-            const agentSelect = document.getElementById('commandAgent');
+            const agent = document.getElementById('commandAgent').value;
             const input = document.getElementById('commandInput');
             const btn = document.querySelector('.command-send');
-            
-            const agent = agentSelect.value;
             const command = input.value.trim();
-            
             if (!command) return;
             
             btn.disabled = true;
             btn.textContent = '...';
-            
             try {
-                const res = await fetch(TRIGGER_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        agent, 
-                        taskId: 'custom',
-                        customPrompt: command 
-                    }),
-                });
-                
-                const data = await res.json();
-                
-                if (data.success) {
-                    input.value = '';
-                    btn.textContent = '✓';
-                    btn.style.background = 'var(--green)';
-                    fetchTeamStatusRealtime();
-                    setTimeout(() => {
-                        btn.textContent = '▶';
-                        btn.style.background = '';
-                    }, 1500);
-                } else {
-                    throw new Error(data.error || 'Failed');
-                }
+                await queueTask(agent, 'custom', command);
+                input.value = '';
+                btn.textContent = '✓';
+                btn.style.background = 'var(--green)';
+                fetchTeamStatusRealtime();
+                setTimeout(() => { btn.textContent = '▶'; btn.style.background = ''; }, 1500);
             } catch (e) {
                 console.error('Command failed:', e);
                 btn.textContent = '✗';
                 btn.style.background = 'var(--red)';
-                setTimeout(() => {
-                    btn.textContent = '▶';
-                    btn.style.background = '';
-                }, 1500);
+                setTimeout(() => { btn.textContent = '▶'; btn.style.background = ''; }, 1500);
             } finally {
                 btn.disabled = false;
             }
