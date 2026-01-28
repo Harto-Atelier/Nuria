@@ -793,6 +793,60 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        .command-bar {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .command-select {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .command-input {
+            flex: 1;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .command-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .command-input::placeholder {
+            color: var(--muted);
+        }
+        .command-send {
+            background: var(--primary);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: var(--bg);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .command-send:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        .command-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .activity-log {
             background: var(--card);
             border: 1px solid var(--border);
@@ -1425,6 +1479,18 @@
             </div>
         </div>
         
+        <!-- Command Input -->
+        <div class="command-bar">
+            <select id="commandAgent" class="command-select">
+                <option value="nuria">🟧 Nuria</option>
+                <option value="jack">🔧 Jack</option>
+                <option value="pepe">🎨 Pepe</option>
+                <option value="amy">📋 Amy</option>
+            </select>
+            <input type="text" id="commandInput" class="command-input" placeholder="Escribe un comando..." onkeypress="if(event.key==='Enter')sendCommand()">
+            <button class="command-send" onclick="sendCommand()">▶</button>
+        </div>
+        
         <div class="activity-log" id="activityLog">
             <div class="activity-log-title">📜 ACTIVITY LOG</div>
             <div class="activity-item">
@@ -1772,6 +1838,58 @@
                     btn.style.background = '';
                     btn.classList.remove('loading');
                 }, 1000);
+            }
+        }
+        
+        // Send custom command to agent
+        async function sendCommand() {
+            const agentSelect = document.getElementById('commandAgent');
+            const input = document.getElementById('commandInput');
+            const btn = document.querySelector('.command-send');
+            
+            const agent = agentSelect.value;
+            const command = input.value.trim();
+            
+            if (!command) return;
+            
+            btn.disabled = true;
+            btn.textContent = '...';
+            
+            try {
+                const res = await fetch(TRIGGER_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        agent, 
+                        taskId: 'custom',
+                        customPrompt: command 
+                    }),
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    input.value = '';
+                    btn.textContent = '✓';
+                    btn.style.background = 'var(--green)';
+                    fetchTeamStatusRealtime();
+                    setTimeout(() => {
+                        btn.textContent = '▶';
+                        btn.style.background = '';
+                    }, 1500);
+                } else {
+                    throw new Error(data.error || 'Failed');
+                }
+            } catch (e) {
+                console.error('Command failed:', e);
+                btn.textContent = '✗';
+                btn.style.background = 'var(--red)';
+                setTimeout(() => {
+                    btn.textContent = '▶';
+                    btn.style.background = '';
+                }, 1500);
+            } finally {
+                btn.disabled = false;
             }
         }
         
