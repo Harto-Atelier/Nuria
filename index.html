@@ -1610,28 +1610,28 @@
             console.log('🔄 Loading dashboard data...');
             try {
                 // Load calendar
-                const calRes = await fetch('api/calendar.json?t=' + Date.now());
+                const calRes = await fetch('data/calendar.json?t=' + Date.now());
                 if (calRes.ok) {
                     const calData = await calRes.json();
                     renderCalendar(calData);
                 }
                 
                 // Load emails
-                const emailRes = await fetch('api/emails.json?t=' + Date.now());
+                const emailRes = await fetch('data/emails.json?t=' + Date.now());
                 if (emailRes.ok) {
                     const emailData = await emailRes.json();
                     renderEmails(emailData);
                 }
                 
                 // Load tasks (NEW)
-                const tasksRes = await fetch('api/tasks.json?t=' + Date.now());
+                const tasksRes = await fetch('data/tasks.json?t=' + Date.now());
                 if (tasksRes.ok) {
                     const tasksData = await tasksRes.json();
                     renderTasks(tasksData);
                 }
                 
                 // Load team status
-                const teamRes = await fetch('api/team-status.json?t=' + Date.now());
+                const teamRes = await fetch('data/team-status.json?t=' + Date.now());
                 if (teamRes.ok) {
                     const teamData = await teamRes.json();
                     renderTeamStatus(teamData);
