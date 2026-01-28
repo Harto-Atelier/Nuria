@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sat Mining | Harto Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+    body { font-family: 'JetBrains Mono', monospace; background: #0a0a0a; }
+    .glow { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+    .card { background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(0,0,0,0.3) 100%); }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen text-gray-100">
+  <!-- Header -->
+  <header class="border-b border-amber-500/30 bg-amber-500/5">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-amber-500/20 rounded-lg border border-amber-500/30">
+            <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-amber-400">SAT MINING</h1>
+            <p class="text-sm text-gray-500">UTXO Arbitrage Scanner</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="px-2 py-1 text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded">🔒 INTERNAL</span>
+          <a href="index.html" class="text-xs text-gray-500 hover:text-amber-400 transition-colors">← Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Info Banner -->
+    <div class="p-4 border border-amber-500/30 bg-amber-500/5 mb-6 rounded-lg">
+      <div class="flex items-start gap-4">
+        <span class="text-amber-400">⚡</span>
+        <div>
+          <p class="text-sm text-gray-200">
+            Find inscriptions listed for <span class="text-amber-400 font-bold">less than their UTXO value</span>.
+          </p>
+          <p class="text-xs text-gray-500 mt-1">
+            Buy → Split UTXO → Extract excess sats → <span class="text-green-400">Profit</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-4">
+        <button 
+          id="scanBtn"
+          onclick="scanMarkets()"
+          class="flex items-center gap-2 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase transition-all disabled:opacity-50 rounded"
+        >
+          <svg id="scanIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span id="scanText">Scan Markets</span>
+        </button>
+        <span id="cacheInfo" class="text-xs text-gray-500 hidden"></span>
+      </div>
+      <div id="resultCount" class="flex items-center gap-2 hidden">
+        <span class="text-green-400">📈</span>
+        <span class="text-sm text-green-400"></span>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div id="statsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 hidden">
+      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
+        <p class="text-xs text-gray-500 uppercase mb-1">Opportunities</p>
+        <p id="statOpportunities" class="text-2xl font-bold text-amber-400">0</p>
+      </div>
+      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
+        <p class="text-xs text-gray-500 uppercase mb-1">Est. Split Fee</p>
+        <p id="statFees" class="text-2xl font-bold text-amber-400">0 sats</p>
+      </div>
+      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
+        <p class="text-xs text-gray-500 uppercase mb-1">Min Profit</p>
+        <p id="statMinProfit" class="text-2xl font-bold text-amber-400">0 sats</p>
+      </div>
+      <div class="p-4 border border-amber-500/30 bg-black/30 rounded-lg">
+        <p class="text-xs text-gray-500 uppercase mb-1">Last Scan</p>
+        <p id="statLastScan" class="text-lg font-bold text-amber-400">--:--</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="p-4 border border-red-500/30 bg-red-500/10 mb-6 rounded-lg hidden">
+      <p class="text-sm text-red-400"></p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="flex items-center justify-center py-20 hidden">
+      <div class="text-center space-y-4">
+        <svg class="w-12 h-12 text-amber-400 animate-pulse-slow mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+        </svg>
+        <p class="text-sm text-gray-400">Scanning Magic Eden for cheap listings...</p>
+        <p class="text-xs text-gray-600">Checking UTXO values, calculating profit potential</p>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="flex items-center justify-center py-20 border border-dashed border-amber-500/30 rounded-lg">
+      <div class="text-center space-y-4">
+        <svg class="w-12 h-12 text-amber-400/50 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+        </svg>
+        <p class="text-sm text-gray-400">Click "Scan Markets" to search for opportunities</p>
+      </div>
+    </div>
+
+    <!-- No Results State -->
+    <div id="noResultsState" class="flex items-center justify-center py-20 border border-dashed border-amber-500/30 rounded-lg hidden">
+      <div class="text-center space-y-4">
+        <svg class="w-12 h-12 text-amber-400/30 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+        </svg>
+        <p class="text-sm text-gray-400">No profitable opportunities found at current prices</p>
+        <p class="text-xs text-gray-600">Try scanning again later - the market changes constantly</p>
+      </div>
+    </div>
+
+    <!-- Opportunities List -->
+    <div id="opportunitiesList" class="space-y-3 hidden"></div>
+
+    <!-- How It Works -->
+    <div class="mt-8 p-4 border border-amber-500/20 bg-black/30 rounded-lg">
+      <h3 class="font-bold text-amber-400 text-sm mb-3 flex items-center gap-2">
+        ⛏️ HOW SAT MINING WORKS
+      </h3>
+      <ul class="space-y-2 text-xs text-gray-400">
+        <li class="flex items-start gap-2">
+          <span class="text-amber-400">1.</span>
+          <span>Some inscriptions sit on UTXOs with more sats than the listing price</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-amber-400">2.</span>
+          <span>Buy the inscription at the listed price</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-amber-400">3.</span>
+          <span>Use <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord wallet split</code> to separate the inscription from excess sats</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-amber-400">4.</span>
+          <span>Keep the inscription + pocket the extra sats as profit</span>
+        </li>
+      </ul>
+      <div class="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded">
+        <p class="text-[10px] text-amber-400/80">
+          ⚠️ DYOR: Always verify UTXO values before buying. Market conditions can change between scans.
+          Split transactions have fees (~750 sats).
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // API endpoint - adjust based on deployment
+    const API_BASE = 'https://hartostrategy.fun';
+    
+    function formatSats(sats) {
+      if (sats >= 100000000) return `${(sats / 100000000).toFixed(2)} BTC`;
+      if (sats >= 1000000) return `${(sats / 1000000).toFixed(2)}M`;
+      if (sats >= 1000) return `${(sats / 1000).toFixed(1)}k`;
+      return `${sats}`;
+    }
+
+    async function scanMarkets() {
+      const btn = document.getElementById('scanBtn');
+      const scanIcon = document.getElementById('scanIcon');
+      const scanText = document.getElementById('scanText');
+      
+      btn.disabled = true;
+      scanIcon.classList.add('animate-spin');
+      scanText.textContent = 'Scanning...';
+      
+      // Hide states
+      document.getElementById('emptyState').classList.add('hidden');
+      document.getElementById('noResultsState').classList.add('hidden');
+      document.getElementById('opportunitiesList').classList.add('hidden');
+      document.getElementById('errorState').classList.add('hidden');
+      document.getElementById('loadingState').classList.remove('hidden');
+
+      try {
+        const response = await fetch(`${API_BASE}/api/arbitrage/scan?refresh=true`);
+        const data = await response.json();
+
+        document.getElementById('loadingState').classList.add('hidden');
+
+        if (!data.success) {
+          throw new Error(data.error || 'Scan failed');
+        }
+
+        // Update stats
+        document.getElementById('statsGrid').classList.remove('hidden');
+        document.getElementById('statOpportunities').textContent = data.totalOpportunities;
+        document.getElementById('statFees').textContent = `${data.estimatedFees} sats`;
+        document.getElementById('statMinProfit').textContent = `${data.minProfitThreshold} sats`;
+        document.getElementById('statLastScan').textContent = new Date(data.scannedAt).toLocaleTimeString();
+
+        // Update cache info
+        if (data.fromCache) {
+          document.getElementById('cacheInfo').textContent = `Cached • ${new Date(data.scannedAt).toLocaleTimeString()}`;
+          document.getElementById('cacheInfo').classList.remove('hidden');
+        } else {
+          document.getElementById('cacheInfo').classList.add('hidden');
+        }
+
+        // Update result count
+        const resultCount = document.getElementById('resultCount');
+        resultCount.querySelector('span:last-child').textContent = `${data.totalOpportunities} opportunities found`;
+        resultCount.classList.remove('hidden');
+
+        if (data.totalOpportunities === 0) {
+          document.getElementById('noResultsState').classList.remove('hidden');
+        } else {
+          renderOpportunities(data.opportunities);
+        }
+
+      } catch (error) {
+        document.getElementById('loadingState').classList.add('hidden');
+        const errorState = document.getElementById('errorState');
+        errorState.querySelector('p').textContent = error.message;
+        errorState.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        scanIcon.classList.remove('animate-spin');
+        scanText.textContent = 'Scan Markets';
+      }
+    }
+
+    function renderOpportunities(opportunities) {
+      const container = document.getElementById('opportunitiesList');
+      container.innerHTML = '';
+      container.classList.remove('hidden');
+
+      opportunities.forEach((opp, index) => {
+        const card = document.createElement('a');
+        card.href = opp.marketplaceUrl;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'block p-4 border border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-500/5 transition-all rounded-lg group';
+        
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <span class="text-2xl font-bold text-amber-400/50 w-8">#${index + 1}</span>
+              ${opp.imageUrl ? `
+                <img src="${opp.imageUrl}" alt="${opp.name}" class="w-16 h-16 rounded object-cover bg-gray-800" onerror="this.style.display='none'"/>
+              ` : ''}
+              <div class="min-w-0">
+                <p class="font-bold text-gray-200 truncate group-hover:text-amber-400 transition-colors">${opp.name}</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 text-sm font-bold rounded">
+                    +${formatSats(opp.profit)} PROFIT
+                  </span>
+                  <span class="text-sm text-gray-500">≈ $${opp.profitUsd.toFixed(2)} USD</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-xs text-gray-500">UTXO: <span class="text-gray-300">${formatSats(opp.outputValue)}</span></p>
+              <p class="text-xs text-gray-500">Price: <span class="text-amber-400">${formatSats(opp.listingPrice)}</span></p>
+              <p class="text-xs text-green-400 font-bold">Profit: +${formatSats(opp.profit)}</p>
+            </div>
+            <svg class="w-5 h-5 text-gray-600 group-hover:text-amber-400 flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
