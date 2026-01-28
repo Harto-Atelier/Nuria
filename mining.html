@@ -6,104 +6,247 @@
   <title>⛏️ Sat Mining | Harto</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
     :root {
-      --amber: #f59e0b; --green: #22c55e; --red: #ef4444; --blue: #3b82f6;
-      --bg: #0a0a0a; --surface: #111; --border: #222;
+      --amber: #f59e0b; --green: #22c55e; --red: #ef4444; --blue: #3b82f6; --purple: #a855f7;
+      --bg: #050507; --surface: #0c0c10; --surface2: #12121a; --border: #1a1a2e; --border-light: #252540;
     }
     * { box-sizing: border-box; }
-    body { font-family: 'JetBrains Mono', monospace; background: var(--bg); margin: 0; }
-    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
-    @keyframes slideUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
-    @keyframes glow { 0%,100% { box-shadow: 0 0 5px rgba(34,197,94,.2) } 50% { box-shadow: 0 0 20px rgba(34,197,94,.4) } }
-    .slide-up { animation: slideUp .3s ease-out }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; overflow-x: hidden; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }
+    @keyframes slideIn { from { opacity:0; transform:translateX(-12px) } to { opacity:1; transform:translateX(0) } }
+    @keyframes glow { 0%,100% { box-shadow: 0 0 8px rgba(34,197,94,.15) } 50% { box-shadow: 0 0 24px rgba(34,197,94,.35) } }
+    @keyframes borderPulse { 0%,100% { border-color: rgba(245,158,11,.2) } 50% { border-color: rgba(245,158,11,.5) } }
+    @keyframes scanLine { from { top: 0 } to { top: 100% } }
+    @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+    @keyframes countUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+    .slide-up { animation: slideUp .4s cubic-bezier(.16,1,.3,1) }
+    .slide-in { animation: slideIn .3s ease-out }
     .glow-green { animation: glow 2s ease-in-out infinite }
     .pulse { animation: pulse 2s ease-in-out infinite }
+    .border-pulse { animation: borderPulse 2s ease-in-out infinite }
+    .count-up { animation: countUp .3s ease-out }
     .tabnum { font-variant-numeric: tabular-nums }
-    .opp:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34,197,94,.15) }
-    .opp { transition: all .2s }
+    .glass { background: rgba(12,12,16,.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px) }
+    .glass-border { border: 1px solid rgba(255,255,255,.06) }
+    .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,.04), transparent); background-size: 200% 100%; animation: shimmer 2s infinite }
+    .gradient-text { background: linear-gradient(135deg, #f59e0b, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text }
+    .gradient-border { position: relative }
+    .gradient-border::before { content:''; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:linear-gradient(135deg, rgba(245,158,11,.3), rgba(34,197,94,.3)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none }
+    .opp-card { transition: all .25s cubic-bezier(.16,1,.3,1) }
+    .opp-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(34,197,94,.12) }
+    .stat-card { transition: all .2s }
+    .stat-card:hover { border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.03) }
     #log::-webkit-scrollbar { width: 3px }
-    #log::-webkit-scrollbar-thumb { background: #f59e0b22; border-radius: 2px }
-    .tag { padding: 2px 6px; border-radius: 4px; font-size: 10px; border: 1px solid; display: inline-block }
-    .tag-green { color: var(--green); border-color: rgba(34,197,94,.3); background: rgba(34,197,94,.1) }
-    .tag-amber { color: var(--amber); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.1) }
-    .tag-red { color: var(--red); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.1) }
-    .tag-blue { color: var(--blue); border-color: rgba(59,130,246,.3); background: rgba(59,130,246,.1) }
+    #log::-webkit-scrollbar-thumb { background: rgba(245,158,11,.15); border-radius: 2px }
+    .tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; border: 1px solid; display: inline-flex; align-items: center; gap: 3px; font-weight: 600 }
+    .tag-green { color: var(--green); border-color: rgba(34,197,94,.25); background: rgba(34,197,94,.08) }
+    .tag-amber { color: var(--amber); border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.08) }
+    .tag-red { color: var(--red); border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.08) }
+    .tag-blue { color: var(--blue); border-color: rgba(59,130,246,.25); background: rgba(59,130,246,.08) }
+    .tag-purple { color: var(--purple); border-color: rgba(168,85,247,.25); background: rgba(168,85,247,.08) }
     select, input { outline: none; }
+    .btn { transition: all .2s; cursor: pointer; user-select: none }
+    .btn:active { transform: scale(.97) }
+    .scan-btn { position: relative; overflow: hidden }
+    .scan-btn.scanning::after { content:''; position:absolute; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, var(--amber), transparent); animation:scanLine 1s linear infinite }
+    .watchlist-item { transition: all .2s }
+    .watchlist-item:hover { background: rgba(245,158,11,.05) }
+    .chart-container { position: relative }
+    .tooltip { position:absolute; pointer-events:none; opacity:0; transition:opacity .15s; z-index:50 }
+    .tooltip.show { opacity:1 }
+    /* Scrollbar global */
+    ::-webkit-scrollbar { width: 4px; height: 4px }
+    ::-webkit-scrollbar-track { background: transparent }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 2px }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.15) }
     @media (max-width: 768px) {
       .hide-mobile { display: none !important; }
       .stack-mobile { flex-direction: column !important; }
       .full-mobile { width: 100% !important; }
+      .grid-mobile-1 { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
 <body class="min-h-screen text-gray-100">
 
   <!-- HEADER -->
-  <header class="border-b border-amber-500/30 bg-amber-500/5 sticky top-0 z-50 backdrop-blur-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+  <header class="glass border-b border-amber-500/20 sticky top-0 z-50">
+    <div class="max-w-[1400px] mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <span class="text-2xl">⛏️</span>
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 flex items-center justify-center text-lg">⛏️</div>
         <div>
-          <h1 class="text-lg font-bold text-amber-400 leading-tight">SAT MINING</h1>
-          <p class="text-[10px] text-gray-500">v3 turbo · <span id="btcPrice" class="text-amber-400">Loading BTC...</span></p>
+          <h1 class="text-base font-extrabold tracking-tight">
+            <span class="gradient-text">SAT MINING</span>
+            <span class="text-[10px] text-gray-600 font-normal ml-2">v4</span>
+          </h1>
+          <div class="flex items-center gap-2 text-[10px]">
+            <span id="btcPrice" class="text-amber-400 font-semibold mono">Loading...</span>
+            <span id="btcChange" class="hidden"></span>
+            <span class="text-gray-700">·</span>
+            <span id="networkStatus" class="flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-gray-600"></span>
+              <span class="text-gray-600">Idle</span>
+            </span>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button onclick="toggleAutoScan()" id="autoScanBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Auto-scan cada 5 min">🔄 Auto</button>
-        <button onclick="exportCSV()" id="exportBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer hidden" title="Exportar CSV">📥 CSV</button>
-        <button onclick="toggleSound()" id="soundBtn" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Alertas sonoras">🔇</button>
-        <button onclick="clearCache()" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Limpiar caché">🗑️ <span id="cacheCount"></span></button>
-        <button onclick="toggleHistory()" class="px-2 py-1 text-[10px] bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 rounded transition-all cursor-pointer" title="Historial">📊</button>
-        <a href="index.html" class="px-2 py-1 text-[10px] text-gray-500 hover:text-amber-400 transition-colors">← Dash</a>
+      <div class="flex items-center gap-1.5">
+        <button onclick="toggleAutoScan()" id="autoScanBtn" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-blue-400 hover:border-blue-500/30" title="Auto-scan (A)">
+          <span class="flex items-center gap-1">🔄 <span class="hide-mobile">Auto</span></span>
+        </button>
+        <button onclick="toggleWatchlist()" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-amber-400 hover:border-amber-500/30" title="Watchlist (W)">
+          <span class="flex items-center gap-1">⭐ <span class="hide-mobile">Watch</span></span>
+        </button>
+        <button onclick="exportCSV()" id="exportBtn" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-green-400 hidden" title="Export CSV">📥</button>
+        <button onclick="toggleSound()" id="soundBtn" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-amber-400" title="Sound (S)">🔇</button>
+        <button onclick="showShortcuts()" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-gray-300 hide-mobile" title="Shortcuts">⌨️</button>
+        <button onclick="toggleHistory()" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-500 hover:text-purple-400 hover:border-purple-500/30" title="History (H)">📊</button>
+        <a href="index.html" class="btn px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-600 hover:text-amber-400 no-underline">← Dash</a>
+      </div>
+    </div>
+    <!-- Auto-scan bar -->
+    <div id="autoScanBar" class="hidden border-t border-blue-500/20 bg-blue-500/5">
+      <div class="max-w-[1400px] mx-auto px-4 py-1.5 flex items-center justify-between text-[10px]">
+        <span class="text-blue-400 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 pulse"></span>
+          Auto-scan activo
+        </span>
+        <span class="text-blue-400/60 mono" id="autoCountdown">5:00</span>
       </div>
     </div>
   </header>
 
-  <!-- HISTORY PANEL (hidden by default) -->
-  <div id="historyPanel" class="hidden border-b border-gray-800 bg-black/50">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-      <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">📊 Historial de Scans</h3>
-      <div id="historyList" class="space-y-1 max-h-40 overflow-y-auto text-[11px]"></div>
-      <button onclick="clearHistory()" class="mt-2 text-[10px] text-red-400/60 hover:text-red-400 cursor-pointer">Limpiar historial</button>
+  <!-- WATCHLIST PANEL -->
+  <div id="watchlistPanel" class="hidden border-b border-amber-500/10 bg-amber-500/[.02]">
+    <div class="max-w-[1400px] mx-auto px-4 py-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs text-amber-400 font-bold flex items-center gap-2">⭐ Watchlist</h3>
+        <div class="flex items-center gap-2">
+          <input type="text" id="watchlistInput" placeholder="collection-slug" class="px-2.5 py-1 text-[10px] bg-black/50 border border-gray-700 focus:border-amber-500/50 rounded-lg text-gray-300 w-36 mono" onkeydown="if(event.key==='Enter')addToWatchlist()">
+          <button onclick="addToWatchlist()" class="btn px-2.5 py-1 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded-lg">+ Add</button>
+        </div>
+      </div>
+      <div id="watchlistItems" class="flex flex-wrap gap-2"></div>
     </div>
   </div>
 
-  <main class="max-w-7xl mx-auto px-4 py-6">
-    <!-- CONTROLS -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-      <!-- Filters -->
-      <div class="lg:col-span-2 p-4 border border-gray-800 bg-black/30 rounded-lg space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xs text-gray-500 uppercase font-bold">Filtros</h3>
-          <div id="autoScanStatus" class="hidden">
-            <span class="tag tag-blue pulse">🔄 Auto-scan ON · <span id="autoCountdown">5:00</span></span>
+  <!-- HISTORY PANEL -->
+  <div id="historyPanel" class="hidden border-b border-purple-500/10 bg-purple-500/[.02]">
+    <div class="max-w-[1400px] mx-auto px-4 py-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs text-purple-400 font-bold flex items-center gap-2">📊 Scan History</h3>
+        <button onclick="clearHistory()" class="text-[10px] text-gray-600 hover:text-red-400 btn">Clear</button>
+      </div>
+      <div id="historyList" class="space-y-1 max-h-48 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS MODAL -->
+  <div id="shortcutsModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm" onclick="if(event.target===this)this.classList.add('hidden')">
+    <div class="glass glass-border rounded-xl p-6 w-80 slide-up">
+      <h3 class="font-bold text-sm mb-4">⌨️ Keyboard Shortcuts</h3>
+      <div class="space-y-2 text-[11px]">
+        <div class="flex justify-between"><span class="text-gray-400">Start scan</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">Enter</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Stop scan</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">Esc</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Toggle sound</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">S</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Auto-scan</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">A</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Watchlist</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">W</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">History</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">H</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Calculator</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">C</kbd></div>
+        <div class="flex justify-between"><span class="text-gray-400">Close modal</span><kbd class="px-2 py-0.5 bg-gray-800 rounded text-gray-300 mono text-[10px]">Esc</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR MODAL -->
+  <div id="calcModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm" onclick="if(event.target===this)this.classList.add('hidden')">
+    <div class="glass glass-border rounded-xl p-6 w-96 slide-up">
+      <h3 class="font-bold text-sm mb-4">🧮 Profit Calculator</h3>
+      <div class="space-y-3">
+        <div>
+          <label class="text-[10px] text-gray-500 block mb-1">Buy Price (sats)</label>
+          <input type="number" id="calcBuy" value="10000" oninput="calcProfit()" class="w-full px-3 py-2 bg-black/50 border border-gray-700 focus:border-amber-500/50 rounded-lg text-sm text-gray-200 mono">
+        </div>
+        <div>
+          <label class="text-[10px] text-gray-500 block mb-1">UTXO Value (sats)</label>
+          <input type="number" id="calcUtxo" value="20000" oninput="calcProfit()" class="w-full px-3 py-2 bg-black/50 border border-gray-700 focus:border-green-500/50 rounded-lg text-sm text-gray-200 mono">
+        </div>
+        <div>
+          <label class="text-[10px] text-gray-500 block mb-1">Split Fee (sats)</label>
+          <input type="number" id="calcFee" value="750" oninput="calcProfit()" class="w-full px-3 py-2 bg-black/50 border border-gray-700 focus:border-gray-600 rounded-lg text-sm text-gray-200 mono">
+        </div>
+        <div class="pt-3 border-t border-gray-800 space-y-2">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-400">Net Profit</span>
+            <span id="calcResult" class="font-bold text-green-400 mono">+9,250</span>
           </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">USD equiv.</span>
+            <span id="calcUsd" class="text-green-400/60 mono">—</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">Ratio</span>
+            <span id="calcRatio" class="text-amber-400 mono">—</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-500">ROI</span>
+            <span id="calcRoi" class="text-amber-400 mono">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-[1400px] mx-auto px-4 py-6">
+
+    <!-- SESSION STATS BAR -->
+    <div id="sessionBar" class="mb-4 hidden">
+      <div class="flex items-center gap-4 text-[10px] text-gray-600 py-2 px-3 bg-gray-800/20 rounded-lg border border-gray-800/50">
+        <span>📈 Session:</span>
+        <span>Scans: <span id="sessionScans" class="text-gray-400 mono">0</span></span>
+        <span>Total opps: <span id="sessionOpps" class="text-green-400 mono">0</span></span>
+        <span>Total profit: <span id="sessionProfit" class="text-green-400 mono">0</span></span>
+        <span>Runtime: <span id="sessionTime" class="text-gray-400 mono">0:00</span></span>
+        <span class="ml-auto">Cache: <span id="cacheCount" class="text-blue-400 mono">0</span></span>
+        <button onclick="clearCache()" class="text-gray-700 hover:text-red-400 btn">🗑️</button>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+      <!-- Filters -->
+      <div class="lg:col-span-3 p-4 glass glass-border rounded-xl space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-[11px] text-gray-500 uppercase font-bold tracking-wider">Filters</h3>
+          <button onclick="toggleCalc()" class="btn text-[10px] text-gray-600 hover:text-amber-400">🧮 Calc</button>
         </div>
         <div class="flex flex-wrap gap-3">
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Colección</label>
-            <input type="text" id="collectionSlug" value="" placeholder="Todas" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-40">
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Collection</label>
+            <input type="text" id="collectionSlug" value="" placeholder="All collections" 
+              class="px-3 py-2 bg-black/40 border border-gray-800 focus:border-amber-500/50 rounded-lg text-sm text-gray-200 w-44 mono placeholder-gray-700">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Mín sats</label>
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Min sats</label>
             <input type="number" id="minPrice" value="546" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
+              class="px-3 py-2 bg-black/40 border border-gray-800 focus:border-amber-500/50 rounded-lg text-sm text-gray-200 w-24 mono">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Máx sats</label>
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Max sats</label>
             <input type="number" id="maxPrice" value="50000" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
+              class="px-3 py-2 bg-black/40 border border-gray-800 focus:border-amber-500/50 rounded-lg text-sm text-gray-200 w-24 mono">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Páginas</label>
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Pages</label>
             <input type="number" id="maxPages" value="10" min="1" max="50"
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-16">
+              class="px-3 py-2 bg-black/40 border border-gray-800 focus:border-amber-500/50 rounded-lg text-sm text-gray-200 w-16 mono">
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Paralelo</label>
-            <select id="concurrency" class="px-3 py-2 bg-gray-900 border border-gray-700 rounded text-sm text-gray-200 w-16">
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Parallel</label>
+            <select id="concurrency" class="px-3 py-2 bg-black/40 border border-gray-800 rounded-lg text-sm text-gray-200 w-16">
               <option value="1">×1</option>
               <option value="3" selected>×3</option>
               <option value="5">×5</option>
@@ -111,152 +254,212 @@
             </select>
           </div>
           <div>
-            <label class="text-[10px] text-gray-500 block mb-1">Min profit</label>
+            <label class="text-[10px] text-gray-600 block mb-1.5 font-medium">Min profit</label>
             <input type="number" id="minProfit" value="1000" 
-              class="px-3 py-2 bg-gray-900 border border-gray-700 focus:border-amber-500/50 rounded text-sm text-gray-200 w-24">
+              class="px-3 py-2 bg-black/40 border border-gray-800 focus:border-green-500/50 rounded-lg text-sm text-gray-200 w-24 mono">
           </div>
         </div>
         <!-- Presets -->
-        <div class="flex flex-wrap gap-2">
-          <span class="text-[10px] text-gray-600 leading-6">Quick:</span>
-          <button onclick="setPreset('',546,50000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Todo &lt;50k</button>
-          <button onclick="setPreset('',546,10000,20)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Todo &lt;10k</button>
-          <button onclick="setPreset('',10000,200000,15)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">10k-200k</button>
-          <button onclick="setPreset('exquisite',546,100000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Exquisite</button>
-          <button onclick="setPreset('bitcoin-frogs',546,200000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Frogs</button>
-          <button onclick="setPreset('nodemonkes',546,200000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">NodeMonkes</button>
-          <button onclick="setPreset('quantum_cats',546,500000,10)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Q.Cats</button>
-          <button onclick="setPreset('bitmap',546,5000,20)" class="px-2 py-0.5 text-[10px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded cursor-pointer">Bitmap</button>
+        <div class="flex flex-wrap gap-2 pt-1">
+          <span class="text-[10px] text-gray-700 leading-6 font-medium">Quick:</span>
+          <button onclick="setPreset('',546,50000,10)" class="btn px-2.5 py-1 text-[10px] bg-amber-500/8 hover:bg-amber-500/15 text-amber-400/80 hover:text-amber-400 border border-amber-500/15 rounded-lg">All &lt;50k</button>
+          <button onclick="setPreset('',546,10000,20)" class="btn px-2.5 py-1 text-[10px] bg-amber-500/8 hover:bg-amber-500/15 text-amber-400/80 hover:text-amber-400 border border-amber-500/15 rounded-lg">All &lt;10k</button>
+          <button onclick="setPreset('',10000,200000,15)" class="btn px-2.5 py-1 text-[10px] bg-amber-500/8 hover:bg-amber-500/15 text-amber-400/80 hover:text-amber-400 border border-amber-500/15 rounded-lg">10k–200k</button>
+          <button onclick="setPreset('exquisite',546,100000,10)" class="btn px-2.5 py-1 text-[10px] bg-purple-500/8 hover:bg-purple-500/15 text-purple-400/80 hover:text-purple-400 border border-purple-500/15 rounded-lg">Exquisite</button>
+          <button onclick="setPreset('bitcoin-frogs',546,200000,10)" class="btn px-2.5 py-1 text-[10px] bg-green-500/8 hover:bg-green-500/15 text-green-400/80 hover:text-green-400 border border-green-500/15 rounded-lg">Frogs</button>
+          <button onclick="setPreset('nodemonkes',546,200000,10)" class="btn px-2.5 py-1 text-[10px] bg-green-500/8 hover:bg-green-500/15 text-green-400/80 hover:text-green-400 border border-green-500/15 rounded-lg">NodeMonkes</button>
+          <button onclick="setPreset('quantum_cats',546,500000,10)" class="btn px-2.5 py-1 text-[10px] bg-blue-500/8 hover:bg-blue-500/15 text-blue-400/80 hover:text-blue-400 border border-blue-500/15 rounded-lg">Q.Cats</button>
+          <button onclick="setPreset('bitmap',546,5000,20)" class="btn px-2.5 py-1 text-[10px] bg-amber-500/8 hover:bg-amber-500/15 text-amber-400/80 hover:text-amber-400 border border-amber-500/15 rounded-lg">Bitmap</button>
         </div>
       </div>
 
       <!-- Action -->
-      <div class="p-4 border border-gray-800 bg-black/30 rounded-lg flex flex-col justify-between">
-        <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">Acción</h3>
-        <div class="flex items-center gap-2">
+      <div class="p-4 glass glass-border rounded-xl flex flex-col justify-between">
+        <h3 class="text-[11px] text-gray-500 uppercase font-bold tracking-wider mb-4">Action</h3>
+        <div class="flex-1 flex flex-col justify-center gap-3">
           <button id="scanBtn" onclick="startScan()"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-400 text-sm uppercase font-bold transition-all disabled:opacity-50 rounded-lg cursor-pointer">
+            class="scan-btn btn w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl text-sm uppercase font-bold
+            bg-gradient-to-r from-amber-500/20 to-amber-600/10 hover:from-amber-500/30 hover:to-amber-600/20 
+            border border-amber-500/40 hover:border-amber-500/60 text-amber-400
+            disabled:opacity-40 disabled:cursor-not-allowed">
             <span id="scanText">⛏️ SCAN</span>
           </button>
-          <button onclick="stopScan()" id="stopBtn" class="px-4 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 text-sm transition-all rounded-lg hidden cursor-pointer">⏹</button>
+          <button onclick="stopScan()" id="stopBtn" class="btn w-full px-4 py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs transition-all rounded-xl hidden font-semibold">
+            ⏹ STOP
+          </button>
         </div>
-        <div class="mt-3 space-y-1 text-[10px] text-gray-600">
-          <div class="flex justify-between"><span>Atajos:</span><span class="text-gray-500">Enter=Scan · Esc=Stop · S=Sound</span></div>
+        <div class="mt-4 text-[10px] text-gray-700 space-y-0.5">
+          <div class="flex justify-between"><span>Enter</span><span>Scan</span></div>
+          <div class="flex justify-between"><span>Esc</span><span>Stop</span></div>
+          <div class="flex justify-between"><span>S / A</span><span>Sound / Auto</span></div>
         </div>
       </div>
     </div>
 
-    <!-- STATS -->
-    <div id="statsGrid" class="grid grid-cols-3 md:grid-cols-7 gap-2 mb-4 hidden">
-      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Listings</p>
-        <p id="statListings" class="text-lg font-bold text-amber-400 tabnum">0</p>
+    <!-- LIVE STATS -->
+    <div id="statsGrid" class="grid grid-cols-4 md:grid-cols-8 gap-2 mb-4 hidden">
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Listings</p>
+        <p id="statListings" class="text-lg font-bold text-amber-400 tabnum mono mt-0.5">0</p>
       </div>
-      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Checked</p>
-        <p id="statChecked" class="text-lg font-bold text-gray-300 tabnum">0</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Checked</p>
+        <p id="statChecked" class="text-lg font-bold text-gray-300 tabnum mono mt-0.5">0</p>
       </div>
-      <div class="p-2 border border-blue-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Cached</p>
-        <p id="statCached" class="text-lg font-bold text-blue-400 tabnum">0</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Cached</p>
+        <p id="statCached" class="text-lg font-bold text-blue-400 tabnum mono mt-0.5">0</p>
       </div>
-      <div class="p-2 border border-green-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Opps</p>
-        <p id="statOpps" class="text-lg font-bold text-green-400 tabnum">0</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Opps</p>
+        <p id="statOpps" class="text-lg font-bold text-green-400 tabnum mono mt-0.5">0</p>
       </div>
-      <div class="p-2 border border-green-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Mejor</p>
-        <p id="statBest" class="text-lg font-bold text-green-400 tabnum">—</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Best</p>
+        <p id="statBest" class="text-lg font-bold text-green-400 tabnum mono mt-0.5">—</p>
       </div>
-      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">Speed</p>
-        <p id="statSpeed" class="text-lg font-bold text-amber-400 tabnum">—</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">Speed</p>
+        <p id="statSpeed" class="text-lg font-bold text-amber-400 tabnum mono mt-0.5">—</p>
       </div>
-      <div class="p-2 border border-amber-500/20 bg-black/30 rounded text-center">
-        <p class="text-[9px] text-gray-500 uppercase">ETA</p>
-        <p id="statEta" class="text-lg font-bold text-amber-400 tabnum">—</p>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">ETA</p>
+        <p id="statEta" class="text-lg font-bold text-amber-400 tabnum mono mt-0.5">—</p>
+      </div>
+      <div class="stat-card p-2.5 glass glass-border rounded-lg text-center">
+        <p class="text-[9px] text-gray-600 uppercase font-semibold tracking-wide">APIs</p>
+        <div id="apiHealth" class="flex items-center justify-center gap-1 mt-1.5">
+          <span id="apiME" class="w-2 h-2 rounded-full bg-gray-700" title="Magic Eden"></span>
+          <span id="apiHiro" class="w-2 h-2 rounded-full bg-gray-700" title="Hiro"></span>
+          <span id="apiMempool" class="w-2 h-2 rounded-full bg-gray-700" title="Mempool"></span>
+        </div>
       </div>
     </div>
 
     <!-- PROGRESS -->
     <div id="progressBar" class="mb-4 hidden">
-      <div class="flex justify-between text-[10px] text-gray-500 mb-1">
-        <span id="progressText">...</span>
-        <span id="progressPct">0%</span>
+      <div class="flex justify-between text-[10px] mb-1.5">
+        <span id="progressText" class="text-gray-500">...</span>
+        <span id="progressPct" class="text-amber-400 font-semibold mono">0%</span>
       </div>
-      <div class="w-full bg-gray-800 rounded-full h-1">
-        <div id="progressFill" class="bg-gradient-to-r from-amber-500 to-green-500 h-1 rounded-full transition-all duration-300" style="width:0%"></div>
+      <div class="w-full bg-gray-800/50 rounded-full h-1.5 overflow-hidden">
+        <div id="progressFill" class="h-full rounded-full transition-all duration-300 bg-gradient-to-r from-amber-500 via-amber-400 to-green-500" style="width:0%"></div>
       </div>
     </div>
 
     <!-- LOG -->
-    <div id="log" class="mb-4 p-3 border border-gray-800 bg-black/50 rounded max-h-32 overflow-y-auto text-[10px] font-mono hidden"></div>
+    <div id="log" class="mb-4 p-3 glass glass-border rounded-lg max-h-36 overflow-y-auto text-[10px] mono hidden"></div>
 
     <!-- EMPTY STATE -->
-    <div id="emptyState" class="flex items-center justify-center py-16 border border-dashed border-amber-500/30 rounded-lg">
-      <div class="text-center space-y-3">
-        <span class="text-5xl">⛏️</span>
-        <p class="text-sm text-gray-400">Busca oportunidades de arbitraje UTXO</p>
-        <p class="text-xs text-gray-600">Enter para escanear · Listings baratos con UTXOs gordos = profit</p>
+    <div id="emptyState" class="flex items-center justify-center py-20 border border-dashed border-gray-800 rounded-xl bg-gray-900/20">
+      <div class="text-center space-y-4">
+        <div class="text-6xl">⛏️</div>
+        <div>
+          <p class="text-sm text-gray-400 font-medium">UTXO Arbitrage Scanner</p>
+          <p class="text-xs text-gray-600 mt-1">Find listings where UTXO value > asking price</p>
+        </div>
+        <div class="flex items-center justify-center gap-6 text-[11px] text-gray-600">
+          <span>⏎ Scan</span>
+          <span>⭐ Watchlist</span>
+          <span>🧮 Calc</span>
+        </div>
       </div>
     </div>
 
     <!-- OPPORTUNITIES -->
     <div id="oppsSection" class="hidden">
-      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div class="flex items-center gap-3">
-          <h2 class="text-sm font-bold text-green-400">💰 Oportunidades</h2>
-          <span id="oppCount" class="tag tag-green tabnum"></span>
-          <span id="totalProfit" class="text-xs text-green-400 font-bold tabnum"></span>
-          <span id="totalUsd" class="text-xs text-green-400/60 tabnum"></span>
+          <h2 class="text-sm font-bold text-green-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-400 glow-green"></span>
+            Opportunities
+          </h2>
+          <span id="oppCount" class="tag tag-green tabnum mono"></span>
+          <span id="totalProfit" class="text-xs text-green-400 font-bold tabnum mono"></span>
+          <span id="totalUsd" class="text-xs text-green-400/50 tabnum mono"></span>
         </div>
         <div class="flex items-center gap-2">
-          <select id="sortOpps" onchange="rerenderOpps()" class="px-2 py-1 text-[10px] bg-gray-800 border border-gray-700 rounded text-gray-400">
+          <select id="sortOpps" onchange="rerenderOpps()" class="px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-400">
             <option value="profit">↓ Profit</option>
-            <option value="price">↑ Precio</option>
+            <option value="price">↑ Price</option>
             <option value="ratio">↓ Ratio</option>
-            <option value="collection">A-Z Colección</option>
+            <option value="collection">A–Z</option>
           </select>
-          <input type="text" id="filterOpps" oninput="rerenderOpps()" placeholder="Filtrar..." class="px-2 py-1 text-[10px] bg-gray-800 border border-gray-700 rounded text-gray-400 w-24">
+          <input type="text" id="filterOpps" oninput="rerenderOpps()" placeholder="Filter..." class="px-2.5 py-1.5 text-[10px] glass glass-border rounded-lg text-gray-400 w-28 mono placeholder-gray-700">
         </div>
       </div>
-      <div id="oppsList" class="space-y-2"></div>
+      <div id="oppsList" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+    </div>
+
+    <!-- UTXO DISTRIBUTION CHART -->
+    <div id="chartSection" class="mt-6 hidden">
+      <h3 class="text-[11px] text-gray-500 uppercase font-bold tracking-wider mb-3">📊 UTXO Distribution</h3>
+      <div class="glass glass-border rounded-xl p-4">
+        <canvas id="distChart" width="800" height="180"></canvas>
+      </div>
     </div>
 
     <!-- COLLECTION HEATMAP -->
     <div id="heatmapSection" class="mt-6 hidden">
-      <h3 class="text-xs text-gray-500 uppercase font-bold mb-3">🔥 Collections — UTXO Ratio (UTXO/Price)</h3>
+      <h3 class="text-[11px] text-gray-500 uppercase font-bold tracking-wider mb-3">🔥 Collection Heatmap</h3>
       <div id="heatmapGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2"></div>
     </div>
 
     <!-- ALL LISTINGS -->
     <div id="allSection" class="mt-6 hidden">
       <details>
-        <summary class="text-sm font-bold text-gray-400 cursor-pointer hover:text-amber-400">
-          📋 Todos (<span id="allCount">0</span>)
+        <summary class="text-[11px] font-bold text-gray-500 cursor-pointer hover:text-amber-400 uppercase tracking-wider">
+          📋 All Listings (<span id="allCount" class="mono">0</span>)
         </summary>
-        <div class="mt-2 overflow-x-auto">
-          <div id="allHeader" class="flex items-center px-3 py-1 text-[9px] text-gray-600 uppercase border-b border-gray-700 min-w-[600px]">
-            <span class="w-24 flex-shrink-0">Colección</span>
-            <span class="flex-1">Nombre</span>
-            <span class="w-16 text-right">Precio</span>
-            <span class="w-16 text-right">UTXO</span>
-            <span class="w-16 text-right">Profit</span>
-            <span class="w-12 text-right">Ratio</span>
+        <div class="mt-3 glass glass-border rounded-xl overflow-hidden">
+          <div id="allHeader" class="flex items-center px-4 py-2 text-[9px] text-gray-600 uppercase font-semibold tracking-wider border-b border-gray-800/50 bg-gray-900/30 min-w-[600px]">
+            <span class="w-28 flex-shrink-0">Collection</span>
+            <span class="flex-1">Name</span>
+            <span class="w-20 text-right">Price</span>
+            <span class="w-20 text-right">UTXO</span>
+            <span class="w-20 text-right">Profit</span>
+            <span class="w-14 text-right">Ratio</span>
           </div>
           <div id="allList" class="max-h-80 overflow-y-auto min-w-[600px]"></div>
         </div>
       </details>
     </div>
 
+    <!-- SAVED OPPORTUNITIES -->
+    <div id="savedSection" class="mt-6">
+      <details id="savedDetails">
+        <summary class="text-[11px] font-bold text-gray-500 cursor-pointer hover:text-green-400 uppercase tracking-wider">
+          💾 Saved Opps (<span id="savedCount" class="mono">0</span>)
+        </summary>
+        <div id="savedList" class="mt-3 space-y-2"></div>
+        <div class="mt-2 flex gap-2">
+          <button onclick="clearSavedOpps()" class="btn text-[10px] text-gray-700 hover:text-red-400">Clear all</button>
+        </div>
+      </details>
+    </div>
+
     <!-- HOW IT WORKS -->
-    <div class="mt-8 p-4 border border-amber-500/20 bg-black/30 rounded-lg">
-      <h3 class="font-bold text-amber-400 text-xs mb-2">⛏️ CÓMO FUNCIONA</h3>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-[11px] text-gray-400">
-        <div><span class="text-amber-400 font-bold">1.</span> Busca listings baratos en Magic Eden</div>
-        <div><span class="text-amber-400 font-bold">2.</span> Comprueba UTXO real (Hiro + mempool fallback)</div>
-        <div><span class="text-amber-400 font-bold">3.</span> UTXO > precio + 750 fee = <span class="text-green-400">profit</span></div>
-        <div><span class="text-amber-400 font-bold">4.</span> Buy → <code class="text-amber-400 bg-amber-500/10 px-1 rounded">ord split</code> → 💰</div>
+    <div class="mt-8 glass glass-border rounded-xl p-5">
+      <h3 class="font-bold text-amber-400 text-xs mb-3 flex items-center gap-2">
+        ⛏️ HOW IT WORKS
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-[11px] text-gray-500">
+        <div class="flex gap-2">
+          <span class="text-amber-400 font-bold text-sm">1</span>
+          <span>Fetches cheap listings from Magic Eden</span>
+        </div>
+        <div class="flex gap-2">
+          <span class="text-amber-400 font-bold text-sm">2</span>
+          <span>Checks real UTXO value (Hiro + mempool fallback)</span>
+        </div>
+        <div class="flex gap-2">
+          <span class="text-green-400 font-bold text-sm">3</span>
+          <span>UTXO > price + 750 fee = <span class="text-green-400 font-semibold">profit</span></span>
+        </div>
+        <div class="flex gap-2">
+          <span class="text-green-400 font-bold text-sm">4</span>
+          <span>Buy → <code class="text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded mono text-[10px]">ord split</code> → 💰</span>
+        </div>
       </div>
     </div>
   </main>
@@ -271,15 +474,25 @@ const AUTO_SCAN_INTERVAL = 5 * 60 * 1000;
 let scanning = false, shouldStop = false, scanStart = 0;
 let soundEnabled = false, autoScanEnabled = false, autoScanTimer = null, countdownTimer = null;
 let allOpportunities = [], allResults = [];
-let btcUsd = 0;
+let btcUsd = 0, btcPrev = 0;
+let sessionStats = { scans: 0, opps: 0, profit: 0, start: Date.now() };
+let sessionTimer = null;
 
 // === BTC PRICE ===
 async function fetchBtcPrice() {
   try {
-    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
     const d = await r.json();
+    btcPrev = btcUsd;
     btcUsd = d.bitcoin.usd;
+    const change = d.bitcoin.usd_24h_change;
     document.getElementById('btcPrice').textContent = `BTC $${btcUsd.toLocaleString()}`;
+    const changeEl = document.getElementById('btcChange');
+    if (change !== undefined) {
+      changeEl.classList.remove('hidden');
+      changeEl.className = `text-[10px] font-semibold ${change >= 0 ? 'text-green-400' : 'text-red-400'}`;
+      changeEl.textContent = `${change >= 0 ? '↑' : '↓'}${Math.abs(change).toFixed(1)}%`;
+    }
   } catch { document.getElementById('btcPrice').textContent = 'BTC $—'; }
 }
 function satsToUsd(sats) { return btcUsd > 0 ? (sats / 1e8 * btcUsd).toFixed(2) : null; }
@@ -290,22 +503,88 @@ function setCache(c) { localStorage.setItem('m-cache', JSON.stringify(c)) }
 function getCached(id) { const c=getCache(); if(c[id]&&Date.now()-c[id].t<CACHE_TTL) return c[id].v; return undefined }
 function setCached(id,v) { const c=getCache(); c[id]={v,t:Date.now()}; setCache(c) }
 function clearCache() { localStorage.removeItem('m-cache'); updCacheCount(); }
-function updCacheCount() { document.getElementById('cacheCount').textContent=Object.keys(getCache()).length||'' }
+function updCacheCount() { document.getElementById('cacheCount').textContent=Object.keys(getCache()).length||'0' }
 
 // === HISTORY ===
 function getHistory() { try { return JSON.parse(localStorage.getItem('m-history')||'[]') } catch { return [] } }
-function addHistory(entry) { const h=getHistory(); h.unshift(entry); if(h.length>20) h.length=20; localStorage.setItem('m-history',JSON.stringify(h)) }
+function addHistory(entry) { const h=getHistory(); h.unshift(entry); if(h.length>50) h.length=50; localStorage.setItem('m-history',JSON.stringify(h)) }
 function clearHistory() { localStorage.removeItem('m-history'); renderHistory() }
 function toggleHistory() { document.getElementById('historyPanel').classList.toggle('hidden'); renderHistory() }
 function renderHistory() {
   const el=document.getElementById('historyList'); const h=getHistory();
-  if(!h.length) { el.innerHTML='<p class="text-gray-600">Sin historial</p>'; return }
-  el.innerHTML=h.map(e=>`<div class="flex justify-between py-1 border-b border-gray-800/50">
-    <span class="text-gray-500">${e.time}</span>
-    <span class="text-gray-400">${e.slug||'All'} · ${e.listings} listings</span>
-    <span class="${e.opps>0?'text-green-400':'text-gray-600'}">${e.opps} opps${e.opps>0?' · +'+fmt(e.totalProfit):''}</span>
-    <span class="text-gray-600">${e.duration}s</span>
+  if(!h.length) { el.innerHTML='<p class="text-[11px] text-gray-700">No scan history</p>'; return }
+  el.innerHTML=h.map(e=>`<div class="flex items-center justify-between py-1.5 border-b border-gray-800/30 text-[10px]">
+    <span class="text-gray-600 mono">${e.time}</span>
+    <span class="text-gray-400">${e.slug||'All'}</span>
+    <span class="text-gray-500">${e.listings} listings</span>
+    <span class="${e.opps>0?'text-green-400 font-semibold':'text-gray-700'}">${e.opps} opps${e.opps>0?' · +'+fmt(e.totalProfit):''}</span>
+    <span class="text-gray-700 mono">${e.duration}s</span>
   </div>`).join('');
+}
+
+// === WATCHLIST ===
+function getWatchlist() { try { return JSON.parse(localStorage.getItem('m-watchlist')||'[]') } catch { return [] } }
+function saveWatchlist(w) { localStorage.setItem('m-watchlist',JSON.stringify(w)) }
+function toggleWatchlist() { document.getElementById('watchlistPanel').classList.toggle('hidden'); renderWatchlist() }
+function addToWatchlist() {
+  const input=document.getElementById('watchlistInput');
+  const slug=input.value.trim().toLowerCase();
+  if(!slug) return;
+  const w=getWatchlist();
+  if(!w.includes(slug)) { w.push(slug); saveWatchlist(w) }
+  input.value='';
+  renderWatchlist();
+}
+function removeFromWatchlist(slug) {
+  const w=getWatchlist().filter(s=>s!==slug);
+  saveWatchlist(w);
+  renderWatchlist();
+}
+function renderWatchlist() {
+  const el=document.getElementById('watchlistItems');
+  const w=getWatchlist();
+  if(!w.length) { el.innerHTML='<p class="text-[11px] text-gray-700">No collections saved</p>'; return }
+  el.innerHTML=w.map(slug=>`<div class="watchlist-item flex items-center gap-2 px-3 py-1.5 glass glass-border rounded-lg">
+    <button onclick="setPreset('${slug}',546,200000,10);startScan()" class="btn text-[10px] text-amber-400 hover:text-amber-300 font-semibold mono">${slug}</button>
+    <button onclick="removeFromWatchlist('${slug}')" class="btn text-gray-700 hover:text-red-400 text-[10px]">✕</button>
+  </div>`).join('');
+}
+
+// === SAVED OPPS ===
+function getSavedOpps() { try { return JSON.parse(localStorage.getItem('m-saved')||'[]') } catch { return [] } }
+function saveSavedOpps(s) { localStorage.setItem('m-saved',JSON.stringify(s)); updSavedCount() }
+function saveOpp(opp) {
+  const s=getSavedOpps();
+  if(!s.find(o=>o.id===opp.id)) { s.unshift({...opp,savedAt:Date.now()}); saveSavedOpps(s) }
+}
+function removeSavedOpp(id) { saveSavedOpps(getSavedOpps().filter(o=>o.id!==id)); renderSavedOpps() }
+function clearSavedOpps() { saveSavedOpps([]); renderSavedOpps() }
+function updSavedCount() { document.getElementById('savedCount').textContent=getSavedOpps().length }
+function renderSavedOpps() {
+  const list=document.getElementById('savedList');
+  const saved=getSavedOpps();
+  updSavedCount();
+  if(!saved.length) { list.innerHTML='<p class="text-[11px] text-gray-700 py-2">No saved opportunities</p>'; return }
+  list.innerHTML=saved.map(o=>{
+    const usd=satsToUsd(o.profit);
+    const ratio=(o.outputValue/o.price).toFixed(1);
+    const time=o.savedAt?new Date(o.savedAt).toLocaleDateString('es-ES',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+    return `<div class="flex items-center justify-between p-3 glass glass-border rounded-lg text-[11px]">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="min-w-0">
+          <p class="text-gray-300 font-semibold truncate">${o.name}</p>
+          <p class="text-[10px] text-gray-600">${o.collection} · ${time}</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <span class="tag tag-green mono">+${fmt(o.profit)}</span>
+        ${usd?`<span class="text-green-400/50 text-[10px] mono">$${usd}</span>`:''}
+        <span class="text-gray-600 mono">${ratio}×</span>
+        <a href="https://magiceden.io/ordinals/item-details/${o.id}" target="_blank" class="btn text-blue-400 hover:text-blue-300">↗</a>
+        <button onclick="removeSavedOpp('${o.id}')" class="btn text-gray-700 hover:text-red-400">✕</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // === SOUND ===
@@ -320,18 +599,20 @@ function playAlert() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator(); const gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.1);
-    osc.frequency.setValueAtTime(1320, ctx.currentTime + 0.2);
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-    osc.start(); osc.stop(ctx.currentTime + 0.4);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(660, ctx.currentTime);
+    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08);
+    osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.16);
+    osc.frequency.setValueAtTime(1320, ctx.currentTime + 0.24);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    osc.start(); osc.stop(ctx.currentTime + 0.5);
   } catch {}
 }
 function notifyOpp(opp) {
   playAlert();
   if (Notification.permission === 'granted') {
-    new Notification('⛏️ Oportunidad!', { body: `${opp.name} · +${fmt(opp.profit)} sats`, icon: '⛏️' });
+    new Notification('⛏️ Opportunity found!', { body: `${opp.name} · +${fmt(opp.profit)} sats`, icon: '⛏️' });
   }
 }
 
@@ -339,15 +620,15 @@ function notifyOpp(opp) {
 function toggleAutoScan() {
   autoScanEnabled = !autoScanEnabled;
   const btn = document.getElementById('autoScanBtn');
-  const status = document.getElementById('autoScanStatus');
+  const bar = document.getElementById('autoScanBar');
   if (autoScanEnabled) {
-    btn.classList.add('!bg-blue-500/20','!text-blue-400','!border-blue-500/30');
-    status.classList.remove('hidden');
+    btn.classList.add('!text-blue-400','!border-blue-500/30');
+    bar.classList.remove('hidden');
     startAutoCountdown();
     if (!scanning) startScan();
   } else {
-    btn.classList.remove('!bg-blue-500/20','!text-blue-400','!border-blue-500/30');
-    status.classList.add('hidden');
+    btn.classList.remove('!text-blue-400','!border-blue-500/30');
+    bar.classList.add('hidden');
     clearInterval(autoScanTimer); clearInterval(countdownTimer);
   }
 }
@@ -362,12 +643,56 @@ function startAutoCountdown() {
   }, 1000);
 }
 
+// === MODALS ===
+function showShortcuts() { const m=document.getElementById('shortcutsModal'); m.classList.remove('hidden'); m.style.display='flex' }
+function toggleCalc() { const m=document.getElementById('calcModal'); const h=m.classList.contains('hidden')||m.style.display==='none'; if(h){m.classList.remove('hidden');m.style.display='flex';calcProfit()}else{m.classList.add('hidden');m.style.display='none'} }
+function calcProfit() {
+  const buy=parseInt(document.getElementById('calcBuy').value)||0;
+  const utxo=parseInt(document.getElementById('calcUtxo').value)||0;
+  const fee=parseInt(document.getElementById('calcFee').value)||750;
+  const profit=utxo-buy-fee;
+  const el=document.getElementById('calcResult');
+  el.textContent=(profit>=0?'+':'')+profit.toLocaleString()+' sats';
+  el.className='font-bold mono '+(profit>0?'text-green-400':'text-red-400');
+  const usd=satsToUsd(Math.abs(profit));
+  document.getElementById('calcUsd').textContent=usd?(profit>=0?'':'−')+'$'+usd:'—';
+  document.getElementById('calcRatio').textContent=buy>0?(utxo/buy).toFixed(2)+'×':'—';
+  document.getElementById('calcRoi').textContent=buy>0?(profit/buy*100).toFixed(1)+'%':'—';
+}
+
+// === SESSION STATS ===
+function updSessionStats() {
+  document.getElementById('sessionBar').classList.remove('hidden');
+  document.getElementById('sessionScans').textContent=sessionStats.scans;
+  document.getElementById('sessionOpps').textContent=sessionStats.opps;
+  document.getElementById('sessionProfit').textContent=fmt(sessionStats.profit)+' sats';
+}
+function startSessionTimer() {
+  if(sessionTimer) return;
+  sessionTimer=setInterval(()=>{
+    const s=Math.floor((Date.now()-sessionStats.start)/1000);
+    const m=Math.floor(s/60), sec=s%60;
+    document.getElementById('sessionTime').textContent=`${m}:${sec.toString().padStart(2,'0')}`;
+  },1000);
+}
+
+// === NETWORK STATUS ===
+function setNetStatus(status, text) {
+  const el=document.getElementById('networkStatus');
+  const colors={idle:'bg-gray-600',scanning:'bg-amber-400 pulse',done:'bg-green-400',error:'bg-red-400'};
+  el.innerHTML=`<span class="w-1.5 h-1.5 rounded-full ${colors[status]||colors.idle}"></span><span class="text-gray-${status==='idle'?'6':'4'}00">${text}</span>`;
+}
+function setApiHealth(api, ok) {
+  const el=document.getElementById('api'+api);
+  if(el) el.className=`w-2 h-2 rounded-full ${ok?'bg-green-400':'bg-red-400'}`;
+}
+
 // === UI HELPERS ===
 function log(msg, type='info') {
   const el=document.getElementById('log'); el.classList.remove('hidden');
   const t=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const c={info:'text-gray-600',ok:'text-green-400',warn:'text-amber-400',error:'text-red-400',cache:'text-blue-400'};
-  el.innerHTML+=`<div class="${c[type]||c.info}">[${t}] ${msg}</div>`; el.scrollTop=el.scrollHeight;
+  el.innerHTML+=`<div class="slide-in ${c[type]||c.info}">[${t}] ${msg}</div>`; el.scrollTop=el.scrollHeight;
 }
 function fmt(s) { if(s>=1e6) return (s/1e6).toFixed(2)+'M'; if(s>=1000) return (s/1000).toFixed(1)+'k'; return s.toLocaleString() }
 function updProgress(cur,tot,txt) {
@@ -389,7 +714,7 @@ function setPreset(slug,min,max,pages) {
   document.getElementById('maxPrice').value=max;
   document.getElementById('maxPages').value=pages;
 }
-function stopScan() { shouldStop=true; log('⏹ Detenido','warn') }
+function stopScan() { shouldStop=true; log('⏹ Stopped','warn') }
 
 // === EXPORT ===
 function exportCSV() {
@@ -405,6 +730,93 @@ function exportCSV() {
   a.download=`mining-${new Date().toISOString().slice(0,16)}.csv`; a.click();
 }
 
+// === UTXO DISTRIBUTION CHART ===
+function drawDistChart() {
+  const canvas=document.getElementById('distChart');
+  if(!canvas||!allResults.length) return;
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr; canvas.height=rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const w=rect.width, h=rect.height;
+  
+  // Get UTXO values and prices
+  const data=allResults.filter(r=>r.outputValue!==null).map(r=>({utxo:r.outputValue,price:r.item.price,profit:r.outputValue-r.item.price-SPLIT_FEE}));
+  if(!data.length) return;
+  
+  // Create histogram bins
+  const maxVal=Math.max(...data.map(d=>d.utxo));
+  const bins=20;
+  const binSize=Math.max(1,Math.ceil(maxVal/bins));
+  const histogram=new Array(bins).fill(0);
+  const profitBins=new Array(bins).fill(0);
+  data.forEach(d=>{
+    const bin=Math.min(bins-1,Math.floor(d.utxo/binSize));
+    histogram[bin]++;
+    if(d.profit>1000) profitBins[bin]++;
+  });
+  
+  const maxCount=Math.max(...histogram,1);
+  const barW=(w-60)/(bins);
+  const chartH=h-40;
+  
+  // Draw axes
+  ctx.strokeStyle='rgba(255,255,255,.06)';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(40,10); ctx.lineTo(40,chartH+10);
+  ctx.lineTo(w-10,chartH+10);
+  ctx.stroke();
+  
+  // Draw bars
+  histogram.forEach((count,i)=>{
+    const x=45+i*barW;
+    const barH=(count/maxCount)*chartH;
+    const profitH=(profitBins[i]/maxCount)*chartH;
+    
+    // Regular bar
+    ctx.fillStyle='rgba(245,158,11,.15)';
+    ctx.fillRect(x,chartH+10-barH,barW-2,barH);
+    ctx.strokeStyle='rgba(245,158,11,.3)';
+    ctx.strokeRect(x,chartH+10-barH,barW-2,barH);
+    
+    // Profit overlay
+    if(profitBins[i]>0) {
+      ctx.fillStyle='rgba(34,197,94,.25)';
+      ctx.fillRect(x,chartH+10-profitH,barW-2,profitH);
+      ctx.strokeStyle='rgba(34,197,94,.4)';
+      ctx.strokeRect(x,chartH+10-profitH,barW-2,profitH);
+    }
+  });
+  
+  // Labels
+  ctx.fillStyle='rgba(255,255,255,.3)';
+  ctx.font='9px "JetBrains Mono"';
+  ctx.textAlign='center';
+  [0,Math.floor(bins/4),Math.floor(bins/2),Math.floor(bins*3/4),bins-1].forEach(i=>{
+    const x=45+i*barW+barW/2;
+    const val=i*binSize;
+    ctx.fillText(fmt(val),x,chartH+24);
+  });
+  ctx.textAlign='right';
+  ctx.fillText(maxCount,36,16);
+  ctx.fillText('0',36,chartH+10);
+  
+  // Legend
+  ctx.textAlign='left';
+  ctx.fillStyle='rgba(245,158,11,.5)';
+  ctx.fillRect(w-140,6,8,8);
+  ctx.fillStyle='rgba(255,255,255,.4)';
+  ctx.fillText('All',w-128,14);
+  ctx.fillStyle='rgba(34,197,94,.5)';
+  ctx.fillRect(w-80,6,8,8);
+  ctx.fillStyle='rgba(255,255,255,.4)';
+  ctx.fillText('Profit',w-68,14);
+  
+  document.getElementById('chartSection').classList.remove('hidden');
+}
+
 // === API ===
 async function fetchRetry(url, retries=3) {
   for (let i=0; i<retries; i++) {
@@ -412,7 +824,6 @@ async function fetchRetry(url, retries=3) {
       const r=await fetch(url);
       if(r.ok) return await r.json();
       if(r.status===429) {
-        // Check retry-after header
         const retryAfter=r.headers.get('retry-after');
         const wait=retryAfter?Math.min(parseInt(retryAfter),30)*1000:(i+1)*15000;
         log(`⏳ 429 — retry in ${Math.round(wait/1000)}s (${i+1}/${retries})`,'warn');
@@ -424,7 +835,6 @@ async function fetchRetry(url, retries=3) {
   return null;
 }
 
-// Multi-source listing fetcher with fallback
 async function fetchFromME(slug,minP,maxP,lim,off) {
   let url=`/api/me/v2/ord/btc/tokens?sortBy=priceAsc&limit=${lim}&offset=${off}&minPrice=${minP}&maxPrice=${maxP}`;
   if(slug) url+=`&collectionSymbol=${slug}`;
@@ -432,22 +842,11 @@ async function fetchFromME(slug,minP,maxP,lim,off) {
   if(!d) return null;
   const tk=d.tokens||d||[];
   if(!Array.isArray(tk)) return null;
+  setApiHealth('ME',true);
   return tk.map(t=>({id:t.id,name:t.meta?.name||t.id?.substring(0,16)+'...',collection:t.collection?.name||t.collectionSymbol||'—',slug:t.collectionSymbol||'',price:t.listedPrice,imageUrl:t.contentURI||t.meta?.imageURI||'',source:'ME'})).filter(t=>t.price&&t.price>=minP&&t.price<=maxP);
 }
 
-async function fetchFromMECollection(slug,minP,maxP,lim,off) {
-  if(!slug) return null; // collection endpoint needs slug
-  let url=`/api/me/v2/ord/btc/tokens?collectionSymbol=${slug}&sortBy=priceAsc&limit=${lim}&offset=${off}&minPrice=${minP}&maxPrice=${maxP}`;
-  const d=await fetchRetry(url,2);
-  if(!d) return null;
-  const tk=d.tokens||d||[];
-  if(!Array.isArray(tk)) return null;
-  return tk.map(t=>({id:t.id,name:t.meta?.name||t.id?.substring(0,16)+'...',collection:t.collection?.name||slug,slug:slug,price:t.listedPrice,imageUrl:t.contentURI||t.meta?.imageURI||'',source:'ME'})).filter(t=>t.price&&t.price>=minP&&t.price<=maxP);
-}
-
-// Scrape via ordinals.com (no API key needed)
 async function fetchFromOrdScrape(slug,minP,maxP,lim) {
-  // This is a last resort - try ME activities which has different rate limits
   try {
     let url=`/api/me/v2/ord/btc/activities?kind=listing&limit=${lim}`;
     if(slug) url+=`&collectionSymbol=${slug}`;
@@ -468,30 +867,27 @@ async function fetchListings(slug,minP,maxP,maxPg) {
   for(let pg=0; pg<maxPg; pg++) {
     if(shouldStop) break;
     const off=pg*lim;
-    log(`📄 Pág ${pg+1}/${maxPg} [${source}]`);
+    log(`📄 Page ${pg+1}/${maxPg} [${source}]`);
 
     let items=null;
     try {
-      // Try main endpoint
       items=await fetchFromME(slug,minP,maxP,lim,off);
       if(items) { consecutive429=0; source='ME' }
     } catch(e) {
-      if(e.message?.includes('429')) consecutive429++;
+      if(e.message?.includes('429')) { consecutive429++; setApiHealth('ME',false) }
     }
 
-    // If rate limited, try activities endpoint
     if(!items && consecutive429>0) {
-      log('⚡ ME rate limited, trying activities...','warn');
+      log('⚡ Rate limited, trying activities...','warn');
       try {
         items=await fetchFromOrdScrape(slug,minP,maxP,lim);
         if(items) source='ME-act';
       } catch{}
     }
 
-    // If still nothing after 2 consecutive 429s, add longer backoff
     if(!items && consecutive429>=2) {
       const wait=Math.min(consecutive429*15,60);
-      log(`⏳ Rate limited — waiting ${wait}s (attempt ${consecutive429})...`,'warn');
+      log(`⏳ Rate limited — waiting ${wait}s...`,'warn');
       await sleep(wait*1000);
       try {
         items=await fetchFromME(slug,minP,maxP,lim,off);
@@ -502,8 +898,8 @@ async function fetchListings(slug,minP,maxP,maxPg) {
     }
 
     if(!items||!items.length) {
-      if(consecutive429>=3) { log(`❌ ME API bloqueada — ${ls.length} listings recogidos`,'error'); break }
-      log(`Pág ${pg+1}: vacía`,'warn'); break;
+      if(consecutive429>=3) { log(`❌ ME API blocked — ${ls.length} listings fetched`,'error'); break }
+      log(`Page ${pg+1}: empty`,'warn'); break;
     }
 
     items.forEach(t=>{if(!seen.has(t.id)){seen.add(t.id);ls.push(t)}});
@@ -511,7 +907,6 @@ async function fetchListings(slug,minP,maxP,maxPg) {
     log(`✅ +${items.length} (total: ${ls.length}) [${source}]`,'ok');
 
     if(items.length<lim) break;
-    // Adaptive delay: slower when near rate limit
     const delay=consecutive429>0?3000:1200;
     await sleep(delay);
   }
@@ -523,16 +918,26 @@ async function getOutputValue(id) {
   // Try Hiro first
   try {
     const d=await fetchRetry(`/api/hiro/ordinals/v1/inscriptions/${id}`);
-    if(d&&(d.value||d.output_value)){const v=parseInt(d.value||d.output_value);setCached(id,v);return {val:v,cached:false}}
-  } catch{}
+    if(d&&(d.value||d.output_value)){
+      const v=parseInt(d.value||d.output_value);
+      setCached(id,v);
+      setApiHealth('Hiro',true);
+      return {val:v,cached:false}
+    }
+  } catch{ setApiHealth('Hiro',false) }
   // Fallback: mempool.space
   try {
     if(id.includes('i')) {
       const txid=id.split('i')[0]; const vout=parseInt(id.split('i')[1])||0;
       const d=await fetchRetry(`https://mempool.space/api/tx/${txid}`);
-      if(d&&d.vout&&d.vout[vout]){const v=d.vout[vout].value;setCached(id,v);return {val:v,cached:false}}
+      if(d&&d.vout&&d.vout[vout]){
+        const v=d.vout[vout].value;
+        setCached(id,v);
+        setApiHealth('Mempool',true);
+        return {val:v,cached:false}
+      }
     }
-  } catch{}
+  } catch{ setApiHealth('Mempool',false) }
   setCached(id,null);
   return {val:null,cached:false};
 }
@@ -542,27 +947,31 @@ async function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 // === RENDER ===
 function renderOpp(opp,idx) {
   const usd=satsToUsd(opp.profit); const ratio=(opp.outputValue/opp.price).toFixed(1);
-  const card=document.createElement('a');
-  card.href=`https://magiceden.io/ordinals/item-details/${opp.id}`; card.target='_blank';
-  card.className='opp slide-up block p-3 border border-green-500/30 hover:border-green-500/60 hover:bg-green-500/5 rounded-lg group';
-  card.innerHTML=`<div class="flex items-center justify-between gap-3">
-    <div class="flex items-center gap-3 min-w-0">
-      <span class="text-base font-bold text-green-400/50 w-6 flex-shrink-0 tabnum">${idx}</span>
-      ${opp.imageUrl?`<img src="${opp.imageUrl}" class="w-10 h-10 rounded object-cover bg-gray-800 flex-shrink-0" loading="lazy" onerror="this.style.display='none'">`:''}
-      <div class="min-w-0">
-        <p class="font-bold text-gray-200 group-hover:text-green-400 text-xs truncate">${opp.name}</p>
-        <p class="text-[10px] text-gray-500 truncate">${opp.collection}</p>
-        <div class="flex items-center gap-2 mt-1">
-          <span class="tag tag-green font-bold">+${fmt(opp.profit)}</span>
-          ${usd?`<span class="text-[10px] text-green-400/60">≈$${usd}</span>`:''}
-          <span class="tag tag-amber">${ratio}×</span>
+  const roi=((opp.profit/opp.price)*100).toFixed(0);
+  const card=document.createElement('div');
+  card.className='opp-card slide-up p-4 glass rounded-xl border border-green-500/20 hover:border-green-500/40 group';
+  card.innerHTML=`<div class="flex items-start justify-between gap-3">
+    <div class="flex items-start gap-3 min-w-0 flex-1">
+      ${opp.imageUrl?`<img src="${opp.imageUrl}" class="w-12 h-12 rounded-lg object-cover bg-gray-800 flex-shrink-0 border border-gray-800" loading="lazy" onerror="this.style.display='none'">`:'<div class="w-12 h-12 rounded-lg bg-gray-800 flex-shrink-0 flex items-center justify-center text-lg">⛏️</div>'}
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          <a href="https://magiceden.io/ordinals/item-details/${opp.id}" target="_blank" class="font-semibold text-gray-200 group-hover:text-green-400 text-xs truncate transition-colors">${opp.name}</a>
+          <button onclick="event.stopPropagation();saveOpp(${JSON.stringify(opp).replace(/"/g,'&quot;')})" class="btn text-gray-700 hover:text-amber-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity" title="Save">💾</button>
+        </div>
+        <p class="text-[10px] text-gray-600 truncate">${opp.collection}</p>
+        <div class="flex items-center gap-2 mt-2">
+          <span class="tag tag-green font-bold mono">+${fmt(opp.profit)}</span>
+          ${usd?`<span class="text-[10px] text-green-400/50 mono">$${usd}</span>`:''}
+          <span class="tag tag-amber mono">${ratio}×</span>
+          <span class="tag tag-purple mono">${roi}% ROI</span>
         </div>
       </div>
     </div>
-    <div class="text-right flex-shrink-0 text-[11px] space-y-0.5 hide-mobile">
-      <p class="text-gray-500">UTXO: <span class="text-gray-300 font-bold">${fmt(opp.outputValue)}</span></p>
-      <p class="text-gray-500">Precio: <span class="text-amber-400">${fmt(opp.price)}</span></p>
-      <p class="text-green-400 font-bold">+${fmt(opp.profit)}</p>
+    <div class="text-right flex-shrink-0 text-[10px] space-y-1 hide-mobile">
+      <p class="text-gray-600">UTXO <span class="text-gray-300 font-semibold mono">${fmt(opp.outputValue)}</span></p>
+      <p class="text-gray-600">Price <span class="text-amber-400 mono">${fmt(opp.price)}</span></p>
+      <p class="text-gray-600">Fee <span class="text-gray-500 mono">${SPLIT_FEE}</span></p>
+      <a href="https://magiceden.io/ordinals/item-details/${opp.id}" target="_blank" class="inline-block mt-1 px-2.5 py-1 bg-green-500/15 hover:bg-green-500/25 text-green-400 rounded-lg font-semibold transition-all btn">BUY →</a>
     </div>
   </div>`;
   return card;
@@ -601,13 +1010,16 @@ function renderHeatmap() {
   const grid=document.getElementById('heatmapGrid'); grid.innerHTML='';
   cols.slice(0,12).forEach(([name,d])=>{
     const avgRatio=d.count>0?(d.totalRatio/d.count).toFixed(2):'—';
-    const color=d.opps>0?'border-green-500/40 bg-green-500/5':parseFloat(avgRatio)>1.2?'border-amber-500/30 bg-amber-500/5':'border-gray-700 bg-black/30';
+    const isHot=d.opps>0;
+    const isWarm=parseFloat(avgRatio)>1.2;
+    const borderColor=isHot?'border-green-500/30':isWarm?'border-amber-500/20':'border-gray-800';
+    const bgColor=isHot?'bg-green-500/[.03]':isWarm?'bg-amber-500/[.02]':'bg-black/20';
     const el=document.createElement('div');
-    el.className=`p-2 border ${color} rounded text-center`;
-    el.innerHTML=`<p class="text-[10px] text-gray-400 truncate font-bold" title="${name}">${name.length>14?name.slice(0,14)+'…':name}</p>
-      <p class="text-sm font-bold tabnum ${d.opps>0?'text-green-400':'text-gray-500'}">${avgRatio}×</p>
-      <p class="text-[9px] text-gray-600">${d.count} items${d.opps>0?' · '+d.opps+' opps':''}</p>
-      ${d.bestProfit>0?`<p class="text-[9px] text-green-400">best +${fmt(d.bestProfit)}</p>`:''}`;
+    el.className=`p-3 glass rounded-lg border ${borderColor} ${bgColor} text-center stat-card`;
+    el.innerHTML=`<p class="text-[10px] text-gray-400 truncate font-semibold" title="${name}">${name.length>16?name.slice(0,16)+'…':name}</p>
+      <p class="text-lg font-bold tabnum mono mt-1 ${isHot?'text-green-400':isWarm?'text-amber-400':'text-gray-600'}">${avgRatio}×</p>
+      <p class="text-[9px] text-gray-600 mt-0.5">${d.count} items${isHot?' · <span class="text-green-400">'+d.opps+' opps</span>':''}</p>
+      ${d.bestProfit>0?`<p class="text-[9px] text-green-400 font-semibold mt-0.5">best +${fmt(d.bestProfit)}</p>`:''}`;
     grid.appendChild(el);
   });
 }
@@ -615,17 +1027,17 @@ function renderHeatmap() {
 function renderAllListing(item,outputValue) {
   const profit=outputValue!==null?outputValue-item.price-SPLIT_FEE:null;
   const ratio=outputValue!==null?(outputValue/item.price).toFixed(2):'—';
-  const pc=profit===null?'text-gray-700':profit>1000?'text-green-400':profit>0?'text-amber-400/70':'text-gray-700';
+  const pc=profit===null?'text-gray-700':profit>1000?'text-green-400 font-semibold':profit>0?'text-amber-400/60':'text-gray-700';
   const pt=profit===null?'—':profit>0?'+'+fmt(profit):fmt(profit);
   const el=document.createElement('a');
   el.href=`https://magiceden.io/ordinals/item-details/${item.id}`; el.target='_blank';
-  el.className='flex items-center px-3 py-1 text-[10px] border-b border-gray-800/30 hover:bg-gray-800/30';
-  el.innerHTML=`<span class="w-24 flex-shrink-0 text-gray-600 truncate">${item.collection}</span>
+  el.className='flex items-center px-4 py-2 text-[10px] border-b border-gray-800/20 hover:bg-gray-800/20 transition-colors mono';
+  el.innerHTML=`<span class="w-28 flex-shrink-0 text-gray-600 truncate">${item.collection}</span>
     <span class="flex-1 text-gray-400 truncate hover:text-amber-400">${item.name}</span>
-    <span class="w-16 text-right text-amber-400 tabnum">${fmt(item.price)}</span>
-    <span class="w-16 text-right text-gray-400 tabnum">${outputValue!==null?fmt(outputValue):'—'}</span>
-    <span class="w-16 text-right ${pc} font-bold tabnum">${pt}</span>
-    <span class="w-12 text-right text-gray-500 tabnum">${ratio}</span>`;
+    <span class="w-20 text-right text-amber-400">${fmt(item.price)}</span>
+    <span class="w-20 text-right text-gray-400">${outputValue!==null?fmt(outputValue):'—'}</span>
+    <span class="w-20 text-right ${pc}">${pt}</span>
+    <span class="w-14 text-right text-gray-600">${ratio}</span>`;
   return el;
 }
 
@@ -634,6 +1046,9 @@ async function startScan() {
   if(scanning) return;
   scanning=true; shouldStop=false; scanStart=Date.now();
   allOpportunities=[]; allResults=[];
+  sessionStats.scans++;
+  startSessionTimer();
+  setNetStatus('scanning','Scanning...');
 
   const slug=document.getElementById('collectionSlug').value.trim();
   const minP=parseInt(document.getElementById('minPrice').value)||546;
@@ -642,13 +1057,15 @@ async function startScan() {
   const conc=parseInt(document.getElementById('concurrency').value)||3;
   const minProfit=parseInt(document.getElementById('minProfit').value)||1000;
 
-  // Reset
-  document.getElementById('scanBtn').disabled=true;
+  // Reset UI
+  const scanBtn=document.getElementById('scanBtn');
+  scanBtn.disabled=true; scanBtn.classList.add('scanning');
   document.getElementById('stopBtn').classList.remove('hidden');
-  document.getElementById('scanText').textContent='⏳...';
+  document.getElementById('scanText').textContent='⏳ Scanning...';
   document.getElementById('emptyState').classList.add('hidden');
   document.getElementById('oppsSection').classList.add('hidden');
   document.getElementById('heatmapSection').classList.add('hidden');
+  document.getElementById('chartSection').classList.add('hidden');
   document.getElementById('allSection').classList.add('hidden');
   document.getElementById('oppsList').innerHTML='';
   document.getElementById('statsGrid').classList.remove('hidden');
@@ -657,15 +1074,17 @@ async function startScan() {
   document.getElementById('exportBtn').classList.add('hidden');
   ['statListings','statChecked','statCached','statOpps'].forEach(id=>document.getElementById(id).textContent='0');
   ['statBest','statEta','statSpeed'].forEach(id=>document.getElementById(id).textContent='—');
+  ['ME','Hiro','Mempool'].forEach(a=>{ const el=document.getElementById('api'+a); if(el) el.className='w-2 h-2 rounded-full bg-gray-700' });
+  updSessionStats();
 
-  log(`🚀 ${slug||'ALL'} | ${fmt(minP)}-${fmt(maxP)} | ${maxPg}p ×${conc} | min +${fmt(minProfit)}`,'ok');
+  log(`🚀 ${slug||'ALL'} | ${fmt(minP)}–${fmt(maxP)} | ${maxPg}p ×${conc} | min +${fmt(minProfit)}`,'ok');
 
   // Fetch listings
   const listings=await fetchListings(slug,minP,maxP,maxPg);
-  if(!listings.length||shouldStop){log(shouldStop?'⏹':'Sin listings','warn');finish(slug,0,0,0);return}
+  if(!listings.length||shouldStop){log(shouldStop?'⏹':'No listings found','warn');finish(slug,0,0,0);return}
 
   // Check UTXOs
-  log(`🔍 ${listings.length} UTXOs (×${conc})...`,'ok');
+  log(`🔍 Checking ${listings.length} UTXOs (×${conc})...`,'ok');
   let checked=0, cached=0, bestProfit=0;
 
   for(let i=0; i<listings.length; i+=conc) {
@@ -682,7 +1101,7 @@ async function startScan() {
       checked++; if(wasCached) cached++;
       document.getElementById('statChecked').textContent=checked;
       document.getElementById('statCached').textContent=cached;
-      updProgress(checked,listings.length,`${checked}/${listings.length}`);
+      updProgress(checked,listings.length,`Checking ${checked}/${listings.length}`);
       updEta(checked,listings.length);
       allResults.push({item,outputValue});
       
@@ -703,7 +1122,7 @@ async function startScan() {
           document.getElementById('oppCount').textContent=allOpportunities.length;
           document.getElementById('totalProfit').textContent=`+${fmt(total)} sats`;
           const usd=satsToUsd(total);
-          document.getElementById('totalUsd').textContent=usd?`≈$${usd}`:'';
+          document.getElementById('totalUsd').textContent=usd?`≈ $${usd}`:'';
         }
       }
     }
@@ -717,10 +1136,16 @@ async function startScan() {
 
 function finish(slug,listings,opps,totalProfit) {
   const elapsed=((Date.now()-scanStart)/1000).toFixed(1);
-  updProgress(1,1,'✅');
+  updProgress(1,1,'✅ Complete');
   document.getElementById('statEta').textContent='✅';
   document.getElementById('statSpeed').textContent=elapsed+'s';
+  setNetStatus('done',`Done — ${elapsed}s`);
   log(`✅ ${elapsed}s · ${allResults.length} checked · ${opps} opps · +${fmt(totalProfit)}`,'ok');
+
+  // Session stats
+  sessionStats.opps += opps;
+  sessionStats.profit += totalProfit;
+  updSessionStats();
 
   // History
   addHistory({
@@ -728,10 +1153,10 @@ function finish(slug,listings,opps,totalProfit) {
     slug:slug, listings:listings, opps:opps, totalProfit:totalProfit, duration:elapsed
   });
 
-  // Heatmap
-  if(allResults.length>5) renderHeatmap();
+  // Charts
+  if(allResults.length>5) { renderHeatmap(); drawDistChart() }
 
-  // All listings
+  // All listings table
   if(allResults.length>0) {
     document.getElementById('allSection').classList.remove('hidden');
     document.getElementById('allCount').textContent=allResults.length;
@@ -747,31 +1172,47 @@ function finish(slug,listings,opps,totalProfit) {
   if(opps>0) document.getElementById('exportBtn').classList.remove('hidden');
   if(!opps&&!shouldStop) {
     document.getElementById('emptyState').classList.remove('hidden');
-    document.getElementById('emptyState').querySelector('p').textContent='Sin oportunidades en este rango';
+    document.getElementById('emptyState').querySelector('p.text-sm').textContent='No opportunities in this range';
   }
 
   updCacheCount();
-  document.getElementById('scanBtn').disabled=false;
+  const scanBtn=document.getElementById('scanBtn');
+  scanBtn.disabled=false; scanBtn.classList.remove('scanning');
   document.getElementById('stopBtn').classList.add('hidden');
   document.getElementById('scanText').textContent='⛏️ SCAN';
   scanning=false; shouldStop=false;
 
-  // Auto-scan restart countdown
   if(autoScanEnabled) startAutoCountdown();
+
+  // After 3s reset status
+  setTimeout(()=>{ if(!scanning) setNetStatus('idle','Idle') }, 3000);
 }
 
 // === KEYBOARD ===
 document.addEventListener('keydown', e => {
-  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
+  // Close modals on Esc
+  if(e.key==='Escape') {
+    const sm=document.getElementById('shortcutsModal');
+    const cm=document.getElementById('calcModal');
+    if(sm.style.display==='flex') { sm.style.display='none'; sm.classList.add('hidden'); return }
+    if(cm.style.display==='flex') { cm.style.display='none'; cm.classList.add('hidden'); return }
+    stopScan(); return;
+  }
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='TEXTAREA') return;
   if(e.key==='Enter') { e.preventDefault(); startScan() }
-  if(e.key==='Escape') stopScan();
   if(e.key==='s'||e.key==='S') toggleSound();
+  if(e.key==='a'||e.key==='A') toggleAutoScan();
+  if(e.key==='w'||e.key==='W') toggleWatchlist();
+  if(e.key==='h'||e.key==='H') toggleHistory();
+  if(e.key==='c'||e.key==='C') toggleCalc();
 });
 
 // === INIT ===
 fetchBtcPrice();
 setInterval(fetchBtcPrice, 60000);
 updCacheCount();
+updSavedCount();
+renderSavedOpps();
 </script>
 </body>
 </html>
