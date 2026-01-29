@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔧 Sat Mining Tool | Harto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+    :root {
+      --amber: #f59e0b; --green: #22c55e; --red: #ef4444; --blue: #3b82f6; --purple: #a855f7;
+      --bg: #050507; --surface: #0c0c10; --surface2: #12121a; --border: #1a1a2e; --border-light: #252540;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; overflow-x: hidden; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }
+    @keyframes glow { 0%,100% { box-shadow: 0 0 8px rgba(34,197,94,.15) } 50% { box-shadow: 0 0 24px rgba(34,197,94,.35) } }
+    @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+    .slide-up { animation: slideUp .4s cubic-bezier(.16,1,.3,1) }
+    .pulse { animation: pulse 2s ease-in-out infinite }
+    .glass { background: rgba(12,12,16,.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px) }
+    .glass-border { border: 1px solid rgba(255,255,255,.06) }
+    .gradient-text { background: linear-gradient(135deg, #f59e0b, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text }
+    .btn { transition: all .2s; cursor: pointer; user-select: none }
+    .btn:active { transform: scale(.97) }
+    .btn:disabled { opacity: .5; cursor: not-allowed }
+    .tag { padding: 3px 10px; border-radius: 6px; font-size: 11px; border: 1px solid; display: inline-flex; align-items: center; gap: 4px; font-weight: 600 }
+    .tag-mythic { color: #000; border-color: #fff; background: #fff }
+    .tag-legendary { color: var(--purple); border-color: rgba(168,85,247,.3); background: rgba(168,85,247,.1) }
+    .tag-epic { color: var(--red); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.1) }
+    .tag-rare { color: var(--amber); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.1) }
+    .tag-uncommon { color: #fbbf24; border-color: rgba(251,191,36,.3); background: rgba(251,191,36,.08) }
+    .tag-common { color: #9ca3af; border-color: rgba(156,163,175,.2); background: rgba(156,163,175,.05) }
+    ::-webkit-scrollbar { width: 4px; height: 4px }
+    ::-webkit-scrollbar-track { background: transparent }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 2px }
+  </style>
+</head>
+<body class="min-h-screen text-gray-100">
+
+  <!-- HEADER -->
+  <header class="glass border-b border-amber-500/20 sticky top-0 z-50">
+    <div class="max-w-[1400px] mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 flex items-center justify-center text-lg">🔧</div>
+        <div>
+          <h1 class="text-base font-extrabold tracking-tight">
+            <span class="gradient-text">SAT MINING TOOL</span>
+            <span class="text-[10px] text-gray-600 font-normal ml-2">by Jack</span>
+          </h1>
+          <div class="text-[10px] text-gray-500">Ordinals Rare Sat Finder & Analyzer</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/" class="btn px-3 py-1.5 text-xs glass glass-border rounded-lg text-gray-400 hover:text-amber-400">← Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-[1400px] mx-auto px-4 py-6 space-y-5">
+
+    <!-- SEARCH SECTION -->
+    <div class="glass glass-border rounded-xl p-5 slide-up">
+      <h2 class="text-sm font-bold text-gray-300 mb-3">🔍 Sat Lookup</h2>
+      <div class="flex gap-2">
+        <input type="text" id="satInput" placeholder="Enter sat number (e.g., 0, 5000000000)" 
+          class="flex-1 px-4 py-2.5 bg-black/40 border border-gray-800 rounded-lg text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-amber-500/50 mono">
+        <button onclick="lookupSat()" class="btn px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg text-sm font-semibold text-black hover:from-amber-400 hover:to-amber-500">
+          Search
+        </button>
+      </div>
+      <div class="mt-3 text-xs text-gray-600">
+        💡 Try: <span class="mono text-amber-400 cursor-pointer hover:underline" onclick="document.getElementById('satInput').value='0';lookupSat()">0</span> (mythic), 
+        <span class="mono text-amber-400 cursor-pointer hover:underline" onclick="document.getElementById('satInput').value='5000000000';lookupSat()">5000000000</span> (uncommon), 
+        <span class="mono text-amber-400 cursor-pointer hover:underline" onclick="document.getElementById('satInput').value='210000000000';lookupSat()">210000000000</span> (epic)
+      </div>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="loading" class="glass glass-border rounded-xl p-8 text-center hidden">
+      <div class="inline-block w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+      <div class="text-sm text-gray-400">Analyzing sat...</div>
+    </div>
+
+    <!-- RESULTS SECTION -->
+    <div id="results" class="hidden space-y-5">
+      
+      <!-- SAT DETAILS -->
+      <div class="glass glass-border rounded-xl p-5 slide-up">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-gray-100 mb-1">Sat <span id="satNumber" class="mono text-amber-400"></span></h2>
+            <div id="satRarityBadge" class="inline-block"></div>
+          </div>
+          <div id="satCharms" class="text-2xl"></div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <div class="text-gray-600 text-xs mb-1">Degree</div>
+            <div id="satDegree" class="mono text-gray-200 font-medium"></div>
+          </div>
+          <div>
+            <div class="text-gray-600 text-xs mb-1">Decimal</div>
+            <div id="satDecimal" class="mono text-gray-200 font-medium"></div>
+          </div>
+          <div>
+            <div class="text-gray-600 text-xs mb-1">Percentile</div>
+            <div id="satPercentile" class="mono text-gray-200 font-medium"></div>
+          </div>
+          <div>
+            <div class="text-gray-600 text-xs mb-1">Name</div>
+            <div id="satName" class="mono text-gray-200 font-medium"></div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-gray-800">
+          <div class="text-gray-600 text-xs mb-2">Block Location</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <div>
+              <span class="text-gray-500">Block:</span> <span id="satBlock" class="mono text-gray-200"></span>
+            </div>
+            <div>
+              <span class="text-gray-500">Offset:</span> <span id="satOffset" class="mono text-gray-200"></span>
+            </div>
+            <div>
+              <span class="text-gray-500">Timestamp:</span> <span id="satTimestamp" class="text-gray-200"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-gray-800">
+          <div class="text-gray-600 text-xs mb-2">Cycles & Periods</div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <div><span class="text-gray-500">Cycle:</span> <span id="satCycle" class="mono text-gray-200"></span></div>
+            <div><span class="text-gray-500">Epoch:</span> <span id="satEpoch" class="mono text-gray-200"></span></div>
+            <div><span class="text-gray-500">Period:</span> <span id="satPeriod" class="mono text-gray-200"></span></div>
+            <div><span class="text-gray-500">Block in Epoch:</span> <span id="satBlockInEpoch" class="mono text-gray-200"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPECIAL ATTRIBUTES -->
+      <div id="specialAttributes" class="glass glass-border rounded-xl p-5 slide-up hidden">
+        <h3 class="text-sm font-bold text-gray-300 mb-3">💎 Special Attributes</h3>
+        <div id="specialList" class="space-y-2"></div>
+      </div>
+
+      <!-- EXTERNAL LINKS -->
+      <div class="glass glass-border rounded-xl p-5 slide-up">
+        <h3 class="text-sm font-bold text-gray-300 mb-3">🔗 External Resources</h3>
+        <div class="flex flex-wrap gap-2">
+          <a id="ordinalsCom" href="#" target="_blank" class="btn px-3 py-2 text-xs bg-black/40 border border-gray-800 rounded-lg hover:border-amber-500/50 text-gray-300">
+            View on Ordinals.com →
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RARITY REFERENCE -->
+    <div class="glass glass-border rounded-xl p-5 slide-up">
+      <h3 class="text-sm font-bold text-gray-300 mb-3">📖 Rarity Reference</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-mythic">⚫ MYTHIC</span>
+          </div>
+          <div class="text-gray-500">First sat of genesis block</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 1 (sat #0)</div>
+        </div>
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-legendary">🟣 LEGENDARY</span>
+          </div>
+          <div class="text-gray-500">First sat of each cycle (~24 years)</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 5 total | 0 mined</div>
+        </div>
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-epic">🔴 EPIC</span>
+          </div>
+          <div class="text-gray-500">First sat of halving (~4 years)</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 27 total | 3 mined</div>
+        </div>
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-rare">🟠 RARE</span>
+          </div>
+          <div class="text-gray-500">First sat of difficulty adjustment</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 3,432 total | ~430 mined</div>
+        </div>
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-uncommon">🟡 UNCOMMON</span>
+          </div>
+          <div class="text-gray-500">First sat of each block (~10 min)</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 6.9M total | ~880K mined</div>
+        </div>
+        <div class="p-3 bg-black/30 rounded-lg border border-gray-800">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="tag tag-common">⚪ COMMON</span>
+          </div>
+          <div class="text-gray-500">All other sats</div>
+          <div class="mono text-gray-600 text-[10px] mt-1">Supply: 2.1 quadrillion</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BITAXE SECTION (Coming Soon) -->
+    <div class="glass glass-border rounded-xl p-5 slide-up opacity-60">
+      <h3 class="text-sm font-bold text-gray-300 mb-3">⛏️ Bitaxe Mining Tracker</h3>
+      <div class="text-center py-8 text-gray-600">
+        <div class="text-3xl mb-2">🚧</div>
+        <div class="text-sm">Coming Soon</div>
+        <div class="text-xs mt-1">Connect your Bitaxe to track mining stats and auto-scan new blocks</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ORDINALS CALCULATIONS
+    function firstSatOfBlock(blockHeight) {
+      let sat = 0;
+      let subsidy = 5000000000; // 50 BTC in sats
+      const HALVING_INTERVAL = 210000;
+      
+      const epoch = Math.floor(blockHeight / HALVING_INTERVAL);
+      
+      for (let i = 0; i < epoch; i++) {
+        sat += HALVING_INTERVAL * subsidy;
+        subsidy = Math.floor(subsidy / 2);
+      }
+      
+      const blocksInCurrentEpoch = blockHeight % HALVING_INTERVAL;
+      sat += blocksInCurrentEpoch * subsidy;
+      
+      return sat;
+    }
+
+    function blockFromSat(satNumber) {
+      let sat = 0;
+      let subsidy = 5000000000;
+      const HALVING_INTERVAL = 210000;
+      let block = 0;
+      
+      while (sat + subsidy <= satNumber) {
+        sat += subsidy;
+        block++;
+        
+        if (block % HALVING_INTERVAL === 0) {
+          subsidy = Math.floor(subsidy / 2);
+        }
+      }
+      
+      return block;
+    }
+
+    function getSatRarity(blockHeight, offsetInBlock) {
+      if (blockHeight === 0 && offsetInBlock === 0) return 'mythic';
+      if (offsetInBlock === 0) {
+        // Check for legendary (cycle start - every 1,260,000 blocks)
+        if (blockHeight % 1260000 === 0) return 'legendary';
+        // Check for epic (halving - every 210,000 blocks)
+        if (blockHeight % 210000 === 0) return 'epic';
+        // Check for rare (difficulty adjustment - every 2016 blocks)
+        if (blockHeight % 2016 === 0) return 'rare';
+        // Otherwise uncommon (first sat of any block)
+        return 'uncommon';
+      }
+      return 'common';
+    }
+
+    function getDegreeNotation(blockHeight, offsetInBlock) {
+      const cycle = Math.floor(blockHeight / 1260000);
+      const blockInCycle = blockHeight % 1260000;
+      const epoch = Math.floor(blockInCycle / 210000);
+      const blockInEpoch = blockInCycle % 210000;
+      const period = Math.floor(blockInEpoch / 2016);
+      const blockInPeriod = blockInEpoch % 2016;
+      
+      return `${cycle}°${blockInEpoch}′${blockInPeriod}″${offsetInBlock}‴`;
+    }
+
+    function isPalindrome(num) {
+      const str = num.toString();
+      return str === str.split('').reverse().join('');
+    }
+
+    function isPerfectSquare(num) {
+      const sqrt = Math.sqrt(num);
+      return sqrt === Math.floor(sqrt);
+    }
+
+    function isPerfectCube(num) {
+      const cbrt = Math.cbrt(num);
+      return Math.abs(cbrt - Math.round(cbrt)) < 1e-10;
+    }
+
+    function getSpecialAttributes(satNumber, blockHeight) {
+      const special = [];
+      
+      // Historical blocks
+      if (blockHeight === 57043) {
+        special.push({ icon: '🍕', label: 'Pizza Sat', desc: 'From the Bitcoin Pizza block (May 22, 2010)' });
+      }
+      if (blockHeight <= 54316) {
+        special.push({ icon: '👤', label: 'Nakamoto Era', desc: 'Mined during Satoshi Nakamoto era' });
+      }
+      if (blockHeight === 477120) {
+        special.push({ icon: '⚡', label: 'SegWit Activation', desc: 'From SegWit activation block (Aug 24, 2017)' });
+      }
+      if (blockHeight === 9) {
+        special.push({ icon: '💎', label: 'Block 9', desc: 'Historic Satoshi → Hal Finney transaction' });
+      }
+      
+      // Mathematical patterns
+      if (isPalindrome(satNumber)) {
+        special.push({ icon: '🦋', label: 'Palindrome', desc: 'Sat number reads same forwards & backwards' });
+      }
+      if (isPerfectSquare(satNumber)) {
+        special.push({ icon: '◼️', label: 'Perfect Square', desc: `√${satNumber} = ${Math.sqrt(satNumber)}` });
+      }
+      if (isPerfectCube(satNumber)) {
+        special.push({ icon: '🎲', label: 'Perfect Cube', desc: `∛${satNumber} = ${Math.round(Math.cbrt(satNumber))}` });
+      }
+      
+      // Vintage
+      const timestamp = new Date(1231006505000 + (blockHeight * 10 * 60 * 1000)); // Approx
+      if (timestamp < new Date('2010-01-01')) {
+        special.push({ icon: '🕰️', label: 'Pre-2010', desc: 'Early Bitcoin era (2009)' });
+      } else if (timestamp < new Date('2017-08-24')) {
+        special.push({ icon: '📜', label: 'Pre-SegWit', desc: 'Before SegWit activation' });
+      }
+      
+      return special;
+    }
+
+    async function lookupSat() {
+      const input = document.getElementById('satInput').value.trim();
+      if (!input) return;
+      
+      const satNumber = BigInt(input);
+      
+      // Show loading
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('results').classList.add('hidden');
+      
+      // Simulate API delay (since we're doing calculations client-side)
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      try {
+        // Calculate sat details
+        const blockHeight = blockFromSat(Number(satNumber));
+        const firstSatInBlock = firstSatOfBlock(blockHeight);
+        const offsetInBlock = Number(satNumber) - firstSatInBlock;
+        
+        const rarity = getSatRarity(blockHeight, offsetInBlock);
+        const degree = getDegreeNotation(blockHeight, offsetInBlock);
+        const decimal = `${blockHeight}.${offsetInBlock}`;
+        
+        // Calculate percentile (approx - simplified)
+        const totalSupply = 2099999997690000n; // Max supply
+        const percentile = (Number(satNumber) / Number(totalSupply) * 100).toFixed(14);
+        
+        // Generate name (simplified - actual algorithm is more complex)
+        const name = generateSatName(satNumber);
+        
+        // Calculate cycles and epochs
+        const cycle = Math.floor(blockHeight / 1260000);
+        const epoch = Math.floor(blockHeight / 210000);
+        const period = Math.floor(blockHeight / 2016);
+        const blockInEpoch = blockHeight % 210000;
+        
+        // Approximate timestamp
+        const genesisTime = 1231006505000; // Jan 3, 2009
+        const approxTime = new Date(genesisTime + (blockHeight * 10 * 60 * 1000));
+        
+        // Populate UI
+        document.getElementById('satNumber').textContent = satNumber.toString();
+        document.getElementById('satDegree').textContent = degree;
+        document.getElementById('satDecimal').textContent = decimal;
+        document.getElementById('satPercentile').textContent = percentile + '%';
+        document.getElementById('satName').textContent = name;
+        document.getElementById('satBlock').textContent = blockHeight;
+        document.getElementById('satOffset').textContent = offsetInBlock;
+        document.getElementById('satTimestamp').textContent = approxTime.toLocaleString();
+        document.getElementById('satCycle').textContent = cycle;
+        document.getElementById('satEpoch').textContent = epoch;
+        document.getElementById('satPeriod').textContent = period;
+        document.getElementById('satBlockInEpoch').textContent = blockInEpoch;
+        
+        // Rarity badge
+        const rarityBadges = {
+          'mythic': '<span class="tag tag-mythic">⚫ MYTHIC</span>',
+          'legendary': '<span class="tag tag-legendary">🟣 LEGENDARY</span>',
+          'epic': '<span class="tag tag-epic">🔴 EPIC</span>',
+          'rare': '<span class="tag tag-rare">🟠 RARE</span>',
+          'uncommon': '<span class="tag tag-uncommon">🟡 UNCOMMON</span>',
+          'common': '<span class="tag tag-common">⚪ COMMON</span>'
+        };
+        document.getElementById('satRarityBadge').innerHTML = rarityBadges[rarity];
+        
+        // Charms (simplified - would need API for real charms)
+        let charms = '';
+        if (offsetInBlock === 0) charms += '🪙'; // Coin (first in block)
+        if (rarity === 'mythic') charms += '🎃';
+        if (isPalindrome(Number(satNumber))) charms += '🦋';
+        document.getElementById('satCharms').textContent = charms;
+        
+        // Special attributes
+        const specialAttrs = getSpecialAttributes(Number(satNumber), blockHeight);
+        if (specialAttrs.length > 0) {
+          document.getElementById('specialAttributes').classList.remove('hidden');
+          document.getElementById('specialList').innerHTML = specialAttrs.map(attr => `
+            <div class="flex items-start gap-3 p-3 bg-black/30 rounded-lg border border-gray-800">
+              <span class="text-xl">${attr.icon}</span>
+              <div class="flex-1">
+                <div class="text-sm font-semibold text-gray-200">${attr.label}</div>
+                <div class="text-xs text-gray-500 mt-0.5">${attr.desc}</div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          document.getElementById('specialAttributes').classList.add('hidden');
+        }
+        
+        // External link
+        document.getElementById('ordinalsCom').href = `https://ordinals.com/sat/${satNumber}`;
+        
+        // Show results
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.remove('hidden');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error analyzing sat. Please check the number and try again.');
+        document.getElementById('loading').classList.add('hidden');
+      }
+    }
+
+    function generateSatName(satNumber) {
+      // Simplified name generation (real algorithm is more complex)
+      // This is a placeholder - actual ordinals use base-26 encoding
+      const num = Number(satNumber);
+      if (num === 0) return 'nvtdijuwxlp';
+      return 'sat' + num.toString().slice(-6);
+    }
+
+    // Enter key support
+    document.getElementById('satInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') lookupSat();
+    });
+  </script>
+
+</body>
+</html>
