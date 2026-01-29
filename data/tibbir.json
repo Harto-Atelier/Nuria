@@ -1,0 +1,17 @@
+{
+  "ticker": "TIBBIR",
+  "price": 0.000042,
+  "priceUsd": 0.000042,
+  "mcap": 42000,
+  "change24h": 12.5,
+  "volume24h": 1500,
+  "holders": 847,
+  "supply": "1000000000",
+  "maxSupply": "1000000000",
+  "links": {
+    "bubbleMap": "https://bubblemaps.io/btc/token/tibbir",
+    "unisat": "https://unisat.io/brc20/tibbir",
+    "ordinals": "https://ordinals.com/brc20/tibbir"
+  },
+  "updated": "2026-01-29T16:50:00.000Z"
+}

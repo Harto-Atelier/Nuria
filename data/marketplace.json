@@ -1,0 +1,48 @@
+{
+  "stats": {
+    "collections": 12,
+    "volume24h": 2.4,
+    "volume7d": 15.8,
+    "totalListings": 342
+  },
+  "topCollections": [
+    {
+      "name": "Bitcoin Puppets",
+      "emoji": "🟧",
+      "floor": 0.15,
+      "volume24h": 0.8,
+      "change24h": 5.2,
+      "listings": 45
+    },
+    {
+      "name": "OMB",
+      "emoji": "🐱",
+      "floor": 0.08,
+      "volume24h": 0.4,
+      "change24h": -2.1,
+      "listings": 89
+    },
+    {
+      "name": "NodeMonkes",
+      "emoji": "🎨",
+      "floor": 0.12,
+      "volume24h": 0.6,
+      "change24h": 8.7,
+      "listings": 67
+    },
+    {
+      "name": "Quantum Cats",
+      "emoji": "🐱",
+      "floor": 0.25,
+      "volume24h": 0.3,
+      "change24h": 1.5,
+      "listings": 34
+    }
+  ],
+  "links": {
+    "marketplace": "https://ordinals-market.vercel.app",
+    "magicEden": "https://magiceden.io/ordinals",
+    "ordinalsBot": "https://ordinalsbot.com"
+  },
+  "updated": "2026-01-29T16:50:00.000Z"
+}

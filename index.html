@@ -1888,6 +1888,10 @@
             // Load TIBBIR data
             loadTibbirData();
             setInterval(loadTibbirData, 60000); // Update every minute
+            
+            // Load Marketplace data
+            loadMarketplaceData();
+            setInterval(loadMarketplaceData, 300000); // Update every 5 minutes
         };
         
         // ===================
@@ -2203,22 +2207,44 @@
         // 💎 TIBBIR Data
         async function loadTibbirData() {
             try {
-                // Try to fetch from a BRC-20 API (using mock data if unavailable)
-                // In production, replace with actual API endpoint
-                const mockData = {
-                    price: 0.000042,
-                    mcap: 42000,
-                    change24h: 12.5
-                };
-                
-                document.getElementById('tibbirPrice').textContent = `$${mockData.price.toFixed(6)}`;
-                document.getElementById('tibbirMcap').textContent = `$${(mockData.mcap / 1000).toFixed(1)}K`;
-                
-                const changeEl = document.getElementById('tibbirChange');
-                changeEl.textContent = `${mockData.change24h > 0 ? '+' : ''}${mockData.change24h.toFixed(1)}%`;
-                changeEl.className = 'tibbir-stat-value ' + (mockData.change24h >= 0 ? 'positive' : 'negative');
+                const res = await fetch('data/tibbir.json?t=' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('tibbirPrice').textContent = `$${data.price.toFixed(6)}`;
+                    document.getElementById('tibbirMcap').textContent = `$${(data.mcap / 1000).toFixed(1)}K`;
+                    
+                    const changeEl = document.getElementById('tibbirChange');
+                    changeEl.textContent = `${data.change24h > 0 ? '+' : ''}${data.change24h.toFixed(1)}%`;
+                    changeEl.className = 'tibbir-stat-value ' + (data.change24h >= 0 ? 'positive' : 'negative');
+                }
             } catch (e) {
                 console.error('Failed to load TIBBIR data:', e);
+            }
+        }
+        
+        // 🖼️ Marketplace Data
+        async function loadMarketplaceData() {
+            try {
+                const res = await fetch('data/marketplace.json?t=' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    // Update stats
+                    document.getElementById('marketCollections').textContent = data.stats.collections;
+                    document.getElementById('marketVolume').textContent = data.stats.volume24h.toFixed(1) + ' BTC';
+                    
+                    // Update collections list
+                    const container = document.getElementById('marketplaceCollections');
+                    const collectionsHtml = data.topCollections.slice(0, 3).map(c => `
+                        <div class="collection-item">
+                            <span class="collection-name">${c.emoji} ${c.name}</span>
+                            <span class="collection-floor">${c.floor.toFixed(2)} BTC</span>
+                        </div>
+                    `).join('');
+                    container.innerHTML = collectionsHtml;
+                }
+            } catch (e) {
+                console.error('Failed to load marketplace data:', e);
             }
         }
         
