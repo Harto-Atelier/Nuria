@@ -876,6 +876,68 @@
         }
         .marketplace-btn:hover { opacity: 0.9; transform: translateY(-1px); }
         
+        /* Portfolio Tracker */
+        .portfolio-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.2s;
+        }
+        .portfolio-card:hover {
+            border-color: var(--cyan-border);
+            background: var(--cyan-dim);
+            transform: translateY(-2px);
+        }
+        .portfolio-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .portfolio-collection-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .portfolio-supply {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+        .portfolio-floor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--cyan);
+            margin: 6px 0;
+        }
+        .portfolio-usd {
+            font-size: 0.75rem;
+            color: var(--green);
+        }
+        .portfolio-change {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .portfolio-change.positive {
+            color: var(--green);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        .portfolio-change.negative {
+            color: var(--red);
+            background: rgba(255, 68, 68, 0.1);
+        }
+        .portfolio-loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        
         /* Team Panel */
         .team-panel {
             border-top: 1px solid var(--border);
@@ -1689,6 +1751,26 @@
         </div>
     </section>
     
+    <!-- 🎨 HARTO PORTFOLIO TRACKER -->
+    <section class="widget-grid" style="border-bottom: 1px solid var(--border);">
+        <div class="widget-card" style="grid-column: span 2; background: linear-gradient(135deg, rgba(0, 122, 204, 0.08), rgba(78, 201, 176, 0.05)); border: 1px solid var(--cyan-border);">
+            <div class="widget-header">
+                <div class="widget-title">🎨 HARTO PORTFOLIO</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    Total Value: <span id="portfolioTotalBtc" style="color: var(--cyan); font-weight: 600;">- BTC</span>
+                    <span style="color: var(--muted); margin: 0 8px;">|</span>
+                    <span id="portfolioTotalUsd" style="color: var(--green); font-weight: 600;">$-</span>
+                </div>
+            </div>
+            <div id="portfolioGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px;">
+                <!-- Populated by JS -->
+            </div>
+            <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: var(--muted);">
+                <span id="portfolioLastUpdate">Updating...</span>
+            </div>
+        </div>
+    </section>
+    
     <section class="projects-grid">
         <div class="project-card" onclick="window.location='tasks.html'">
             <div class="project-icon">🎨</div>
@@ -2114,6 +2196,10 @@
             // Load Marketplace data
             loadMarketplaceData();
             setInterval(loadMarketplaceData, 300000); // Update every 5 minutes
+            
+            // Load Portfolio data
+            loadPortfolioData();
+            setInterval(loadPortfolioData, 300000); // Update every 5 minutes
         };
         
         // ===================
@@ -2561,6 +2647,122 @@
                 }
             } catch (e) {
                 console.error('Failed to load marketplace data:', e);
+            }
+        }
+        
+        // 🎨 HARTO PORTFOLIO TRACKER
+        const HARTO_COLLECTIONS = [
+            { name: 'SATS', symbol: 'satoshibles' },
+            { name: 'The Golden Ratio', symbol: 'the-golden-ratio' },
+            { name: 'FloraForms', symbol: 'floraforms' },
+            { name: 'Blocks', symbol: 'blocks_btc' },
+            { name: 'POL', symbol: 'pol' },
+            { name: 'Finestra', symbol: 'finestra' },
+            { name: 'Exquisite', symbol: 'exquisite' },
+            { name: 'Singularity', symbol: 'singularity' },
+            { name: 'Formation', symbol: 'formation' },
+            { name: 'Accumulation', symbol: 'accumulation' },
+            { name: 'Immutable Memories', symbol: 'immutable-memories' }
+        ];
+        
+        let btcPriceUsd = 104200; // Default, updated from ticker
+        
+        async function loadPortfolioData() {
+            const container = document.getElementById('portfolioGrid');
+            container.innerHTML = '<div class="portfolio-loading">Loading portfolio data...</div>';
+            
+            try {
+                // Update BTC price from ticker
+                const priceRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                if (priceRes.ok) {
+                    const prices = await priceRes.json();
+                    btcPriceUsd = prices.bitcoin?.usd || btcPriceUsd;
+                }
+                
+                // Fetch all collections data
+                const portfolioData = [];
+                
+                for (const collection of HARTO_COLLECTIONS) {
+                    try {
+                        const res = await fetch(`https://api-mainnet.magiceden.dev/v2/ord/btc/stat?collectionSymbol=${collection.symbol}`);
+                        if (res.ok) {
+                            const stats = await res.json();
+                            portfolioData.push({
+                                name: collection.name,
+                                symbol: collection.symbol,
+                                supply: stats.supply || stats.totalListed || '-',
+                                floorPrice: stats.floorPrice ? (stats.floorPrice / 100000000) : 0, // Convert satoshis to BTC
+                                volume24h: stats.volume1d || 0,
+                                change24h: stats.floorPriceChange1d || 0
+                            });
+                        } else {
+                            // Fallback for collections not found
+                            portfolioData.push({
+                                name: collection.name,
+                                symbol: collection.symbol,
+                                supply: '-',
+                                floorPrice: 0,
+                                volume24h: 0,
+                                change24h: 0
+                            });
+                        }
+                        // Small delay to avoid rate limiting
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                    } catch (e) {
+                        console.error(`Failed to load ${collection.name}:`, e);
+                        portfolioData.push({
+                            name: collection.name,
+                            symbol: collection.symbol,
+                            supply: '-',
+                            floorPrice: 0,
+                            volume24h: 0,
+                            change24h: 0
+                        });
+                    }
+                }
+                
+                // Calculate total value
+                const totalBtc = portfolioData.reduce((sum, c) => sum + c.floorPrice, 0);
+                const totalUsd = totalBtc * btcPriceUsd;
+                
+                // Update totals
+                document.getElementById('portfolioTotalBtc').textContent = `${totalBtc.toFixed(2)} BTC`;
+                document.getElementById('portfolioTotalUsd').textContent = `$${totalUsd.toLocaleString()}`;
+                
+                // Render cards
+                const cardsHtml = portfolioData.map(c => {
+                    const floorUsd = c.floorPrice * btcPriceUsd;
+                    const changeClass = c.change24h >= 0 ? 'positive' : 'negative';
+                    const changeText = c.change24h !== 0 ? `${c.change24h > 0 ? '+' : ''}${c.change24h.toFixed(1)}%` : '-';
+                    
+                    return `
+                        <div class="portfolio-card">
+                            <div class="portfolio-card-header">
+                                <div>
+                                    <div class="portfolio-collection-name">${c.name}</div>
+                                    <div class="portfolio-supply">Supply: ${c.supply}</div>
+                                </div>
+                                ${c.change24h !== 0 ? `<div class="portfolio-change ${changeClass}">${changeText}</div>` : ''}
+                            </div>
+                            <div class="portfolio-floor">
+                                ${c.floorPrice > 0 ? `${c.floorPrice.toFixed(4)} BTC` : 'No floor'}
+                            </div>
+                            <div class="portfolio-usd">
+                                ${floorUsd > 0 ? `≈ $${floorUsd.toLocaleString()}` : '-'}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                container.innerHTML = cardsHtml;
+                
+                const now = new Date();
+                document.getElementById('portfolioLastUpdate').textContent = 
+                    `Last updated: ${now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+                    
+            } catch (e) {
+                console.error('Failed to load portfolio data:', e);
+                container.innerHTML = '<div class="portfolio-loading" style="color: var(--red);">❌ Failed to load portfolio data</div>';
             }
         }
         
