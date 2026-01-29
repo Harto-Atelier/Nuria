@@ -382,32 +382,37 @@
 
     async function fetchOutputValue(inscriptionId, listing = null) {
       try {
-        // Rate limiting
-        await sleep(RATE_LIMIT_MS);
+        // If listing already has outputValue (from main API call), use it
+        if (listing && listing.outputValue && listing.outputValue > MIN_SATS) {
+          return listing.outputValue;
+        }
         
-        // For testing: use simulated data if available
+        // For simulated data fallback
         if (listing && listing._simulatedOutputValue !== undefined) {
           return listing._simulatedOutputValue;
         }
         
-        // Production: fetch from Magic Eden API
-        const url = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens/${inscriptionId}`;
-        const response = await fetch(url);
+        // Otherwise, fetch individual inscription details
+        // Note: This might hit rate limits if we scan many inscriptions
+        await sleep(RATE_LIMIT_MS);
+        
+        const meUrl = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens/${inscriptionId}`;
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(meUrl);
+        
+        const response = await fetch(proxyUrl);
         
         if (!response.ok) {
           console.warn(`Failed to fetch output value for ${inscriptionId}`);
-          return MIN_SATS; // Assume minimum if API fails
+          return MIN_SATS;
         }
         
         const data = await response.json();
-        
-        // Try different possible field names
         const outputValue = data.outputValue || data.output_value || data.satoshi || data.value || MIN_SATS;
         
         return outputValue;
       } catch (err) {
         console.warn(`Error fetching output value for ${inscriptionId}:`, err);
-        return MIN_SATS; // Assume minimum on error
+        return MIN_SATS;
       }
     }
 
@@ -426,21 +431,39 @@
       const minPriceSats = Math.floor((minPrice / btcPrice) * BTC_SATS);
       const maxPriceSats = Math.floor((maxPrice / btcPrice) * BTC_SATS);
       
-      // For now, we'll simulate the API call since we might hit CORS issues
-      // In production, this would go through a backend proxy
-      
-      // Simulated data for testing
-      const simulatedListings = generateSimulatedListings(20, minPriceSats, maxPriceSats, btcPrice);
-      
-      return simulatedListings;
-      
-      /* Real API call (would need CORS proxy):
-      const url = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?limit=100&offset=0&minPrice=${minPriceSats}&maxPrice=${maxPriceSats}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('API request failed');
-      const data = await response.json();
-      return data.tokens || [];
-      */
+      // REAL API CALL - Using CORS proxy
+      try {
+        const meUrl = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?limit=50&offset=0&minPrice=${minPriceSats}&maxPrice=${maxPriceSats}`;
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(meUrl);
+        
+        console.log('Fetching from Magic Eden via proxy:', meUrl);
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const tokens = data.tokens || [];
+        
+        console.log(`Fetched ${tokens.length} listings from Magic Eden`);
+        
+        // Parse Magic Eden response format
+        return tokens.map(token => ({
+          id: token.id || token.inscriptionId || `unknown_${Math.random()}`,
+          inscriptionNumber: token.inscriptionNumber || 0,
+          sat: token.sat || token.satNumber || 0,
+          listedPrice: token.listedPrice || 0,
+          listedPriceUSD: ((token.listedPrice || 0) / BTC_SATS) * btcPrice,
+          outputValue: token.outputValue || token.output_value || MIN_SATS
+        }));
+        
+      } catch (err) {
+        console.error('Failed to fetch real data, falling back to simulation:', err);
+        // Fallback to simulated data if API fails
+        const simulatedListings = generateSimulatedListings(20, minPriceSats, maxPriceSats, btcPrice);
+        return simulatedListings;
+      }
     }
 
     function generateSimulatedListings(count, minPriceSats, maxPriceSats, btcPriceUSD) {
