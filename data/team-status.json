@@ -6,8 +6,12 @@
       "emoji": "🟧",
       "model": "Claude Opus",
       "status": "working",
-      "task": "Configurando Sat Mining tool",
-      "lastActive": "2026-01-28T16:10:00.000Z"
+      "task": "Dashboard improvements",
+      "lastActive": "2026-01-29T16:50:00.000Z",
+      "lastCompleted": {
+        "task": "Coordinación de equipo",
+        "time": "16:45"
+      }
     },
     "amy": {
       "name": "Amy",
@@ -16,7 +20,11 @@
       "model": "Kimi 2.5",
       "status": "idle",
       "task": "",
-      "lastActive": "2026-01-28T11:17:39.957Z"
+      "lastActive": "2026-01-29T15:30:00.000Z",
+      "lastCompleted": {
+        "task": "Synced tasks from Sheets",
+        "time": "15:30"
+      }
     },
     "jack": {
       "name": "Jack",
@@ -25,7 +33,11 @@
       "model": "Claude Sonnet",
       "status": "idle",
       "task": "",
-      "lastActive": "2026-01-28T16:56:00.000Z"
+      "lastActive": "2026-01-29T14:00:00.000Z",
+      "lastCompleted": {
+        "task": "Fixed dashboard bugs",
+        "time": "14:00"
+      }
     },
     "pepe": {
       "name": "Pepe",
@@ -34,7 +46,11 @@
       "model": "Kimi 2.5",
       "status": "idle",
       "task": "",
-      "lastActive": "2026-01-28T17:00:00.000Z"
+      "lastActive": "2026-01-29T13:45:00.000Z",
+      "lastCompleted": {
+        "task": "Twitter trend analysis",
+        "time": "13:45"
+      }
     },
     "sergia": {
       "name": "Sergia",
@@ -43,46 +59,60 @@
       "model": "Claude Sonnet",
       "status": "idle",
       "task": "",
-      "lastActive": "2026-01-29T09:30:00.000Z",
+      "lastActive": "2026-01-29T12:00:00.000Z",
+      "lastCompleted": {
+        "task": "Invoice review",
+        "time": "12:00"
+      },
       "avatar": "pfps/sergia.png"
     }
   },
   "activityLog": [
     {
-      "time": "17:09",
+      "time": "16:50",
       "agent": "nuria",
-      "action": "🚀 Añadió botón Mining al dashboard"
+      "action": "📊 Started dashboard improvements"
     },
     {
-      "time": "17:05",
-      "agent": "pepe",
-      "action": "🐦 Completó análisis de Twitter trends"
-    },
-    {
-      "time": "17:02",
+      "time": "16:45",
       "agent": "nuria",
-      "action": "⛏️ Movió Sat Mining a dashboard personal"
-    },
-    {
-      "time": "16:56",
-      "agent": "jack",
-      "action": "✅ Creó Sat Mining scanner (UTXO arbitrage)"
-    },
-    {
-      "time": "16:30",
-      "agent": "jack",
-      "action": "🔍 Analizó colección 2048 Ordinals"
-    },
-    {
-      "time": "16:00",
-      "agent": "nuria",
-      "action": "📊 Añadió Listings tab a opportunities"
+      "action": "✅ Completed team coordination"
     },
     {
       "time": "15:30",
+      "agent": "amy",
+      "action": "📋 Synced tasks from Google Sheets"
+    },
+    {
+      "time": "14:00",
+      "agent": "jack",
+      "action": "🔧 Fixed dashboard loading bugs"
+    },
+    {
+      "time": "13:45",
+      "agent": "pepe",
+      "action": "🐦 Analyzed Twitter trends for Ordinals"
+    },
+    {
+      "time": "12:00",
+      "agent": "sergia",
+      "action": "🧾 Reviewed pending invoices"
+    },
+    {
+      "time": "11:30",
       "agent": "nuria",
-      "action": "💼 Procesó tarea de Sergio - wallet analysis"
+      "action": "📅 Updated calendar events"
+    },
+    {
+      "time": "11:00",
+      "agent": "jack",
+      "action": "⛏️ Configured Sat Mining tool"
     }
   ],
-  "updated": "2026-01-28T16:10:00.000Z"
+  "stats": {
+    "tasksCompletedToday": 8,
+    "totalTasksQueued": 2,
+    "avgResponseTime": "45s"
+  },
+  "updated": "2026-01-29T16:50:00.000Z"
 }

@@ -2552,7 +2552,27 @@
                 
                 const taskEl = document.getElementById(`task-${id}`);
                 if (taskEl) {
-                    taskEl.textContent = agent.task || '';
+                    if (isWorking && agent.task) {
+                        taskEl.textContent = agent.task;
+                        taskEl.style.color = 'var(--text)';
+                    } else if (agent.lastCompleted) {
+                        taskEl.textContent = `Last: ${agent.lastCompleted.task}`;
+                        taskEl.style.color = 'var(--muted)';
+                    } else {
+                        taskEl.textContent = '';
+                    }
+                }
+            }
+            
+            // Update team stats if available
+            if (data.stats) {
+                const headerInfo = document.querySelector('.team-panel-header > div:last-child');
+                if (headerInfo) {
+                    headerInfo.innerHTML = `
+                        <span id="teamLiveIndicator" style="color: var(--green);">● LIVE</span> • 
+                        Today: <span style="color: var(--cyan);">${data.stats.tasksCompletedToday || 0}</span> completed • 
+                        Queue: <span style="color: var(--orange);">${data.stats.totalTasksQueued || 0}</span>
+                    `;
                 }
             }
             
