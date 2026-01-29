@@ -397,7 +397,7 @@
         await sleep(RATE_LIMIT_MS);
         
         const meUrl = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens/${inscriptionId}`;
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(meUrl);
+        const proxyUrl = `/api/me-proxy?endpoint=${encodeURIComponent(meUrl)}`;
         
         const response = await fetch(proxyUrl);
         
@@ -431,12 +431,12 @@
       const minPriceSats = Math.floor((minPrice / btcPrice) * BTC_SATS);
       const maxPriceSats = Math.floor((maxPrice / btcPrice) * BTC_SATS);
       
-      // REAL API CALL - Using CORS proxy
+      // REAL API CALL - Using Vercel proxy
       try {
         const meUrl = `https://api-mainnet.magiceden.dev/v2/ord/btc/tokens?limit=50&offset=0&minPrice=${minPriceSats}&maxPrice=${maxPriceSats}`;
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(meUrl);
+        const proxyUrl = `/api/me-proxy?endpoint=${encodeURIComponent(meUrl)}`;
         
-        console.log('Fetching from Magic Eden via proxy:', meUrl);
+        console.log('Fetching from Magic Eden via Vercel proxy:', meUrl);
         const response = await fetch(proxyUrl);
         
         if (!response.ok) {
