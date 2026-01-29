@@ -651,6 +651,221 @@
             letter-spacing: 1px;
         }
         
+        /* Quick Actions Section */
+        .quick-actions-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
+            background: rgba(77, 87, 160, 0.05);
+        }
+        .quick-action-btn {
+            padding: 20px 15px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border-top: none;
+            border-bottom: none;
+            border-left: none;
+        }
+        .quick-action-btn:last-child { border-right: none; }
+        .quick-action-btn:hover {
+            background: var(--cyan-dim);
+        }
+        .quick-action-btn:active {
+            transform: scale(0.98);
+        }
+        .quick-action-btn.loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .quick-action-btn.success {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--green);
+        }
+        .quick-action-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .quick-action-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--text);
+        }
+        .quick-action-desc {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+        
+        /* Widget Grid (TIBBIR + Marketplace) */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+        .widget-card {
+            padding: 25px;
+            border-right: 1px solid var(--border);
+        }
+        .widget-card:last-child { border-right: none; }
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .widget-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .widget-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .widget-link:hover { color: var(--cyan); }
+        
+        /* TIBBIR Widget */
+        .tibbir-widget {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(255, 107, 0, 0.05));
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .tibbir-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .tibbir-logo {
+            font-size: 2.5rem;
+        }
+        .tibbir-info h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--yellow);
+            letter-spacing: 2px;
+        }
+        .tibbir-info span {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+        .tibbir-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .tibbir-stat {
+            text-align: center;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .tibbir-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--yellow);
+        }
+        .tibbir-stat-value.positive { color: var(--green); }
+        .tibbir-stat-value.negative { color: var(--red); }
+        .tibbir-stat-label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .tibbir-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(90deg, var(--yellow), var(--orange));
+            border: none;
+            color: #000;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .tibbir-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        /* Marketplace Widget */
+        .marketplace-widget {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(77, 87, 160, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .marketplace-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .marketplace-stat {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .marketplace-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--purple);
+        }
+        .marketplace-stat-label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .marketplace-collections {
+            margin-bottom: 15px;
+        }
+        .collection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .collection-item:last-child { border-bottom: none; }
+        .collection-name {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .collection-floor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--green);
+        }
+        .marketplace-btn {
+            display: block;
+            width: 100%;
+            background: var(--purple);
+            border: none;
+            color: #fff;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .marketplace-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
         /* Team Panel */
         .team-panel {
             border-top: 1px solid var(--border);
@@ -671,7 +886,7 @@
         }
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -765,6 +980,7 @@
             color: var(--text);
             margin-top: 5px;
             font-style: italic;
+            min-height: 1.2em;
         }
         .member-actions {
             display: flex;
@@ -936,6 +1152,65 @@
         }
         .footer a { color: var(--cyan); text-decoration: none; }
         
+        /* Calendar 3-day view */
+        .calendar-3day {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .calendar-day {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .calendar-day.today {
+            border-color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+        .calendar-day-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .calendar-day-name { font-weight: 600; }
+        .calendar-day-date { color: var(--muted); }
+        .calendar-event {
+            padding: 8px;
+            margin-bottom: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        .calendar-event:last-child { margin-bottom: 0; }
+        .calendar-event-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--orange);
+            margin-bottom: 2px;
+        }
+        .calendar-event-title { color: var(--text); }
+        .calendar-event.has-context {
+            border-left: 3px solid var(--green);
+        }
+        .context-badge {
+            font-size: 0.6rem;
+            background: var(--green);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+        .no-events {
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+        
         /* Mobile */
         @media (max-width: 1024px) {
             .hero { flex-direction: column; text-align: center; gap: 30px; }
@@ -951,7 +1226,12 @@
             .project-card { border-bottom: 1px solid var(--border); }
             .quick-section { grid-template-columns: repeat(3, 1fr); }
             .quick-link { border-bottom: 1px solid var(--border); }
+            .quick-actions-section { grid-template-columns: repeat(2, 1fr); }
+            .quick-action-btn { border-bottom: 1px solid var(--border); }
+            .widget-grid { grid-template-columns: 1fr; }
+            .widget-card { border-right: none; border-bottom: 1px solid var(--border); }
             .crm-stats { grid-template-columns: repeat(2, 1fr); }
+            .calendar-3day { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             .nav { padding: 15px 20px; }
@@ -1156,88 +1436,119 @@
         </div>
     </section>
     
-    <!-- Today's Agenda -->
+    <!-- ⚡ QUICK ACTIONS -->
+    <section class="quick-actions-section">
+        <button class="quick-action-btn" onclick="triggerQuickAction('sync-tasks')" id="qa-sync-tasks">
+            <div class="quick-action-icon">🔄</div>
+            <div class="quick-action-text">SYNC TASKS</div>
+            <div class="quick-action-desc">Update from Sheets</div>
+        </button>
+        <button class="quick-action-btn" onclick="triggerQuickAction('check-email')" id="qa-check-email">
+            <div class="quick-action-icon">📧</div>
+            <div class="quick-action-text">CHECK EMAIL</div>
+            <div class="quick-action-desc">Get digest</div>
+        </button>
+        <button class="quick-action-btn" onclick="triggerQuickAction('twitter-scan')" id="qa-twitter-scan">
+            <div class="quick-action-icon">🐦</div>
+            <div class="quick-action-text">TWITTER SCAN</div>
+            <div class="quick-action-desc">Check mentions</div>
+        </button>
+        <button class="quick-action-btn" onclick="triggerQuickAction('market-check')" id="qa-market-check">
+            <div class="quick-action-icon">📊</div>
+            <div class="quick-action-text">MARKET CHECK</div>
+            <div class="quick-action-desc">Ordinals prices</div>
+        </button>
+    </section>
+    
+    <!-- 📅 CALENDAR 3-DAY VIEW -->
     <section class="agenda-section">
-        <div class="agenda-col">
+        <div class="agenda-col" style="grid-column: span 2;">
             <div class="section-header">
-                <div class="section-title">📅 TODAY'S SCHEDULE</div>
+                <div class="section-title">📅 PRÓXIMOS 3 DÍAS</div>
                 <div class="section-date" id="todayDate">-</div>
             </div>
-            <div class="agenda-list" id="calendarEvents">
-                <div class="agenda-item">
-                    <div class="agenda-time">07:30</div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Deporte</div>
-                    </div>
-                </div>
-                <div class="agenda-item">
-                    <div class="agenda-time">10:30</div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Reunión restructuración</div>
-                    </div>
-                </div>
-                <div class="agenda-item">
-                    <div class="agenda-time">11:30</div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Varios / Mint</div>
-                    </div>
-                </div>
-                <div class="agenda-item">
-                    <div class="agenda-time">13:00</div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Dinia en el piso</div>
-                    </div>
-                </div>
-            </div>
-            <div class="agenda-upcoming">
-                <div class="upcoming-header">PRÓXIMOS DÍAS</div>
-                <div class="upcoming-item">
-                    <span class="upcoming-date">Mar 28</span>
-                    <span class="upcoming-title">Marina Abramovic (19:00)</span>
-                </div>
-                <div class="upcoming-item">
-                    <span class="upcoming-date">Vie 31</span>
-                    <span class="upcoming-title">Zoo avec les enfants (10:00)</span>
-                </div>
+            <div class="calendar-3day" id="calendar3Day">
+                <!-- Populated by JS -->
             </div>
         </div>
-        <div class="agenda-col">
+    </section>
+    
+    <!-- 📧 EMAILS -->
+    <section class="agenda-section">
+        <div class="agenda-col" style="grid-column: span 2;">
             <div class="section-header">
                 <div class="section-title">📧 RECENT EMAILS</div>
                 <div class="email-count"><span id="unreadCount">8</span> unread</div>
             </div>
             <div class="email-list" id="emailList">
-                <div class="email-item unread">
-                    <div class="email-sender">Juliette</div>
-                    <div class="email-subject">Lys Fernandez se irá a las 14:45 los jueves</div>
-                    <div class="email-time">21:31</div>
-                </div>
-                <div class="email-item unread">
-                    <div class="email-sender">Juliette</div>
-                    <div class="email-subject">Re: Renovación del contrato de arrendamiento</div>
-                    <div class="email-time">21:21</div>
-                </div>
-                <div class="email-item unread">
-                    <div class="email-sender">Juliette</div>
-                    <div class="email-subject">Re: Proposta de reunió</div>
-                    <div class="email-time">21:18</div>
-                </div>
-                <div class="email-item">
-                    <div class="email-sender">IE Londres</div>
-                    <div class="email-subject">Proposta de reunió</div>
-                    <div class="email-time">19:34</div>
-                </div>
-                <div class="email-item unread">
-                    <div class="email-sender">SELTZ</div>
-                    <div class="email-subject">IVA CULTURAL, ¡YA!</div>
-                    <div class="email-time">18:35</div>
-                </div>
-                <div class="email-item unread">
-                    <div class="email-sender">Bitcoin Conference</div>
-                    <div class="email-subject">📢 Speakers Dropped + Price Increase Friday</div>
-                    <div class="email-time">17:22</div>
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 💎 TIBBIR + MARKETPLACE WIDGETS -->
+    <section class="widget-grid">
+        <!-- TIBBIR Widget -->
+        <div class="widget-card tibbir-widget">
+            <div class="tibbir-header">
+                <div class="tibbir-logo">🐰</div>
+                <div class="tibbir-info">
+                    <h3>$TIBBIR</h3>
+                    <span>BRC-20 Token</span>
                 </div>
             </div>
+            <div class="tibbir-stats">
+                <div class="tibbir-stat">
+                    <div class="tibbir-stat-value" id="tibbirPrice">$0.00</div>
+                    <div class="tibbir-stat-label">Price</div>
+                </div>
+                <div class="tibbir-stat">
+                    <div class="tibbir-stat-value" id="tibbirMcap">$0</div>
+                    <div class="tibbir-stat-label">Market Cap</div>
+                </div>
+                <div class="tibbir-stat">
+                    <div class="tibbir-stat-value" id="tibbirChange">0%</div>
+                    <div class="tibbir-stat-label">24h Change</div>
+                </div>
+            </div>
+            <a href="https://bubblemaps.io/btc/token/tibbir" target="_blank" class="tibbir-btn">
+                🗺️ VIEW BUBBLE MAP →
+            </a>
+        </div>
+        
+        <!-- Marketplace Widget -->
+        <div class="widget-card marketplace-widget">
+            <div class="widget-header">
+                <div class="widget-title">🖼️ ORDINALS MARKET</div>
+                <a href="https://ordinals-market.vercel.app" target="_blank" class="widget-link">OPEN →</a>
+            </div>
+            <div class="marketplace-stats">
+                <div class="marketplace-stat">
+                    <div class="marketplace-stat-value" id="marketCollections">12</div>
+                    <div class="marketplace-stat-label">Collections</div>
+                </div>
+                <div class="marketplace-stat">
+                    <div class="marketplace-stat-value" id="marketVolume">2.4 BTC</div>
+                    <div class="marketplace-stat-label">24h Volume</div>
+                </div>
+            </div>
+            <div class="marketplace-collections" id="marketplaceCollections">
+                <div class="collection-item">
+                    <span class="collection-name">🟧 Bitcoin Puppets</span>
+                    <span class="collection-floor">0.15 BTC</span>
+                </div>
+                <div class="collection-item">
+                    <span class="collection-name">🐱 OMB</span>
+                    <span class="collection-floor">0.08 BTC</span>
+                </div>
+                <div class="collection-item">
+                    <span class="collection-name">🎨 NodeMonkes</span>
+                    <span class="collection-floor">0.12 BTC</span>
+                </div>
+            </div>
+            <a href="https://ordinals-market.vercel.app" target="_blank" class="marketplace-btn">
+                BROWSE MARKETPLACE →
+            </a>
         </div>
     </section>
     
@@ -1274,48 +1585,8 @@
                 <div class="section-title">// PRIORITY TASKS</div>
                 <a href="tasks.html" class="section-link">VIEW ALL →</a>
             </div>
-            <div class="task-list">
-                <!-- TASKS ORDERED BY URGENCY: High priority first, then by deadline -->
-                <div class="task-item urgent">
-                    <div class="task-priority high"></div>
-                    <div class="task-content">
-                        <div class="task-title">Crear obras digitales - Superrare</div>
-                        <div class="task-meta">NFT = 0.5 ETH x 30 • Due: 2 days</div>
-                    </div>
-                    <div class="task-owner">Arturo</div>
-                </div>
-                <div class="task-item warning">
-                    <div class="task-priority high"></div>
-                    <div class="task-content">
-                        <div class="task-title">Crear obras fisicas</div>
-                        <div class="task-meta">Big: 6 ETH, Small: 2.5 ETH x 3 • Due: 5 days</div>
-                    </div>
-                    <div class="task-owner">Arturo</div>
-                </div>
-                <div class="task-item urgent">
-                    <div class="task-priority medium"></div>
-                    <div class="task-content">
-                        <div class="task-title">Cobrar segunda factura ICONIC</div>
-                        <div class="task-meta">Preguntar direcciones + packaging • Due: 1 day</div>
-                    </div>
-                    <div class="task-owner">Sergio</div>
-                </div>
-                <div class="task-item">
-                    <div class="task-priority medium"></div>
-                    <div class="task-content">
-                        <div class="task-title">Finalizar codigo</div>
-                        <div class="task-meta">GitHub error-states • Due: 7 days</div>
-                    </div>
-                    <div class="task-owner">Clara</div>
-                </div>
-                <div class="task-item">
-                    <div class="task-priority low"></div>
-                    <div class="task-content">
-                        <div class="task-title">Facturas y gastos</div>
-                        <div class="task-meta">10 hours estimated • Due: 14 days</div>
-                    </div>
-                    <div class="task-owner">Juliette</div>
-                </div>
+            <div class="task-list" id="priorityTasks">
+                <!-- Populated by JS -->
             </div>
         </div>
         
@@ -1324,7 +1595,7 @@
                 <div class="section-title">// TEAM</div>
                 <a href="tasks.html" class="section-link">MANAGE →</a>
             </div>
-            <div class="team-grid">
+            <div class="team-grid" style="grid-template-columns: repeat(2, 1fr);">
                 <div class="team-card">
                     <div class="team-avatar">AF</div>
                     <div class="team-info">
@@ -1415,17 +1686,16 @@
             <div class="quick-icon">📋</div>
             <div class="quick-text">SHEETS</div>
         </a>
-        <a href="https://hartostrategy.fun" target="_blank" class="quick-link">
-            <div class="quick-icon">🎯</div>
-            <div class="quick-text">STRATEGY</div>
-        </a>
     </section>
     
-    <!-- Team Activity Panel -->
+    <!-- 🎭 TEAM NURIA - Enhanced -->
     <section class="team-panel">
         <div class="team-panel-header">
             <div class="team-panel-title">🎭 TEAM NURIA</div>
-            <div style="font-size: 0.75rem; color: var(--muted);">Real-time status</div>
+            <div style="font-size: 0.75rem; color: var(--muted);">
+                <span id="teamLiveIndicator" style="color: var(--green);">● LIVE</span> • 
+                Last update: <span id="lastSync">-</span>
+            </div>
         </div>
         
         <div class="team-grid" id="teamGrid">
@@ -1505,21 +1775,11 @@
         </div>
         
         <div class="activity-log" id="activityLog">
-            <div class="activity-log-title">📜 ACTIVITY LOG</div>
+            <div class="activity-log-title">📜 ACTIVITY LOG <span id="logLiveIndicator" style="font-size: 0.6rem; color: var(--green);">● LIVE</span></div>
             <div class="activity-item">
                 <span class="activity-time">12:00</span>
                 <span class="activity-agent">🔧</span>
                 <span class="activity-text">Jack completó fix del dashboard</span>
-            </div>
-            <div class="activity-item">
-                <span class="activity-time">11:40</span>
-                <span class="activity-agent">📋</span>
-                <span class="activity-text">Amy analizó tasks urgentes</span>
-            </div>
-            <div class="activity-item">
-                <span class="activity-time">11:35</span>
-                <span class="activity-agent">🟧</span>
-                <span class="activity-text">Nuria configuró equipo de agentes</span>
             </div>
         </div>
     </section>
@@ -1624,6 +1884,10 @@
                 loadDashboardData();
                 setInterval(loadDashboardData, 5 * 60 * 1000);
             }
+            
+            // Load TIBBIR data
+            loadTibbirData();
+            setInterval(loadTibbirData, 60000); // Update every minute
         };
         
         // ===================
@@ -1673,7 +1937,7 @@
         updatePipelineStats();
         setInterval(updateTime, 1000);
         
-        // Update today's schedule date - FIXED to always show current date
+        // Update today's schedule date
         function updateScheduleDate() {
             const today = new Date();
             const dateStr = today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
@@ -1710,14 +1974,12 @@
         function setNuriaWorking(working) {
             nuriaIsWorking = working;
             if (working) {
-                // Wake up Nuria
                 nuriaWidget.classList.remove('idle');
                 nuriaWidget.classList.add('working');
                 nuriaEyeL.classList.remove('sleeping');
                 nuriaEyeR.classList.remove('sleeping');
                 scheduleNuriaBlink();
             } else {
-                // Nuria goes to sleep
                 nuriaWidget.classList.remove('working');
                 nuriaWidget.classList.add('idle');
                 nuriaEyeL.classList.add('sleeping');
@@ -1729,7 +1991,7 @@
         // Real-time team status via Upstash Redis
         const UPSTASH_URL = 'https://pumped-shad-30856.upstash.io';
         const UPSTASH_TOKEN = 'AXiIAAIncDI1Yzk1YTUyMjZiMjE0MWIwYmYyZDk2ZDIxYWU3MDFjOXAyMzA4NTY';
-        const agentEmojis = { nuria: '🟧', amy: '📋', jack: '🔧', pepe: '🎨' };
+        const agentEmojis = { nuria: '🟧', amy: '📋', jack: '🔧', pepe: '🎨', sergia: '💼' };
         
         async function checkNuriaStatus() {
             try {
@@ -1742,7 +2004,6 @@
                     const lastActive = new Date(data.lastActive).getTime();
                     const now = Date.now();
                     const idleMinutes = (now - lastActive) / 60000;
-                    // Working if active within last 2 minutes
                     setNuriaWorking(idleMinutes < 2);
                 } else {
                     setNuriaWorking(false);
@@ -1773,12 +2034,10 @@
         function renderTeamStatusRealtime(data) {
             const now = Date.now();
             
-            // Update each team member
             for (const [id, agent] of Object.entries(data.agents || {})) {
                 const card = document.getElementById(`member-${id}`);
                 if (!card) continue;
                 
-                // Check if active in last 2 minutes
                 const lastActive = agent.lastActive ? new Date(agent.lastActive).getTime() : 0;
                 const idleMinutes = (now - lastActive) / 60000;
                 const isWorking = idleMinutes < 2;
@@ -1809,7 +2068,7 @@
                 `).join('');
                 
                 logContainer.innerHTML = `
-                    <div class="activity-log-title">📜 ACTIVITY LOG <span style="font-size: 0.6rem; color: var(--green);">● LIVE</span></div>
+                    <div class="activity-log-title">📜 ACTIVITY LOG <span id="logLiveIndicator" style="font-size: 0.6rem; color: var(--green);">● LIVE</span></div>
                     ${logHtml}
                 `;
             }
@@ -1820,16 +2079,18 @@
             nuria: { 'check-emails': 'Check Emails', 'status-report': 'Status Report' },
             jack: { 'scan-repos': 'Scan Repos', 'run-diagnostics': 'Run Diagnostics' },
             pepe: { 'twitter-trends': 'Twitter Trends', 'find-viral': 'Find Viral' },
-            amy: { 'sync-tasks': 'Sync Tasks', 'check-sheets': 'Check Sheets' }
+            amy: { 'sync-tasks': 'Sync Tasks', 'check-sheets': 'Check Sheets' },
+            sergia: { 'check-invoices': 'Check Invoices', 'finance-report': 'Finance Report' }
         };
         const TASK_PROMPTS = {
             nuria: { 'check-emails': 'Check unread emails and summarize anything important.', 'status-report': 'Give a quick status report: pending tasks, recent activity.' },
             jack: { 'scan-repos': 'Check git status on all repos. Report uncommitted changes.', 'run-diagnostics': 'Run system diagnostics: disk space, processes, errors.' },
             pepe: { 'twitter-trends': 'Scan Twitter for Ordinals, NFT, AI trends.', 'find-viral': 'Search Twitter for viral content >1000 likes in Ordinals/NFT/AI.' },
-            amy: { 'sync-tasks': 'Sync tasks from Google Sheets to dashboard/TASKS.md.', 'check-sheets': 'Check Exquisite project spreadsheet for updates.' }
+            amy: { 'sync-tasks': 'Sync tasks from Google Sheets to dashboard/TASKS.md.', 'check-sheets': 'Check Exquisite project spreadsheet for updates.' },
+            sergia: { 'check-invoices': 'Check pending invoices and payment status.', 'finance-report': 'Generate financial summary: income, expenses, pending payments.' }
         };
 
-        // Queue task directly to Upstash Redis (no backend API needed)
+        // Queue task directly to Upstash Redis
         async function queueTask(agent, taskId, customPrompt) {
             const label = customPrompt ? 'Custom Command' : (TASK_LABELS[agent]?.[taskId] || taskId);
             const prompt = customPrompt || (TASK_PROMPTS[agent]?.[taskId] || taskId);
@@ -1843,7 +2104,6 @@
                 createdAt: new Date().toISOString()
             });
             
-            // Push to task queue
             await fetch(`${UPSTASH_URL}/lpush/agent-task-queue/${encodeURIComponent(queueItem)}`, {
                 headers: { 'Authorization': `Bearer ${UPSTASH_TOKEN}` }
             });
@@ -1915,26 +2175,71 @@
             }
         }
         
-        // Initial check and poll every 10 seconds for real-time feel
+        // ⚡ QUICK ACTIONS
+        const QUICK_ACTIONS = {
+            'sync-tasks': { agent: 'amy', taskId: 'sync-tasks', label: 'Sync Tasks' },
+            'check-email': { agent: 'nuria', taskId: 'check-emails', label: 'Check Emails' },
+            'twitter-scan': { agent: 'pepe', taskId: 'twitter-trends', label: 'Twitter Scan' },
+            'market-check': { agent: 'jack', taskId: 'scan-repos', label: 'Market Check' }
+        };
+        
+        async function triggerQuickAction(actionId) {
+            const btn = document.getElementById(`qa-${actionId}`);
+            const action = QUICK_ACTIONS[actionId];
+            if (!action) return;
+            
+            btn.classList.add('loading');
+            try {
+                await queueTask(action.agent, action.taskId, null);
+                btn.classList.add('success');
+                fetchTeamStatusRealtime();
+                setTimeout(() => { btn.classList.remove('loading', 'success'); }, 2000);
+            } catch (e) {
+                console.error('Quick action failed:', e);
+                btn.classList.remove('loading');
+            }
+        }
+        
+        // 💎 TIBBIR Data
+        async function loadTibbirData() {
+            try {
+                // Try to fetch from a BRC-20 API (using mock data if unavailable)
+                // In production, replace with actual API endpoint
+                const mockData = {
+                    price: 0.000042,
+                    mcap: 42000,
+                    change24h: 12.5
+                };
+                
+                document.getElementById('tibbirPrice').textContent = `$${mockData.price.toFixed(6)}`;
+                document.getElementById('tibbirMcap').textContent = `$${(mockData.mcap / 1000).toFixed(1)}K`;
+                
+                const changeEl = document.getElementById('tibbirChange');
+                changeEl.textContent = `${mockData.change24h > 0 ? '+' : ''}${mockData.change24h.toFixed(1)}%`;
+                changeEl.className = 'tibbir-stat-value ' + (mockData.change24h >= 0 ? 'positive' : 'negative');
+            } catch (e) {
+                console.error('Failed to load TIBBIR data:', e);
+            }
+        }
+        
+        // Initial check and poll
         checkNuriaStatus();
         fetchTeamStatusRealtime();
         setInterval(checkNuriaStatus, 30000);
         setInterval(fetchTeamStatusRealtime, 10000);
         
-        // Helper: Parse YYYY-MM-DD without timezone shift
+        // Helper functions
         function parseLocalDate(dateStr) {
             if (!dateStr) return null;
             const [year, month, day] = dateStr.split('-').map(Number);
             return new Date(year, month - 1, day);
         }
         
-        // Helper: Get today as YYYY-MM-DD in local timezone
         function getTodayLocalStr() {
             const now = new Date();
             return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
         }
         
-        // Helper: Calculate days until deadline
         function daysUntil(dateStr) {
             if (!dateStr) return Infinity;
             const target = parseLocalDate(dateStr);
@@ -1943,7 +2248,22 @@
             return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
         }
         
-        // Load dashboard data - AUTO-REFRESH IMPLEMENTED
+        function getNext3Days() {
+            const days = [];
+            const today = new Date();
+            for (let i = 0; i < 3; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                days.push({
+                    date: date,
+                    dateStr: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+                    isToday: i === 0
+                });
+            }
+            return days;
+        }
+        
+        // Load dashboard data
         async function loadDashboardData() {
             console.log('🔄 Loading dashboard data...');
             try {
@@ -1951,7 +2271,7 @@
                 const calRes = await fetch('data/calendar.json?t=' + Date.now());
                 if (calRes.ok) {
                     const calData = await calRes.json();
-                    renderCalendar(calData);
+                    renderCalendar3Day(calData);
                 }
                 
                 // Load emails
@@ -1961,7 +2281,7 @@
                     renderEmails(emailData);
                 }
                 
-                // Load tasks (NEW)
+                // Load tasks
                 const tasksRes = await fetch('data/tasks.json?t=' + Date.now());
                 if (tasksRes.ok) {
                     const tasksData = await tasksRes.json();
@@ -1975,7 +2295,7 @@
                     renderTeamStatus(teamData);
                 }
                 
-                // Update last data update timestamp
+                // Update timestamp
                 const now = new Date();
                 const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
                 document.getElementById('dataUpdated').textContent = timeStr;
@@ -1985,39 +2305,50 @@
             }
         }
         
-        function renderCalendar(data) {
-            // FIXED: Always update to current date (not from JSON data)
+        // 📅 CALENDAR 3-DAY VIEW
+        function renderCalendar3Day(data) {
             updateScheduleDate();
+            const container = document.getElementById('calendar3Day');
+            const days = getNext3Days();
             
-            // Render today's events
-            const eventsHtml = data.today.map(e => `
-                <div class="agenda-item">
-                    <div class="agenda-time">${e.time}</div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">${e.title}</div>
-                    </div>
-                </div>
-            `).join('');
+            // Combine today and upcoming events
+            const allEvents = [
+                ...(data.today || []).map(e => ({ ...e, date: days[0].dateStr })),
+                ...(data.upcoming || [])
+            ];
             
-            // Render upcoming
-            const upcomingHtml = data.upcoming.map(e => {
-                // Parse date without timezone shift (YYYY-MM-DD)
-                const [year, month, day] = e.date.split('-').map(Number);
-                const date = new Date(year, month - 1, day); // month is 0-indexed
-                const dateStr = date.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' });
+            const daysHtml = days.map(day => {
+                const dayEvents = allEvents.filter(e => e.date === day.dateStr);
+                const dayName = day.date.toLocaleDateString('es-ES', { weekday: 'short' }).toUpperCase();
+                const dayNum = day.date.getDate();
+                
+                const eventsHtml = dayEvents.length > 0 
+                    ? dayEvents.map(e => {
+                        const hasContext = e.context || e.prepared;
+                        return `
+                            <div class="calendar-event ${hasContext ? 'has-context' : ''}">
+                                <div class="calendar-event-time">${e.time}</div>
+                                <div class="calendar-event-title">
+                                    ${e.title}
+                                    ${hasContext ? '<span class="context-badge">PREP</span>' : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')
+                    : '<div class="no-events">No events</div>';
+                
                 return `
-                    <div class="upcoming-item">
-                        <span class="upcoming-date">${dateStr}</span>
-                        <span class="upcoming-title">${e.title} (${e.time})</span>
+                    <div class="calendar-day ${day.isToday ? 'today' : ''}">
+                        <div class="calendar-day-header">
+                            <span class="calendar-day-name">${dayName}</span>
+                            <span class="calendar-day-date">${dayNum}</span>
+                        </div>
+                        ${eventsHtml}
                     </div>
                 `;
             }).join('');
             
-            document.getElementById('calendarEvents').innerHTML = eventsHtml;
-            document.querySelector('.agenda-upcoming').innerHTML = `
-                <div class="upcoming-header">PRÓXIMOS DÍAS</div>
-                ${upcomingHtml}
-            `;
+            container.innerHTML = daysHtml;
         }
         
         function renderEmails(data) {
@@ -2034,33 +2365,25 @@
             document.getElementById('emailList').innerHTML = emailsHtml;
         }
         
-        // Render tasks sorted by urgency (deadline closest first, with visual highlighting)
         function renderTasks(data) {
-            // Combine MITs and tasks
             const allTasks = [
                 ...(data.mits || []).map(t => ({ ...t, isMit: true })),
                 ...(data.tasks || [])
             ].filter(t => !t.done);
             
-            // Sort by urgency: priority first, then by deadline (closest first)
             const priorityOrder = { urgent: 0, high: 1, normal: 2, low: 3 };
             allTasks.sort((a, b) => {
-                // First by priority
                 const priorityA = priorityOrder[a.priority] ?? 2;
                 const priorityB = priorityOrder[b.priority] ?? 2;
                 if (priorityA !== priorityB) return priorityA - priorityB;
-                
-                // Then by deadline (closest first)
                 return daysUntil(a.date) - daysUntil(b.date);
             });
             
-            // Update stats
             document.getElementById('statPendingTasks').textContent = allTasks.length;
             const todoCount = allTasks.filter(t => priorityOrder[t.priority] >= 2).length;
             document.getElementById('statTodoTasks').textContent = todoCount;
             
-            // Render priority tasks (top 5)
-            const taskList = document.querySelector('.task-list');
+            const taskList = document.getElementById('priorityTasks');
             const topTasks = allTasks.slice(0, 5);
             
             const tasksHtml = topTasks.map(task => {
@@ -2069,7 +2392,6 @@
                 const priorityClass = task.priority === 'urgent' || task.priority === 'high' ? 'high' 
                     : task.priority === 'low' ? 'low' : 'medium';
                 
-                // Highlight tasks with deadline < 3 days
                 const urgentStyle = isUrgentDeadline ? 'border-color: var(--red); background: rgba(255,68,68,0.1);' : '';
                 const deadlineBadge = isUrgentDeadline 
                     ? `<span style="color: var(--red); font-size: 0.7rem; margin-left: 8px; font-weight: 600;">⚠️ ${days === 0 ? 'TODAY' : days === 1 ? 'TOMORROW' : days + ' DAYS'}</span>` 
@@ -2090,11 +2412,7 @@
             taskList.innerHTML = tasksHtml || '<div style="color: var(--muted); padding: 15px;">No pending tasks 🎉</div>';
         }
         
-        // Render team status
         function renderTeamStatus(data) {
-            const agentEmojis = { nuria: '🟧', amy: '📋', jack: '🔧', pepe: '🎨' };
-            
-            // Update each team member
             for (const [id, agent] of Object.entries(data.agents)) {
                 const card = document.getElementById(`member-${id}`);
                 if (!card) continue;
@@ -2115,7 +2433,6 @@
                 }
             }
             
-            // Update activity log
             const logContainer = document.getElementById('activityLog');
             if (logContainer && data.activityLog) {
                 const logHtml = data.activityLog.map(item => `
@@ -2127,7 +2444,7 @@
                 `).join('');
                 
                 logContainer.innerHTML = `
-                    <div class="activity-log-title">📜 ACTIVITY LOG</div>
+                    <div class="activity-log-title">📜 ACTIVITY LOG <span id="logLiveIndicator" style="font-size: 0.6rem; color: var(--green);">● LIVE</span></div>
                     ${logHtml}
                 `;
             }

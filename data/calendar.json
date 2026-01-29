@@ -3,20 +3,31 @@
     {
       "time": "19:30",
       "title": "Reservation at Maleducat l Restaurante Eixample",
-      "date": "2026-01-29"
+      "date": "2026-01-29",
+      "context": true,
+      "prepared": "Reserva confirmada, pedir mesa tranquila"
     }
   ],
   "upcoming": [
     {
       "time": "10:00",
       "title": "Zoo avec les enfants",
-      "date": "2026-01-31"
+      "date": "2026-01-31",
+      "context": true,
+      "prepared": "Llevar snacks, protector solar, tickets comprados"
     },
     {
       "time": "07:30",
       "title": "Deporte",
       "date": "2026-02-03"
+    },
+    {
+      "time": "19:00",
+      "title": "Marina Abramovic Exhibition",
+      "date": "2026-01-28",
+      "context": true,
+      "prepared": "Entrada reservada, investigar obra reciente"
     }
   ],
-  "updated": "2026-01-29T09:17:06.333Z"
+  "updated": "2026-01-29T16:50:00.000Z"
 }

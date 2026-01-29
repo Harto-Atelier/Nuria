@@ -10,9 +10,9 @@
 | Sergio | Enviar 1 of 1 museo | - |
 | Sergio | Caja obra museo | - |
 | Juliette | Enviar obras paul US | - |
-| Arturo | Cortar impresiones | - |
-| Arturo | Certificado de autenticidad | [Drive](https://drive.google.com/drive/u/0/folders/1WrCMrVutTt5awu2GdbNFFpwpmnOzp68-) |
-| Arturo | About the artist | - |
+| ~~Arturo~~ | ~~Cortar impresiones~~ | ✅ Done |
+| ~~Arturo~~ | ~~Certificado de autenticidad~~ | ✅ Done |
+| ~~Arturo~~ | ~~About the artist~~ | ✅ Done |
 | Juliette | Sobres | Meter certificados y explicativos para envío |
 
 ## 🟡 PENDING
