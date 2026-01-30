@@ -1,20 +1,20 @@
 {
-  "updated": "2026-01-30T10:00:45.000Z",
+  "updated": "2026-01-30T11:01:22.000Z",
   "commits": [
-    {"hash":"ebe51d5","message":"📅 Auto-update calendar 11:00","time":"8 seconds ago"},
-{"hash":"6b2f967","message":"📅 Auto-update calendar 10:50","time":"11 minutes ago"},
-{"hash":"b0f9d89","message":"📅 Auto-update calendar 10:40","time":"21 minutes ago"},
-{"hash":"b4ea929","message":"📧 Auto-sync emails","time":"30 minutes ago"},
-{"hash":"bae45e5","message":"📅 Auto-update calendar 10:30","time":"30 minutes ago"},
-{"hash":"90c8879","message":"Add TradingView signals widget to trading page","time":"39 minutes ago"},
-{"hash":"393796d","message":"📅 Auto-update calendar 10:20","time":"41 minutes ago"},
-{"hash":"bea2ef1","message":"Add TradingView webhook endpoint","time":"44 minutes ago"},
-{"hash":"9abc436","message":"📅 Auto-update calendar 10:10","time":"51 minutes ago"},
-{"hash":"a8d5478","message":"📧 Auto-sync emails","time":"60 minutes ago"},
-{"hash":"da2c574","message":"📊 Auto-update activity","time":"60 minutes ago"},
-{"hash":"6ac5dbd","message":"📅 Auto-update calendar 10:00","time":"60 minutes ago"},
-{"hash":"9603471","message":"📅 Auto-update calendar 09:50","time":"71 minutes ago"},
-{"hash":"6e149ae","message":"⚡ Fix mempool fee default: 5 → 1 sat/vB","time":"75 minutes ago"},
-{"hash":"39515c7","message":"📧 Sync unread emails - now showing only unread","time":"77 minutes ago"}
+    {"hash":"49ac19e","message":"📅 Auto-update calendar 12:01","time":"8 seconds ago"},
+{"hash":"aae2c21","message":"🎨 Add Lola (Creative Director) + Update Nuria PFP to Exquisite #6556","time":"4 minutes ago"},
+{"hash":"9b6c71f","message":"📅 Auto-update calendar 11:50","time":"11 minutes ago"},
+{"hash":"0508b89","message":"📅 Auto-update calendar 11:40","time":"21 minutes ago"},
+{"hash":"5b021bd","message":"📧 Auto-sync emails","time":"31 minutes ago"},
+{"hash":"b470249","message":"📅 Auto-update calendar 11:30","time":"31 minutes ago"},
+{"hash":"737085b","message":"📅 Auto-update calendar 11:20","time":"41 minutes ago"},
+{"hash":"3b0cda3","message":"📅 Auto-update calendar 11:10","time":"51 minutes ago"},
+{"hash":"c61e7c7","message":"📧 Auto-sync emails","time":"60 minutes ago"},
+{"hash":"41b3ced","message":"📊 Auto-update activity","time":"61 minutes ago"},
+{"hash":"ebe51d5","message":"📅 Auto-update calendar 11:00","time":"61 minutes ago"},
+{"hash":"6b2f967","message":"📅 Auto-update calendar 10:50","time":"71 minutes ago"},
+{"hash":"b0f9d89","message":"📅 Auto-update calendar 10:40","time":"81 minutes ago"},
+{"hash":"b4ea929","message":"📧 Auto-sync emails","time":"2 hours ago"},
+{"hash":"bae45e5","message":"📅 Auto-update calendar 10:30","time":"2 hours ago"}
   ]
 }
