@@ -593,6 +593,10 @@
     </div>
     
     <section class="stats-section">
+        <div class="stat-box" style="background: linear-gradient(135deg, rgba(255,68,68,0.15), rgba(255,107,0,0.1)); border-color: rgba(255,68,68,0.3);">
+            <div class="stat-value" id="statUrgent" style="color: var(--red);">-</div>
+            <div class="stat-label">🔥 Urgent</div>
+        </div>
         <div class="stat-box warning">
             <div class="stat-value" id="statPending">-</div>
             <div class="stat-label">Pending</div>
@@ -607,21 +611,36 @@
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statHours">-</div>
-            <div class="stat-label">Est. Hours</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-value" id="statTeam">-</div>
-            <div class="stat-label">Team</div>
+            <div class="stat-label">Hours</div>
         </div>
     </section>
     
+    <!-- Progress Bar -->
+    <div style="padding: 0 30px 20px; max-width: 100%;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.75rem; color: var(--muted);">
+            <span>Progress</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div style="height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+            <div id="progressBar" style="height: 100%; background: linear-gradient(90deg, var(--green), var(--cyan)); width: 0%; transition: width 0.5s ease;"></div>
+        </div>
+    </div>
+    
     <div class="filters-bar">
+        <div class="filter-group">
+            <span class="filter-label">PROJECT:</span>
+            <button class="filter-btn active" data-project="all" onclick="setFilter('project', 'all')">All</button>
+            <button class="filter-btn" data-project="ICONIC" onclick="setFilter('project', 'ICONIC')" style="border-color: rgba(255,107,0,0.4);">🖼️ ICONIC</button>
+            <button class="filter-btn" data-project="Superrare" onclick="setFilter('project', 'Superrare')" style="border-color: rgba(168,85,247,0.4);">🎨 SuperRare</button>
+            <button class="filter-btn" data-project="POL" onclick="setFilter('project', 'POL')" style="border-color: rgba(255,107,0,0.4);">🟧 POL</button>
+            <button class="filter-btn" data-project="Facturas" onclick="setFilter('project', 'Facturas')" style="border-color: rgba(0,255,136,0.4);">💰 Facturas</button>
+        </div>
         <div class="filter-group">
             <span class="filter-label">STATUS:</span>
             <button class="filter-btn active" data-filter="all" onclick="setFilter('status', 'all')">All</button>
-            <button class="filter-btn" data-filter="Pending" onclick="setFilter('status', 'Pending')">Pending</button>
-            <button class="filter-btn" data-filter="To do" onclick="setFilter('status', 'To do')">To Do</button>
-            <button class="filter-btn" data-filter="Done" onclick="setFilter('status', 'Done')">Done</button>
+            <button class="filter-btn" data-filter="Pending" onclick="setFilter('status', 'Pending')">⏳ Pending</button>
+            <button class="filter-btn" data-filter="To do" onclick="setFilter('status', 'To do')">📋 To Do</button>
+            <button class="filter-btn" data-filter="Done" onclick="setFilter('status', 'Done')">✅ Done</button>
         </div>
         <div class="filter-group">
             <span class="filter-label">OWNER:</span>
@@ -667,7 +686,7 @@
         // Task data - will be loaded and modified
         let tasks = [];
         let changes = JSON.parse(localStorage.getItem('task_changes') || '[]');
-        let filters = { status: 'all', owner: 'all' };
+        let filters = { status: 'all', owner: 'all', project: 'all' };
         
         // Initial data from Google Sheets (63 tasks)
         const initialTasks = [
@@ -750,17 +769,23 @@
         }
         
         function updateStats() {
+            const urgent = tasks.filter(t => t.priority === 'urgent' && t.status !== 'Done').length;
             const pending = tasks.filter(t => t.status === 'Pending').length;
             const todo = tasks.filter(t => t.status === 'To do').length;
             const done = tasks.filter(t => t.status === 'Done').length;
+            const total = tasks.length;
             const hours = tasks.filter(t => t.status !== 'Done').reduce((sum, t) => sum + (parseInt(t.hours) || 0), 0);
-            const team = [...new Set(tasks.map(t => t.owner.split(' ')[0]))].length;
             
+            document.getElementById('statUrgent').textContent = urgent;
             document.getElementById('statPending').textContent = pending;
             document.getElementById('statTodo').textContent = todo;
             document.getElementById('statDone').textContent = done;
             document.getElementById('statHours').textContent = hours + 'h';
-            document.getElementById('statTeam').textContent = team;
+            
+            // Update progress bar
+            const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progressPercent').textContent = progress + '%';
+            document.getElementById('progressBar').style.width = progress + '%';
         }
         
         function updatePendingChanges() {
@@ -792,9 +817,13 @@
                 document.querySelectorAll('[data-filter]').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.filter === value);
                 });
-            } else {
+            } else if (type === 'owner') {
                 document.querySelectorAll('[data-owner]').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.owner === value);
+                });
+            } else if (type === 'project') {
+                document.querySelectorAll('[data-project]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.project === value);
                 });
             }
             
@@ -809,6 +838,9 @@
             }
             if (filters.owner !== 'all') {
                 filtered = filtered.filter(t => t.owner.includes(filters.owner));
+            }
+            if (filters.project !== 'all') {
+                filtered = filtered.filter(t => t.project && t.project.toLowerCase().includes(filters.project.toLowerCase()));
             }
             
             renderTasks(filtered);
