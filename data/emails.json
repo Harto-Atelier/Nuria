@@ -1,6 +1,18 @@
 {
   "emails": [
     {
+      "sender": "Google",
+      "subject": "Harto, review your Google Account settings",
+      "time": "18:56",
+      "unread": true
+    },
+    {
+      "sender": "Google",
+      "subject": "Security alert",
+      "time": "18:56",
+      "unread": true
+    },
+    {
       "sender": "Deliveroo",
       "subject": "7x7 € offerts pour un moment gourmand ❄️",
       "time": "18:18",
@@ -47,20 +59,8 @@
       "subject": "Spreadsheet shared with you: ‘Cierre Proyecto Exquisite’",
       "time": "14:56",
       "unread": true
-    },
-    {
-      "sender": "sgseaux@gmail.com",
-      "subject": "Exquisite Daily Report - 2026-01-28",
-      "time": "10:28",
-      "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Invitation: Rdv Susana colegio @ Fri 6 Feb 2026 1:30pm - 2:30pm (CET) (hartostudio@gmail.com)",
-      "time": "08:18",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-01-30T17:30:52Z"
+  "updated": "2026-01-30T18:00:42Z"
 }
