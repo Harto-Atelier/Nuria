@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Patricia DELEAU",
+      "subject": "✨La Peña - Newsletter Février 2026 ✨ Planning des événements, Agenda des événements 2026, Présentation des nouveaux Peñistas.",
+      "time": "12:34",
+      "unread": true
+    },
+    {
       "sender": "ArtStation",
       "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
       "time": "10:57",
@@ -39,7 +45,7 @@
     {
       "sender": "Núria  Nadal",
       "subject": "2026 Presupuesto Asesoría HARTO ATELIER",
-      "time": "11:35",
+      "time": "12:53",
       "unread": true
     },
     {
@@ -53,14 +59,8 @@
       "subject": "Exquisite Daily Report - 2026-01-26",
       "time": "15:19",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Solicitud de reparación puerta baño (se queda abierta)",
-      "time": "16:05",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-01-30T11:30:33Z"
+  "updated": "2026-01-30T12:30:32Z"
 }
