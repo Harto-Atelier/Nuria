@@ -1620,9 +1620,10 @@
         <div class="nav-brand">HARTO // COMMAND CENTER</div>
         <div class="nav-links">
             <a href="index.html" class="active">Dashboard</a>
-            <a href="crm.html">CRM</a>
             <a href="tasks.html">Tasks</a>
-            <a href="analytics.html">Analytics</a>
+            <a href="trading.html">Trading</a>
+            <a href="team.html">Team</a>
+            <a href="crm.html">CRM</a>
         </div>
         <div class="nav-time">
             <span class="nav-day" id="heroDay">-</span>
@@ -1658,12 +1659,6 @@
             <span class="ticker-label">ETH</span>
             <span class="ticker-value" id="tickerEth">$3,180</span>
             <span class="ticker-change positive" id="tickerEthChange">+1.8%</span>
-        </div>
-        <div class="ticker-divider">|</div>
-        <div class="ticker-item">
-            <span class="ticker-label">TIBBIR</span>
-            <span class="ticker-value" id="tickerTibbir">$0.188</span>
-            <span class="ticker-change positive" id="tickerTibbirChange">+19%</span>
         </div>
         <div class="ticker-divider">|</div>
         <div class="ticker-item">
@@ -1768,97 +1763,6 @@
             </div>
             <div class="email-list" id="emailList">
                 <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-    
-    <!-- 💎 TIBBIR + MARKETPLACE WIDGETS -->
-    <section class="widget-grid">
-        <!-- TIBBIR Widget (Base Chain) -->
-        <div class="widget-card tibbir-widget">
-            <div class="tibbir-header">
-                <div class="tibbir-logo">🐸</div>
-                <div class="tibbir-info">
-                    <h3>$TIBBIR</h3>
-                    <span>Ribbita by Virtuals • Base</span>
-                </div>
-            </div>
-            <div class="tibbir-stats">
-                <div class="tibbir-stat">
-                    <div class="tibbir-stat-value" id="tibbirPrice">$0.188</div>
-                    <div class="tibbir-stat-label">Price</div>
-                </div>
-                <div class="tibbir-stat">
-                    <div class="tibbir-stat-value" id="tibbirMcap">$187.8M</div>
-                    <div class="tibbir-stat-label">Market Cap</div>
-                </div>
-                <div class="tibbir-stat">
-                    <div class="tibbir-stat-value positive" id="tibbirChange">+19.07%</div>
-                    <div class="tibbir-stat-label">24h Change</div>
-                </div>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <a href="https://dexscreener.com/base/0x0c3b466104545efa096b8f944c1e524e1d0d4888" target="_blank" class="tibbir-btn" style="flex: 1;">
-                    📊 DEXSCREENER →
-                </a>
-                <a href="https://bubblemaps.io/base/token/0xA4A2E2ca3fBfE21aed83471D28b6f65A233C6e00" target="_blank" class="tibbir-btn" style="flex: 1; background: linear-gradient(135deg, #a855f7, #6366f1);">
-                    🗺️ BUBBLES →
-                </a>
-            </div>
-        </div>
-        
-        <!-- Marketplace Widget -->
-        <div class="widget-card marketplace-widget">
-            <div class="widget-header">
-                <div class="widget-title">🖼️ ORDINALS MARKET</div>
-                <a href="https://ordinals-market.vercel.app" target="_blank" class="widget-link">OPEN →</a>
-            </div>
-            <div class="marketplace-stats">
-                <div class="marketplace-stat">
-                    <div class="marketplace-stat-value" id="marketCollections">12</div>
-                    <div class="marketplace-stat-label">Collections</div>
-                </div>
-                <div class="marketplace-stat">
-                    <div class="marketplace-stat-value" id="marketVolume">2.4 BTC</div>
-                    <div class="marketplace-stat-label">24h Volume</div>
-                </div>
-            </div>
-            <div class="marketplace-collections" id="marketplaceCollections">
-                <div class="collection-item">
-                    <span class="collection-name">🟧 Bitcoin Puppets</span>
-                    <span class="collection-floor">0.15 BTC</span>
-                </div>
-                <div class="collection-item">
-                    <span class="collection-name">🐱 OMB</span>
-                    <span class="collection-floor">0.08 BTC</span>
-                </div>
-                <div class="collection-item">
-                    <span class="collection-name">🎨 NodeMonkes</span>
-                    <span class="collection-floor">0.12 BTC</span>
-                </div>
-            </div>
-            <a href="https://ordinals-market.vercel.app" target="_blank" class="marketplace-btn">
-                BROWSE MARKETPLACE →
-            </a>
-        </div>
-    </section>
-    
-    <!-- 🎨 HARTO PORTFOLIO TRACKER -->
-    <section class="widget-grid" style="border-bottom: 1px solid var(--border);">
-        <div class="widget-card" style="grid-column: span 2; background: linear-gradient(135deg, rgba(0, 122, 204, 0.08), rgba(78, 201, 176, 0.05)); border: 1px solid var(--cyan-border);">
-            <div class="widget-header">
-                <div class="widget-title">🎨 HARTO PORTFOLIO</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
-                    Total Value: <span id="portfolioTotalBtc" style="color: var(--cyan); font-weight: 600;">- BTC</span>
-                    <span style="color: var(--muted); margin: 0 8px;">|</span>
-                    <span id="portfolioTotalUsd" style="color: var(--green); font-weight: 600;">$-</span>
-                </div>
-            </div>
-            <div id="portfolioGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px;">
-                <!-- Populated by JS -->
-            </div>
-            <div style="text-align: center; margin-top: 15px; font-size: 0.75rem; color: var(--muted);">
-                <span id="portfolioLastUpdate">Updating...</span>
             </div>
         </div>
     </section>
@@ -2310,25 +2214,13 @@
                 setInterval(loadDashboardData, 5 * 60 * 1000);
             }
             
-            // Load TIBBIR data
-            loadTibbirData();
-            setInterval(loadTibbirData, 60000); // Update every minute
-            
-            // Load Ticker data (BTC, ETH, etc)
+            // Load Ticker data (BTC, ETH)
             loadTickerData();
-            setInterval(loadTickerData, 30000); // Update every 30 seconds
-            
-            // Load Marketplace data
-            loadMarketplaceData();
-            setInterval(loadMarketplaceData, 300000); // Update every 5 minutes
-            
-            // Load Portfolio data
-            loadPortfolioData();
-            setInterval(loadPortfolioData, 300000); // Update every 5 minutes
+            setInterval(loadTickerData, 60000);
             
             // Load Invoice data
             loadInvoiceData();
-            setInterval(loadInvoiceData, 60000); // Update every minute
+            setInterval(loadInvoiceData, 60000);
         };
         
         // ===================
@@ -2732,176 +2624,6 @@
                 }
             } catch (e) {
                 console.error('Failed to load ticker data:', e);
-            }
-        }
-        
-        // 💎 TIBBIR Data
-        async function loadTibbirData() {
-            try {
-                // TIBBIR on Base - Ribbita by Virtuals
-                const res = await fetch('https://api.dexscreener.com/latest/dex/pairs/base/0x0c3b466104545efa096b8f944c1e524e1d0d4888');
-                if (res.ok) {
-                    const data = await res.json();
-                    const pair = data.pair;
-                    if (pair) {
-                        const price = parseFloat(pair.priceUsd);
-                        const mcap = pair.marketCap || pair.fdv;
-                        const change24h = pair.priceChange?.h24 || 0;
-                        
-                        document.getElementById('tibbirPrice').textContent = `$${price.toFixed(3)}`;
-                        document.getElementById('tibbirMcap').textContent = mcap > 1000000 
-                            ? `$${(mcap / 1000000).toFixed(1)}M` 
-                            : `$${(mcap / 1000).toFixed(1)}K`;
-                        
-                        const changeEl = document.getElementById('tibbirChange');
-                        changeEl.textContent = `${change24h > 0 ? '+' : ''}${parseFloat(change24h).toFixed(2)}%`;
-                        changeEl.className = 'tibbir-stat-value ' + (change24h >= 0 ? 'positive' : 'negative');
-                    }
-                }
-            } catch (e) {
-                console.error('Failed to load TIBBIR data:', e);
-            }
-        }
-        
-        // 🖼️ Marketplace Data
-        async function loadMarketplaceData() {
-            try {
-                const res = await fetch('data/marketplace.json?t=' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    
-                    // Update stats
-                    document.getElementById('marketCollections').textContent = data.stats.collections;
-                    document.getElementById('marketVolume').textContent = data.stats.volume24h.toFixed(1) + ' BTC';
-                    
-                    // Update collections list
-                    const container = document.getElementById('marketplaceCollections');
-                    const collectionsHtml = data.topCollections.slice(0, 3).map(c => `
-                        <div class="collection-item">
-                            <span class="collection-name">${c.emoji} ${c.name}</span>
-                            <span class="collection-floor">${c.floor.toFixed(2)} BTC</span>
-                        </div>
-                    `).join('');
-                    container.innerHTML = collectionsHtml;
-                }
-            } catch (e) {
-                console.error('Failed to load marketplace data:', e);
-            }
-        }
-        
-        // 🎨 HARTO PORTFOLIO TRACKER
-        const HARTO_COLLECTIONS = [
-            { name: 'SATS', symbol: 'satoshibles' },
-            { name: 'The Golden Ratio', symbol: 'the-golden-ratio' },
-            { name: 'FloraForms', symbol: 'floraforms' },
-            { name: 'Blocks', symbol: 'blocks_btc' },
-            { name: 'POL', symbol: 'pol' },
-            { name: 'Finestra', symbol: 'finestra' },
-            { name: 'Exquisite', symbol: 'exquisite' },
-            { name: 'Singularity', symbol: 'singularity' },
-            { name: 'Formation', symbol: 'formation' },
-            { name: 'Accumulation', symbol: 'accumulation' },
-            { name: 'Immutable Memories', symbol: 'immutable-memories' }
-        ];
-        
-        let btcPriceUsd = 104200; // Default, updated from ticker
-        
-        async function loadPortfolioData() {
-            const container = document.getElementById('portfolioGrid');
-            container.innerHTML = '<div class="portfolio-loading">Loading portfolio data...</div>';
-            
-            try {
-                // Update BTC price from ticker
-                const priceRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-                if (priceRes.ok) {
-                    const prices = await priceRes.json();
-                    btcPriceUsd = prices.bitcoin?.usd || btcPriceUsd;
-                }
-                
-                // Fetch all collections data
-                const portfolioData = [];
-                
-                for (const collection of HARTO_COLLECTIONS) {
-                    try {
-                        const res = await fetch(`https://api-mainnet.magiceden.dev/v2/ord/btc/stat?collectionSymbol=${collection.symbol}`);
-                        if (res.ok) {
-                            const stats = await res.json();
-                            portfolioData.push({
-                                name: collection.name,
-                                symbol: collection.symbol,
-                                supply: stats.supply || stats.totalListed || '-',
-                                floorPrice: stats.floorPrice ? (stats.floorPrice / 100000000) : 0, // Convert satoshis to BTC
-                                volume24h: stats.volume1d || 0,
-                                change24h: stats.floorPriceChange1d || 0
-                            });
-                        } else {
-                            // Fallback for collections not found
-                            portfolioData.push({
-                                name: collection.name,
-                                symbol: collection.symbol,
-                                supply: '-',
-                                floorPrice: 0,
-                                volume24h: 0,
-                                change24h: 0
-                            });
-                        }
-                        // Small delay to avoid rate limiting
-                        await new Promise(resolve => setTimeout(resolve, 200));
-                    } catch (e) {
-                        console.error(`Failed to load ${collection.name}:`, e);
-                        portfolioData.push({
-                            name: collection.name,
-                            symbol: collection.symbol,
-                            supply: '-',
-                            floorPrice: 0,
-                            volume24h: 0,
-                            change24h: 0
-                        });
-                    }
-                }
-                
-                // Calculate total value
-                const totalBtc = portfolioData.reduce((sum, c) => sum + c.floorPrice, 0);
-                const totalUsd = totalBtc * btcPriceUsd;
-                
-                // Update totals
-                document.getElementById('portfolioTotalBtc').textContent = `${totalBtc.toFixed(2)} BTC`;
-                document.getElementById('portfolioTotalUsd').textContent = `$${totalUsd.toLocaleString()}`;
-                
-                // Render cards
-                const cardsHtml = portfolioData.map(c => {
-                    const floorUsd = c.floorPrice * btcPriceUsd;
-                    const changeClass = c.change24h >= 0 ? 'positive' : 'negative';
-                    const changeText = c.change24h !== 0 ? `${c.change24h > 0 ? '+' : ''}${c.change24h.toFixed(1)}%` : '-';
-                    
-                    return `
-                        <div class="portfolio-card">
-                            <div class="portfolio-card-header">
-                                <div>
-                                    <div class="portfolio-collection-name">${c.name}</div>
-                                    <div class="portfolio-supply">Supply: ${c.supply}</div>
-                                </div>
-                                ${c.change24h !== 0 ? `<div class="portfolio-change ${changeClass}">${changeText}</div>` : ''}
-                            </div>
-                            <div class="portfolio-floor">
-                                ${c.floorPrice > 0 ? `${c.floorPrice.toFixed(4)} BTC` : 'No floor'}
-                            </div>
-                            <div class="portfolio-usd">
-                                ${floorUsd > 0 ? `≈ $${floorUsd.toLocaleString()}` : '-'}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                container.innerHTML = cardsHtml;
-                
-                const now = new Date();
-                document.getElementById('portfolioLastUpdate').textContent = 
-                    `Last updated: ${now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
-                    
-            } catch (e) {
-                console.error('Failed to load portfolio data:', e);
-                container.innerHTML = '<div class="portfolio-loading" style="color: var(--red);">❌ Failed to load portfolio data</div>';
             }
         }
         
