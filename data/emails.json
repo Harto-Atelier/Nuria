@@ -1,66 +1,66 @@
 {
   "emails": [
     {
-      "sender": "Reserva con Google",
-      "subject": "Tu reserva en Maleducat l Restaurante Eixample está confirmada\r",
-      "time": "10:08",
-      "unread": ""
-    },
-    {
       "sender": "Maleducat",
-      "subject": "Reconfirma tu reserva en Maleducat",
-      "time": "10:08",
+      "subject": "Valoración de reserva en Maleducat",
+      "time": "09:21",
       "unread": true
     },
     {
-      "sender": "\"Tory @ Flippa\"",
-      "subject": "Now Live: The Flippa Partner Directory - Expert Support for Every Deal",
-      "time": "09:59",
-      "unread": true
-    },
-    {
-      "sender": "LinkedIn",
-      "subject": "Tu descanso cerebral diario comienza aquí",
-      "time": "01:04",
-      "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "Failed production deployment on team 'harto11's projects'",
-      "time": "23:53",
-      "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "Failed production deployments on team 'harto11's projects'",
-      "time": "23:47",
-      "unread": true
-    },
-    {
-      "sender": "\"Forbes a través de ",
-      "subject": "Democrats Demand ICE Agents Remove Masks—Or Government Will Shut Down",
-      "time": "23:22",
-      "unread": true
-    },
-    {
-      "sender": "noreply-apps-scripts",
+      "sender": "noreply-apps-scripts-notifications@google.com",
       "subject": "Summary of failures for Google Apps Script: Untitled project",
-      "time": "22:56",
+      "time": "00:04",
       "unread": true
     },
     {
-      "sender": "Sergio Saravia",
-      "subject": "Re: Nominas Enero 2026 - Harto Studio",
-      "time": "22:26",
+      "sender": "Fred from Fireflies.ai",
+      "subject": "Introducing Voice Agents by Fireflies",
+      "time": "23:11",
       "unread": true
     },
     {
-      "sender": "Canva",
-      "subject": "Recordatorio: Tu plan Canva Equipos está a punto de terminar",
-      "time": "22:00",
+      "sender": "Runpod Team",
+      "subject": "We just hit $120M ARR (+ new S3 regions, Claude Code on Runpod, and more!)",
+      "time": "22:51",
+      "unread": true
+    },
+    {
+      "sender": "Amazon Prime",
+      "subject": "Tu suscripción Prime caduca en 3 días",
+      "time": "21:27",
+      "unread": true
+    },
+    {
+      "sender": "Kraken",
+      "subject": "A new way to trade on price moves",
+      "time": "20:04",
+      "unread": true
+    },
+    {
+      "sender": "CoinTracker",
+      "subject": "Crypto portfolio update",
+      "time": "19:11",
+      "unread": true
+    },
+    {
+      "sender": "Mercat de les Flors",
+      "subject": "Descobreix 'Norma' d'Antonio Ruz, una de les 5 millors obres de dansa del 2025 segons El País.",
+      "time": "16:02",
+      "unread": true
+    },
+    {
+      "sender": "notificaciones-bbva@bbva.com",
+      "subject": "Tu contrato de DISPOSICION CREDITO CLICK AND PAY ha sido puesto en vigor",
+      "time": "16:02",
+      "unread": true
+    },
+    {
+      "sender": "notificaciones-bbva@bbva.com",
+      "subject": "¡Proceso de firma de DISPOSICION CREDITO CLICK AND PAY completado con éxito!",
+      "time": "16:02",
       "unread": true
     }
   ],
-  "unreadCount": 9,
-  "updated": "2026-01-29T09:17:07.852Z"
+  "unreadCount": 10,
+  "updated": "2026-01-30T08:43:55Z"
 }
