@@ -1,20 +1,20 @@
 {
-  "updated": "2026-01-30T14:01:31.000Z",
+  "updated": "2026-01-30T15:02:21.000Z",
   "commits": [
-    {"hash":"ab9edfd","message":"📅 Auto-update calendar 15:01","time":"8 seconds ago"},
-{"hash":"f27b324","message":"Fix: Convert all Spanish text to English in dashboard","time":"11 minutes ago"},
-{"hash":"fe710d5","message":"📅 Auto-update calendar 14:50","time":"11 minutes ago"},
-{"hash":"68a2eeb","message":"📅 Auto-update calendar 14:40","time":"21 minutes ago"},
-{"hash":"8a4be06","message":"📧 Auto-sync emails","time":"31 minutes ago"},
-{"hash":"4ac8864","message":"📅 Auto-update calendar 14:30","time":"31 minutes ago"},
-{"hash":"f0738e4","message":"📅 Auto-update calendar 14:20","time":"41 minutes ago"},
-{"hash":"bb64caa","message":"📅 Auto-update calendar 14:10","time":"51 minutes ago"},
-{"hash":"857ffda","message":"📧 Auto-sync emails","time":"60 minutes ago"},
-{"hash":"0bdced8","message":"📊 Auto-update activity","time":"60 minutes ago"},
-{"hash":"85ac63d","message":"📅 Auto-update calendar 14:01","time":"60 minutes ago"},
-{"hash":"4bbb86c","message":"📅 Auto-update calendar 13:50","time":"71 minutes ago"},
-{"hash":"7ae57a0","message":"📅 Auto-update calendar 13:40","time":"81 minutes ago"},
-{"hash":"4967164","message":"📧 Auto-sync emails","time":"2 hours ago"},
-{"hash":"d1e9551","message":"📅 Auto-update calendar 13:30","time":"2 hours ago"}
+    {"hash":"1f21c2e","message":"📅 Auto-update calendar 16:02","time":"7 seconds ago"},
+{"hash":"b8c71e9","message":"Amy: Auto-update dashboard data (calendar, emails, tasks)","time":"67 seconds ago"},
+{"hash":"478e48b","message":"Amy: Sheets sync - 27 pending tasks (30 Jan 16:00)","time":"84 seconds ago"},
+{"hash":"144fb82","message":"📅 Auto-update calendar 15:50","time":"12 minutes ago"},
+{"hash":"8f6707a","message":"📅 Auto-update calendar 15:40","time":"22 minutes ago"},
+{"hash":"6c6e183","message":"📧 Auto-sync emails","time":"32 minutes ago"},
+{"hash":"516bb3b","message":"📅 Auto-update calendar 15:30","time":"32 minutes ago"},
+{"hash":"8263c3d","message":"feat: add priority alert queue for MEGA LONG BTC - triggers 3x notifications","time":"34 minutes ago"},
+{"hash":"fd7846a","message":"📅 Auto-update calendar 15:20","time":"42 minutes ago"},
+{"hash":"3117853","message":"📅 Auto-update calendar 15:10","time":"52 minutes ago"},
+{"hash":"9498d58","message":"📧 Auto-sync emails","time":"61 minutes ago"},
+{"hash":"c7a4cb5","message":"📊 Auto-update activity","time":"61 minutes ago"},
+{"hash":"ab9edfd","message":"📅 Auto-update calendar 15:01","time":"61 minutes ago"},
+{"hash":"f27b324","message":"Fix: Convert all Spanish text to English in dashboard","time":"72 minutes ago"},
+{"hash":"fe710d5","message":"📅 Auto-update calendar 14:50","time":"72 minutes ago"}
   ]
 }
