@@ -1,9 +1,21 @@
 {
   "emails": [
     {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Invitation: Récupérer Côme ! @ Tue 3 Feb 2026 5:30pm - 6:30pm (CET) (hartostudio@gmail.com)",
-      "time": "17:55",
+      "sender": "Deliveroo",
+      "subject": "7x7 € offerts pour un moment gourmand ❄️",
+      "time": "18:18",
+      "unread": true
+    },
+    {
+      "sender": "Zedwell Hotels",
+      "subject": "Cosy Up this Valentine's at Zedwell",
+      "time": "17:41",
+      "unread": true
+    },
+    {
+      "sender": "Vercel",
+      "subject": "Failed production deployment on team 'harto11's projects'",
+      "time": "18:05",
       "unread": true
     },
     {
@@ -47,20 +59,8 @@
       "subject": "Invitation: Rdv Susana colegio @ Fri 6 Feb 2026 1:30pm - 2:30pm (CET) (hartostudio@gmail.com)",
       "time": "08:18",
       "unread": true
-    },
-    {
-      "sender": "UPS",
-      "subject": "Hoy tienes una recogida",
-      "time": "06:40",
-      "unread": true
-    },
-    {
-      "sender": "Núria  Nadal",
-      "subject": "2026 Presupuesto Asesoría HARTO ATELIER",
-      "time": "12:53",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-01-30T17:01:42Z"
+  "updated": "2026-01-30T17:30:52Z"
 }
