@@ -75,6 +75,17 @@ export default async function handler(req, res) {
                 await fetch(`${upstashUrl}/lpush/tradingview-signals/${encodeURIComponent(JSON.stringify(entry))}`, {
                     headers: { 'Authorization': `Bearer ${upstashToken}` }
                 });
+                
+                // 🚨 PRIORITY ALERTS - Push to special queue for immediate notification
+                const alertName = (entry.alert_name || '').toLowerCase();
+                const isPriority = alertName.includes('mega') || alertName.includes('priority') || alertName.includes('urgent');
+                
+                if (isPriority) {
+                    await fetch(`${upstashUrl}/lpush/tradingview-priority/${encodeURIComponent(JSON.stringify(entry))}`, {
+                        headers: { 'Authorization': `Bearer ${upstashToken}` }
+                    });
+                    console.log('🚨 PRIORITY ALERT pushed:', entry.alert_name);
+                }
             } catch (e) {
                 console.log('Upstash push failed (non-critical):', e.message);
             }
