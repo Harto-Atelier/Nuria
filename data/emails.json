@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "hartostudio@gmail.com",
+      "subject": "📋 FedEx Aduanas - Documentación requerida AWB 058131995201",
+      "time": "17:27",
+      "unread": true
+    },
+    {
       "sender": "Load Gallery",
       "subject": "On view until 14 February: Yatreda",
       "time": "16:19",
@@ -53,14 +59,8 @@
       "subject": "2026 Presupuesto Asesoría HARTO ATELIER",
       "time": "12:53",
       "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "New sign-in detected on your Vercel account",
-      "time": "15:43",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-01-30T16:01:40Z"
+  "updated": "2026-01-30T16:31:22Z"
 }
