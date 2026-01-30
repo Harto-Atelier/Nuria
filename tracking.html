@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking | Nuria</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --card: #252526;
+            --sidebar: #181818;
+            --primary: #007acc;
+            --cyan: #4ec9b0;
+            --cyan-dim: rgba(78, 201, 176, 0.15);
+            --cyan-border: rgba(78, 201, 176, 0.4);
+            --orange: #FF6B00;
+            --green: #00FF88;
+            --red: #f14c4c;
+            --yellow: #dcdcaa;
+            --purple: #c586c0;
+            --text: #d4d4d4;
+            --muted: #808080;
+            --border: #3c3c3c;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { overflow-x: hidden; max-width: 100vw; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+        }
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+        
+        /* Page Header */
+        .page-header {
+            padding: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .page-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+        .page-subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        
+        /* Widget Card */
+        .widget {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .widget-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            letter-spacing: 1px;
+        }
+        .widget-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .widget-link:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+        
+        /* Whale Card */
+        .whale-card {
+            background: linear-gradient(135deg, rgba(78, 201, 176, 0.1), rgba(0, 122, 204, 0.05));
+            border-color: var(--cyan-border);
+        }
+        .whale-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .whale-icon { 
+            font-size: 3rem; 
+            animation: swim 3s ease-in-out infinite;
+        }
+        @keyframes swim {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        .whale-info h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+        .whale-info span {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .whale-address {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--yellow);
+            background: rgba(0,0,0,0.3);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        .whale-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .whale-stat {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .whale-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .whale-stat-value.positive { color: var(--green); }
+        .whale-stat-value.negative { color: var(--red); }
+        .whale-stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        .whale-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .whale-btn {
+            flex: 1;
+            display: block;
+            background: linear-gradient(90deg, var(--cyan), var(--primary));
+            border: none;
+            color: #000;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .whale-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(78, 201, 176, 0.3);
+        }
+        .whale-btn.purple {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: #fff;
+        }
+        .whale-btn.orange {
+            background: linear-gradient(90deg, var(--orange), #FF9500);
+        }
+        
+        /* Activity Table */
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .activity-table th,
+        .activity-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+        .activity-table th {
+            color: var(--muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .activity-table tr:hover {
+            background: rgba(78, 201, 176, 0.05);
+        }
+        .activity-in {
+            color: var(--green);
+        }
+        .activity-out {
+            color: var(--red);
+        }
+        .activity-amount {
+            font-weight: 600;
+        }
+        .activity-time {
+            color: var(--muted);
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-badge.active {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--green);
+        }
+        .status-badge.watching {
+            background: rgba(78, 201, 176, 0.15);
+            color: var(--cyan);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        .status-dot.active { background: var(--green); }
+        .status-dot.watching { background: var(--cyan); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Add Wallet Form */
+        .add-wallet {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .add-wallet input {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+        .add-wallet input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+        .add-wallet button {
+            background: var(--cyan);
+            border: none;
+            color: #000;
+            padding: 12px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .add-wallet button:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .empty-state h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .empty-state p {
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .whale-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 15px 20px; }
+            .nav-links { gap: 15px; }
+            .page-header, .main-content { padding: 20px; }
+            .whale-buttons { flex-direction: column; }
+            .activity-table { font-size: 0.7rem; }
+            .activity-table th, .activity-table td { padding: 10px 8px; }
+        }
+        @media (max-width: 480px) {
+            .nav { padding: 12px 16px; }
+            .nav-brand { font-size: 0.7rem; }
+            .nav-links { gap: 10px; overflow-x: auto; }
+            .nav-links a { font-size: 0.75rem; white-space: nowrap; }
+            .page-header { padding: 20px 16px; }
+            .page-title { font-size: 1.5rem; }
+            .main-content { padding: 16px; }
+            .widget { padding: 16px; }
+            .whale-icon { font-size: 2.5rem; }
+            .whale-info h3 { font-size: 1rem; }
+            .whale-stats { gap: 8px; }
+            .whale-stat { padding: 10px 8px; }
+            .whale-stat-value { font-size: 1rem; }
+            body { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">HARTO // COMMAND CENTER</div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="trading.html">Trading</a>
+            <a href="tracking.html" class="active">Tracking</a>
+            <a href="team.html">Team</a>
+            <a href="crm.html">CRM</a>
+        </div>
+    </nav>
+    
+    <header class="page-header">
+        <h1 class="page-title">🐋 TRACKING</h1>
+        <p class="page-subtitle">Whale wallet monitoring and on-chain activity tracking</p>
+    </header>
+    
+    <main class="main-content">
+        <!-- WhaleActivada -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title">// WATCHED WALLETS</div>
+                <span class="status-badge watching">
+                    <span class="status-dot watching"></span>
+                    MONITORING ACTIVE
+                </span>
+            </div>
+            
+            <!-- Whale 1: WhaleActivada -->
+            <div class="widget whale-card">
+                <div class="whale-header">
+                    <div class="whale-icon">🐋</div>
+                    <div class="whale-info">
+                        <h3>WhaleActivada</h3>
+                        <span>Hyperliquid Trader • Multi-chain</span>
+                    </div>
+                </div>
+                <div class="whale-address">0xb317d2bc2d3d2df5fa441b5bae0ab9d8b07283ae</div>
+                <div class="whale-stats">
+                    <div class="whale-stat">
+                        <div class="whale-stat-value" id="whaleNetWorth">$200M+</div>
+                        <div class="whale-stat-label">Est. Volume</div>
+                    </div>
+                    <div class="whale-stat">
+                        <div class="whale-stat-value" id="whaleChains">5</div>
+                        <div class="whale-stat-label">Chains</div>
+                    </div>
+                    <div class="whale-stat">
+                        <div class="whale-stat-value positive" id="whaleLastMove">4h ago</div>
+                        <div class="whale-stat-label">Last Move</div>
+                    </div>
+                    <div class="whale-stat">
+                        <div class="whale-stat-value" id="whaleTxCount">~50</div>
+                        <div class="whale-stat-label">Recent Txs</div>
+                    </div>
+                </div>
+                <div class="whale-buttons">
+                    <a href="https://debank.com/profile/0xb317d2bc2d3d2df5fa441b5bae0ab9d8b07283ae" target="_blank" class="whale-btn">📊 DEBANK</a>
+                    <a href="https://arbiscan.io/address/0xb317d2bc2d3d2df5fa441b5bae0ab9d8b07283ae" target="_blank" class="whale-btn purple">🔷 ARBISCAN</a>
+                    <a href="https://etherscan.io/address/0xb317d2bc2d3d2df5fa441b5bae0ab9d8b07283ae" target="_blank" class="whale-btn orange">Ⓔ ETHERSCAN</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recent Activity -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title">// RECENT ACTIVITY</div>
+            </div>
+            <div class="widget">
+                <table class="activity-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Direction</th>
+                            <th>Amount</th>
+                            <th>Token</th>
+                            <th>Counterparty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activityTable">
+                        <tr>
+                            <td class="activity-time">4h ago</td>
+                            <td class="activity-out">OUT →</td>
+                            <td class="activity-amount">$40,000,000</td>
+                            <td>USDC</td>
+                            <td>Hyperliquid Bridge</td>
+                        </tr>
+                        <tr>
+                            <td class="activity-time">4h ago</td>
+                            <td class="activity-in">← IN</td>
+                            <td class="activity-amount">$40,000,000</td>
+                            <td>USDC</td>
+                            <td>0x4f9A37...Df03C</td>
+                        </tr>
+                        <tr>
+                            <td class="activity-time">1d ago</td>
+                            <td class="activity-in">← IN</td>
+                            <td class="activity-amount">696,969</td>
+                            <td>PEEZY</td>
+                            <td>yournext1000x.eth</td>
+                        </tr>
+                        <tr>
+                            <td class="activity-time">3d ago</td>
+                            <td class="activity-out">OUT →</td>
+                            <td class="activity-amount">$150,000,000</td>
+                            <td>USDC</td>
+                            <td>0x4f9A37...Df03C</td>
+                        </tr>
+                        <tr>
+                            <td class="activity-time">3d ago</td>
+                            <td class="activity-in">← IN</td>
+                            <td class="activity-amount">$10,000,000</td>
+                            <td>USDC</td>
+                            <td>Hyperliquid Bridge</td>
+                        </tr>
+                        <tr>
+                            <td class="activity-time">3d ago</td>
+                            <td class="activity-in">← IN</td>
+                            <td class="activity-amount">$10,000,000</td>
+                            <td>USDC</td>
+                            <td>Hyperliquid Bridge</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Add New Wallet -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title">// ADD WALLET</div>
+            </div>
+            <div class="widget">
+                <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 15px;">
+                    Add a new wallet to track. Send the address to the team group and Nuria will set up monitoring.
+                </p>
+                <div class="add-wallet">
+                    <input type="text" placeholder="0x... wallet address" id="newWalletAddress">
+                    <button onclick="requestTracking()">+ REQUEST TRACKING</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tracking Stats -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title">// MONITORING STATUS</div>
+            </div>
+            <div class="widget" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                <div style="text-align: center;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--cyan);">1</div>
+                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Wallets Tracked</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--green);">30m</div>
+                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Check Interval</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--yellow);">5</div>
+                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Chains Monitored</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--purple);">WhatsApp</div>
+                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Alert Channel</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        function requestTracking() {
+            const address = document.getElementById('newWalletAddress').value;
+            if (address && address.startsWith('0x')) {
+                alert('Request sent to Nuria! She will set up tracking for: ' + address.substring(0, 10) + '...');
+                document.getElementById('newWalletAddress').value = '';
+            } else {
+                alert('Please enter a valid wallet address starting with 0x');
+            }
+        }
+        
+        // Future: Add real-time data fetching
+        async function refreshData() {
+            // TODO: Fetch from DeBank API or backend
+            console.log('Refreshing wallet data...');
+        }
+        
+        // Refresh every 5 minutes
+        setInterval(refreshData, 300000);
+    </script>
+</body>
+</html>
