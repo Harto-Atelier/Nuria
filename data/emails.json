@@ -1,33 +1,9 @@
 {
   "emails": [
     {
-      "sender": "Juliette Lavedan-For",
+      "sender": "Juliette Lavedan-Forment",
       "subject": "Fwd: FedEx - Despacho Exportación awb 058131995201 - RC3797881",
       "time": "15:25",
-      "unread": true
-    },
-    {
-      "sender": "\"Núria",
-      "subject": "Nadal\" <nnadal@centregestor.es>",
-      "time": "12:53",
-      "unread": false
-    },
-    {
-      "sender": "Patricia DELEAU",
-      "subject": "✨La Peña - Newsletter Février 2026 ✨ Planning des événements, Agenda des événeme",
-      "time": "12:34",
-      "unread": false
-    },
-    {
-      "sender": "Sergio Saravia",
-      "subject": "Accepted: Reunión Arturo + Sergio @ Fri 30 Jan 2026 2pm - 3pm (CET) (hartostudio",
-      "time": "11:38",
-      "unread": false
-    },
-    {
-      "sender": "Sergio Saravia",
-      "subject": "Re: 2026 Presupuesto Asesoría HARTO ATELIER",
-      "time": "11:35",
       "unread": true
     },
     {
@@ -37,30 +13,54 @@
       "unread": true
     },
     {
-      "sender": "AgenciaTributaria@co",
-      "subject": "AEAT INFORMA: RECORDATORIO DE PRÓXIMO VENCIMIENTO APLAZ/FRACC. 05/02/2026",
-      "time": "09:11",
-      "unread": false
-    },
-    {
       "sender": "Maleducat",
       "subject": "Valoración de reserva en Maleducat",
       "time": "09:21",
       "unread": true
     },
     {
-      "sender": "Sergio Saravia",
-      "subject": "Re: BBVA",
-      "time": "16:52",
-      "unread": false
+      "sender": "sergio saravia (via Google Sheets)",
+      "subject": "Spreadsheet shared with you: ‘Cierre Proyecto Exquisite’",
+      "time": "14:56",
+      "unread": true
     },
     {
-      "sender": "Mariana Berrutti",
-      "subject": "Re: Renovación del contrato de arrendamiento – vencimiento enero 2027",
-      "time": "16:39",
-      "unread": false
+      "sender": "sgseaux@gmail.com",
+      "subject": "Exquisite Daily Report - 2026-01-28",
+      "time": "10:28",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Invitation: Rdv Susana colegio @ Fri 6 Feb 2026 1:30pm - 2:30pm (CET) (hartostudio@gmail.com)",
+      "time": "08:18",
+      "unread": true
+    },
+    {
+      "sender": "UPS",
+      "subject": "Hoy tienes una recogida",
+      "time": "06:40",
+      "unread": true
+    },
+    {
+      "sender": "Núria  Nadal",
+      "subject": "2026 Presupuesto Asesoría HARTO ATELIER",
+      "time": "12:53",
+      "unread": true
+    },
+    {
+      "sender": "Vercel",
+      "subject": "New sign-in detected on your Vercel account",
+      "time": "15:43",
+      "unread": true
+    },
+    {
+      "sender": "sgseaux@gmail.com",
+      "subject": "Exquisite Daily Report - 2026-01-26",
+      "time": "15:19",
+      "unread": true
     }
   ],
-  "unreadCount": 4,
-  "updated": "2026-01-30T15:01:04.278Z"
+  "unreadCount": 10,
+  "updated": "2026-01-30T15:02:31Z"
 }
