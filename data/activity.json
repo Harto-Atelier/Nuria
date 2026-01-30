@@ -1,0 +1,20 @@
+{
+  "updated": "2026-01-30T07:41:44.000Z",
+  "commits": [
+    {"hash":"4d91dd2","message":"Add tracking page for whale wallet monitoring","time":"18 minutes ago"},
+{"hash":"bdb57e3","message":"📱 Fix overflow & mobile styles on all pages: tasks, team, crm","time":"20 minutes ago"},
+{"hash":"6c8898c","message":"🔧 Fix horizontal overflow on mobile - prevent content from breaking viewport","time":"26 minutes ago"},
+{"hash":"b91db19","message":"📱 Optimize for Samsung S24 Ultra - better mobile touch targets, fonts, spacing","time":"30 minutes ago"},
+{"hash":"6164ae0","message":"🔧 Fix ME proxy - proper endpoint handling for stat/listings/tokens","time":"32 minutes ago"},
+{"hash":"0316704","message":"📅 Auto-update calendar 08:07","time":"34 minutes ago"},
+{"hash":"7b085de","message":"📅 Fix calendar data - remove old events, update to current","time":"37 minutes ago"},
+{"hash":"d1b9d0b","message":"🧹 Simplify homepage: move trading widgets to trading.html, clean up index","time":"47 minutes ago"},
+{"hash":"039a642","message":"💰 Invoice Tracker widget - shows pending invoices, drafts, overdue","time":"54 minutes ago"},
+{"hash":"14df523","message":"fix: Add Vercel proxy for Magic Eden API","time":"9 hours ago"},
+{"hash":"0b435a3","message":"🚀 Add Vercel API proxy for Magic Eden + Update sats-arbitrage scanner","time":"9 hours ago"},
+{"hash":"694408e","message":"📝 Add fix documentation for real ME API integration","time":"9 hours ago"},
+{"hash":"09fc4c2","message":"🔥 FIX: Connect to real Magic Eden API","time":"9 hours ago"},
+{"hash":"5804dcd","message":"feat: Add Trapped BTC detection to sats-arbitrage scanner","time":"9 hours ago"},
+{"hash":"0edc82e","message":"📝 Add documentation for Sats Arbitrage Scanner","time":"9 hours ago"}
+  ]
+}

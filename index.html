@@ -1699,6 +1699,47 @@
         .invoice-status.paid { background: rgba(0, 255, 136, 0.2); color: var(--green); }
         .invoice-status.overdue { background: rgba(241, 76, 76, 0.2); color: var(--red); }
         .invoice-status.draft { background: rgba(128, 128, 128, 0.2); color: var(--muted); }
+        
+        /* 📊 Activity Widget */
+        .activity-widget {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(0, 122, 204, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            border-left: 3px solid var(--purple);
+        }
+        .activity-hash {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--purple);
+            background: rgba(168, 85, 247, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .activity-info { flex: 1; }
+        .activity-message {
+            font-size: 0.8rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+        .activity-time {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -1889,6 +1930,21 @@
                 </div>
             </div>
             <div class="invoice-list" id="invoiceList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 📊 RECENT ACTIVITY -->
+    <section class="widget-grid" style="border-bottom: 1px solid var(--border);">
+        <div class="widget-card activity-widget" style="grid-column: span 2;">
+            <div class="widget-header">
+                <div class="widget-title">📊 ACTIVIDAD RECIENTE</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted);">
+                    <span id="activityCount">-</span> commits hoy
+                </div>
+            </div>
+            <div class="activity-list" id="activityList">
                 <!-- Populated by JS -->
             </div>
         </div>
@@ -2319,6 +2375,10 @@
             // Load Invoice data
             loadInvoiceData();
             setInterval(loadInvoiceData, 60000);
+            
+            // Load Activity data
+            loadActivityData();
+            setInterval(loadActivityData, 120000);
         };
         
         // ===================
@@ -2773,6 +2833,39 @@
             } catch (e) {
                 console.error('Failed to load invoice data:', e);
                 document.getElementById('invoiceList').innerHTML = '<div style="color: var(--red);">❌ Error cargando facturas</div>';
+            }
+        }
+        
+        // 📊 ACTIVITY DATA
+        async function loadActivityData() {
+            try {
+                const res = await fetch('data/activity.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Failed to load activity');
+                
+                const data = await res.json();
+                const commits = data.commits || [];
+                
+                // Count today's commits
+                const todayCommits = commits.filter(c => c.time.includes('minute') || c.time.includes('hour')).length;
+                document.getElementById('activityCount').textContent = todayCommits;
+                
+                // Render activity list
+                const container = document.getElementById('activityList');
+                const activityHtml = commits.slice(0, 8).map(commit => `
+                    <div class="activity-item">
+                        <span class="activity-hash">${commit.hash}</span>
+                        <div class="activity-info">
+                            <div class="activity-message">${commit.message}</div>
+                            <div class="activity-time">${commit.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = activityHtml || '<div style="text-align: center; color: var(--muted);">No hay actividad reciente</div>';
+                
+            } catch (e) {
+                console.error('Failed to load activity data:', e);
+                document.getElementById('activityList').innerHTML = '<div style="color: var(--muted);">Sin datos de actividad</div>';
             }
         }
         
