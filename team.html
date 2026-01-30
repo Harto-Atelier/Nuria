@@ -615,6 +615,25 @@
                         <button class="action-btn" onclick="sendTask('max', 'test')">🧪 Test</button>
                     </div>
                 </div>
+                <div class="agent-card" id="card-lola">
+                    <div class="agent-header">
+                        <img src="pfps/lola.png" alt="Lola" class="agent-avatar">
+                        <div class="agent-info">
+                            <h3>Lola 🎨</h3>
+                            <div class="agent-role">Creative Director</div>
+                            <div class="agent-model sonnet">Claude Sonnet</div>
+                        </div>
+                    </div>
+                    <div class="agent-status">
+                        <div class="status-dot idle"></div>
+                        <span>IDLE</span>
+                    </div>
+                    <div class="agent-task" id="task-lola"></div>
+                    <div class="agent-actions">
+                        <button class="action-btn" onclick="sendTask('lola', 'design')">🎨 Design</button>
+                        <button class="action-btn" onclick="sendTask('lola', 'brand')">✅ Brand</button>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -632,6 +651,7 @@
                     <option value="luna">🌙 Luna (Content)</option>
                     <option value="victor">💼 Victor (Sales)</option>
                     <option value="max">🔍 Max (QA)</option>
+                    <option value="lola">🎨 Lola (Creative)</option>
                     <option value="all">📢 ALL AGENTS</option>
                 </select>
                 <input type="text" id="commandInput" class="command-input" placeholder="Escribe una tarea o comando..." onkeypress="if(event.key==='Enter')sendCommand()">

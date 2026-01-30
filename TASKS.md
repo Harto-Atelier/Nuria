@@ -1,67 +1,56 @@
 # Tareas Pendientes
-*Última actualización: 2026-01-29 17:00*
-
-## ✅ COMPLETED TODAY
-
-### Dashboard Improvements (Jan 29)
-- [x] **Quick Actions Bar** - Added 4 quick action buttons (Sync Tasks, Check Email, Twitter Scan, Market Check)
-- [x] **TIBBIR Widget** - Added crypto widget with price, mcap, 24h change + bubble map link
-- [x] **Marketplace Stats Widget** - Shows collections, floor prices, volume
-- [x] **Calendar 3-Day View** - Enhanced calendar showing next 3 days with context badges
-- [x] **Team Nuria Improvements** - Live status indicators, last completed tasks, daily stats
-- [x] **Toast Notifications** - Visual feedback for quick actions
-- [x] **Sergia Added** - 5th team member added to dashboard
+*Última actualización: 2026-01-30 12:00*
 
 ## 🔴 TO DO (Urgentes)
 
 ### ICONIC
 | Responsable | Tarea | Detalle |
 |-------------|-------|---------|
-| Sergio | Cobrar segunda factura | Preguntar por direcciones y añadir packaging |
+| Sergio | Cobrar segunda factura | Preguntar por direcciones y añadir packaging (cartón doble canal con papel protección) |
 | Sergio | Enviar 1 of 1 museo | - |
 | Sergio | Caja obra museo | - |
 | Juliette | Enviar obras paul US | - |
-| Juliette | Sobres | Meter certificados y explicativos para envío |
+| Juliette | Packaging - Sobres | Meter certificados y explicativos en sobres para envío de cada obra |
 
 ## 🟡 PENDING
 
-### Superrare
-| Responsable | Tarea | Detalle |
-|-------------|-------|---------|
-| Juliette | Facturas y gastos | - |
-| Arturo | Doc revisión | [Link](https://docs.google.com/document/d/1EJJwBCa-ZONr-W4xBX8GWHyt2_x5DTVqJBZHzPk8XyU/) |
-| Arturo | Teaser/Announcement/Live assets | Crear ejemplos |
-| Clara | Manifold/Onchain extension | [efficax.diid.art](https://efficax.diid.art/) |
-| Clara | Error states repo | [GitHub](https://github.com/Harto-Atelier/error-states) |
-| Arturo | Pricing NFT | 0.5 ETH x 30 |
-| Arturo | Pricing físicos | Big: 6 ETH, Small: 2.5 ETH x 3 |
-| Sergio | Cobros venta | Preguntar 65%/35 / splits.org |
+### Superrare (8h)
+| Responsable | Horas | Tarea | Detalle |
+|-------------|-------|-------|---------|
+| Arturo | 2 | Leer y probar Manifold | [manifold.xyz](https://manifold.xyz/) / [efficax.diid.art](https://efficax.diid.art/) onchain extension by 0xdid |
+| Arturo | 8 | Finalizar código | [GitHub repo](https://github.com/Harto-Atelier/error-states) |
+| Arturo | 2 | Crear obras digitales | NFT = 0.5 ETH x 30 |
+| Arturo | 10 | Crear obras físicas | Big piece(130x97cm): 6 ETH / Small piece(65x46cm): 2.5 ETH x 3 |
+| Sergio | 1 | Gestionar pagos | Preguntar sobre cobros 65%/35 / [splits.org](https://splits.org/) |
 
 ### POL
-| Responsable | Tarea | Detalle |
-|-------------|-------|---------|
-| Sergio/Clara | Project tasks | [Spreadsheet](https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/) |
+| Responsable | Horas | Tarea | Detalle |
+|-------------|-------|-------|---------|
+| Sergio | 5 | Enviar POLs | [Project tasks](https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/) |
 
 ### PFP
-| Responsable | Tarea | Detalle |
-|-------------|-------|---------|
-| - | Project tasks | [Spreadsheet](https://docs.google.com/spreadsheets/d/1F27ZNOzO29_ZGlVGuf0KBECT7qUcToNkuZXerAaeUp0/) |
+| Responsable | Horas | Tarea | Detalle |
+|-------------|-------|-------|---------|
+| - | 60 | - | [Project tasks](https://docs.google.com/spreadsheets/d/1F27ZNOzO29_ZGlVGuf0KBECT7qUcToNkuZXerAaeUp0/) |
 
-### General / Sin Proyecto
-| Tarea | Detalle |
-|-------|---------|
-| **Evaluar TradingAgents** | Framework multi-agente LLM para trading - [GitHub](https://github.com/TauricResearch/TradingAgents) - Revisar lunes 3 Feb |
-| Factura final CM Chino | - |
-| Desarrollo Token | - |
-| nurIA Trading | Darle 100$ para Polymarket |
-| POL V2 Perdido | - |
-| Enviar Obras ICONIC | - |
-| Enviar Gastos a PAUL ICONIC | - |
-| Control de Saldos Wallets y Transacciones | - |
-| Avanzar Stock Digital HARTO y Arturo | - |
-| Nóminas Enero2026 | - |
-| Pedir Cita Ayuntamiento (basura) | - |
-| Movimientos Binance Enero, Factura Exquisite | - |
+### ADMINISTRACIÓN
+| Responsable | Tarea | Deadline | Detalle |
+|-------------|-------|----------|---------|
+| Juliette | Facturas y gastos | - | - |
+| Arturo | Factura final CM Chino | 30/01/2026 | - |
+| Arturo y Sergio | Desarrollo Token | 15/02/2026 | Definir Roadmap |
+| Arturo | nurIA Trading | 15/02/2026 | Darle 100$ para trading en Polymarket |
+| Arturo | POL V2 Perdido | - | - |
+| Arturo | Enviar Obras ICONIC | - | - |
+| Arturo | Enviar Gastos a PAUL ICONIC | - | Enviar gastos de envío a Sergio para factura |
+| Arturo | Hacer Facturas | - | - |
+| Arturo | Control de Saldos Wallets y Transacciones | - | - |
+| Arturo | Avanzar Stock Digital HARTO y Arturo | - | - |
+| Arturo | Pedir Cita Ayuntamiento | - | Aclarar tema basura |
+| Arturo | Movimientos Binance Enero, Factura Exquisite | 29/01/2026 | [Spreadsheet](https://docs.google.com/spreadsheets/d/1Pm_UvsJUAWIzagdbB_LbawGxsu1ir6A6rof9SH-raYg/) |
+| Arturo | Contabilidad de Exquisite | 15/02/2026 | Actualizar balance del Inventario |
+| Arturo | Enviar saldos de Binance al 31/12/2025 | 29/01/2026 | - |
+| Sergio | Depreciar activos en mal estado | - | [Spreadsheet](https://docs.google.com/spreadsheets/d/15vAScMQIQYzZfXx-i4-5TlPS6QP_2aVzJ7mxg0DRMv0/) |
 
 ---
-*Synced from Google Sheets Task Base*
+*Synced from Google Sheets Task Base - Amy*
