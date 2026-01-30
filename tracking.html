@@ -202,6 +202,27 @@
             text-transform: uppercase;
             margin-top: 5px;
         }
+        
+        /* Monitoring Grid */
+        .monitoring-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .monitoring-stat {
+            text-align: center;
+        }
+        .monitoring-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .monitoring-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
         .whale-buttons {
             display: flex;
             gap: 10px;
@@ -386,6 +407,9 @@
             .whale-stat { padding: 10px 8px; flex: 1 1 45%; }
             .whale-stat-value { font-size: 0.9rem; }
             .whale-stat-label { font-size: 0.6rem; }
+            .monitoring-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .monitoring-value { font-size: 1.2rem; }
+            .monitoring-label { font-size: 0.6rem; }
             body { padding-bottom: env(safe-area-inset-bottom, 20px); }
         }
     </style>
@@ -460,8 +484,8 @@
             <div class="section-header">
                 <div class="section-title">// RECENT ACTIVITY</div>
             </div>
-            <div class="widget">
-                <table class="activity-table">
+            <div class="widget" style="overflow-x: auto;">
+                <table class="activity-table" style="min-width: 500px;">
                     <thead>
                         <tr>
                             <th>Time</th>
@@ -540,22 +564,22 @@
             <div class="section-header">
                 <div class="section-title">// MONITORING STATUS</div>
             </div>
-            <div class="widget" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-                <div style="text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--cyan);">1</div>
-                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Wallets Tracked</div>
+            <div class="widget monitoring-grid">
+                <div class="monitoring-stat">
+                    <div class="monitoring-value" style="color: var(--cyan);">1</div>
+                    <div class="monitoring-label">Wallets Tracked</div>
                 </div>
-                <div style="text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--green);">30m</div>
-                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Check Interval</div>
+                <div class="monitoring-stat">
+                    <div class="monitoring-value" style="color: var(--green);">30m</div>
+                    <div class="monitoring-label">Check Interval</div>
                 </div>
-                <div style="text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--yellow);">5</div>
-                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Chains Monitored</div>
+                <div class="monitoring-stat">
+                    <div class="monitoring-value" style="color: var(--yellow);">5</div>
+                    <div class="monitoring-label">Chains Monitored</div>
                 </div>
-                <div style="text-align: center;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--purple);">WhatsApp</div>
-                    <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase;">Alert Channel</div>
+                <div class="monitoring-stat">
+                    <div class="monitoring-value" style="color: var(--purple);">WA</div>
+                    <div class="monitoring-label">Alert Channel</div>
                 </div>
             </div>
         </section>
