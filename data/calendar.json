@@ -1,52 +1,37 @@
 {
   "today": [
-  {
-    "time": "13:00",
-    "title": "Meeting con Pauline",
-    "date": "2026-02-02"
-  }
-],
+    {
+      "time": "13:00",
+      "title": "Meeting con Pauline",
+      "date": "2026-02-02"
+    }
+  ],
   "upcoming": [
-  {
-    "time": "07:30",
-    "title": "Deporte",
-    "date": "2026-02-03"
-  },
-  {
-    "time": "17:20",
-    "title": "Visite appart 49 torrent de l'olla",
-    "date": "2026-02-03"
-  },
-  {
-    "time": "17:30",
-    "title": "Récupérer Côme !",
-    "date": "2026-02-03"
-  },
-  {
-    "time": "16:45",
-    "title": "Visita c/ deu i mata 124",
-    "date": "2026-02-04"
-  },
-  {
-    "time": "16:00",
-    "title": "Humus Check ",
-    "date": "2026-02-05"
-  },
-  {
-    "time": "13:30",
-    "title": "Rdv Susana colegio",
-    "date": "2026-02-06"
-  },
-  {
-    "time": "13:30",
-    "title": "🍽️ Almuerzo La Peña Barcelona - Hotel The One",
-    "date": "2026-02-06"
-  },
-  {
-    "time": "10:00",
-    "title": "📱 POST: Teaser Consensus HK (Art Basel pieces)",
-    "date": "2026-02-07"
-  }
-],
-  "updated": "2026-02-02T11:40:04.000Z"
+    {
+      "time": "07:30",
+      "title": "Deporte",
+      "date": "2026-02-03"
+    },
+    {
+      "time": "17:20",
+      "title": "Visite appart 49 torrent de l'olla",
+      "date": "2026-02-03"
+    },
+    {
+      "time": "17:30",
+      "title": "Récupérer Côme !",
+      "date": "2026-02-03"
+    },
+    {
+      "time": "All day",
+      "title": "carolina comer y cuadro",
+      "date": "2026-02-03"
+    },
+    {
+      "time": "16:45",
+      "title": "Visita c/ deu i mata 124",
+      "date": "2026-02-04"
+    }
+  ],
+  "updated": "2026-02-02T11:49:13.849Z"
 }

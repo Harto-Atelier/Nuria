@@ -1,8 +1,26 @@
 {
   "emails": [
     {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Invitation: Visite appart 49 torrent de l'olla @ Tue 3 Feb 2026 5:20pm - 6:20pm (CET) (hartostudio@gmail.com)",
+      "sender": "Sergio Saravia",
+      "subject": "Re: Follow-up on invoice & cost details for the release - ICONIC-HARTO",
+      "time": "12:48",
+      "unread": true
+    },
+    {
+      "sender": "Patricia DELEAU",
+      "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -",
+      "time": "12:38",
+      "unread": false
+    },
+    {
+      "sender": "Juliette Lavedan-For",
+      "subject": "Invitation: Visita c/ deu i mata 124 @ Wed 4 Feb 2026 4:45pm - 5:45pm (CET) (har",
+      "time": "12:36",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-For",
+      "subject": "Invitation: Visite appart 49 torrent de l'olla @ Tue 3 Feb 2026 5:20pm - 6:20pm ",
       "time": "12:29",
       "unread": true
     },
@@ -19,48 +37,30 @@
       "unread": true
     },
     {
-      "sender": "Team Twilio",
-      "subject": "You’re almost done! Unlock exclusive features now.",
-      "time": "06:02",
-      "unread": true
+      "sender": "\"LA PEÑA\"",
+      "subject": "Tu pedido en LPBC ya está completo",
+      "time": "08:35",
+      "unread": false
     },
     {
-      "sender": "Deliveroo",
-      "subject": "7x7 € offerts pour un moment gourmand ❄️",
-      "time": "18:18",
-      "unread": true
+      "sender": "\"LA PEÑA\"",
+      "subject": "¡Hemos recibido tu pedido en LPBC!",
+      "time": "08:35",
+      "unread": false
     },
     {
-      "sender": "Zedwell Hotels",
-      "subject": "Cosy Up this Valentine's at Zedwell",
-      "time": "17:41",
-      "unread": true
+      "sender": "Juliette Lavedan-For",
+      "subject": "Invitation: Carnestoltes Lys! @ Fri 13 Feb 2026 (hartostudio@gmail.com)",
+      "time": "08:28",
+      "unread": false
     },
     {
-      "sender": "Endesa Comunicaciones",
-      "subject": "Este año, llena tu casa de energía positiva",
-      "time": "17:49",
-      "unread": true
-    },
-    {
-      "sender": "Load Gallery",
-      "subject": "On view until 14 February: Yatreda",
-      "time": "16:19",
-      "unread": true
-    },
-    {
-      "sender": "ArtStation",
-      "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
-      "time": "10:57",
-      "unread": true
-    },
-    {
-      "sender": "Maleducat",
-      "subject": "Valoración de reserva en Maleducat",
-      "time": "09:21",
-      "unread": true
+      "sender": "Google Payments",
+      "subject": "Google Workspace: Your invoice is available for hartostudio.com",
+      "time": "16:11",
+      "unread": false
     }
   ],
-  "unreadCount": 10,
-  "updated": "2026-02-02T11:30:25Z"
+  "unreadCount": 5,
+  "updated": "2026-02-02T11:49:14.971Z"
 }

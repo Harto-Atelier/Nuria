@@ -1,5 +1,5 @@
 # Tareas Pendientes
-*Última actualización: 2026-01-30 16:00*
+*Última actualización: 2026-02-02 12:00*
 
 ## 🔴 TO DO (Urgentes)
 
@@ -37,7 +37,7 @@
 | Responsable | Tarea | Deadline | Detalle |
 |-------------|-------|----------|---------|
 | Juliette | Facturas y gastos (10h) | - | - |
-| Arturo | Factura final CM Chino | 30/01/2026 | ⚠️ HOY |
+| Arturo | ~~Factura final CM Chino~~ | 30/01/2026 | ✅ HECHO |
 | Arturo y Sergio | Desarrollo Token | 15/02/2026 | Definir Roadmap |
 | Arturo | nurIA Trading | 15/02/2026 | Darle 100$ para trading en Polymarket |
 | Arturo | POL V2 Perdido | - | - |
@@ -47,10 +47,18 @@
 | Arturo | Control de Saldos Wallets y Transacciones | - | - |
 | Arturo | Avanzar Stock Digital HARTO y Arturo | - | - |
 | Arturo | Pedir Cita Ayuntamiento | - | Aclarar tema basura |
-| Arturo | Movimientos Binance Enero, Factura Exquisite | 29/01/2026 | ⚠️ VENCIDO - [Spreadsheet](https://docs.google.com/spreadsheets/d/1Pm_UvsJUAWIzagdbB_LbawGxsu1ir6A6rof9SH-raYg/) |
+| Arturo | ~~Movimientos Binance Enero, Factura Exquisite~~ | 29/01/2026 | ✅ HECHO - [Spreadsheet](https://docs.google.com/spreadsheets/d/1Pm_UvsJUAWIzagdbB_LbawGxsu1ir6A6rof9SH-raYg/) |
 | Arturo | Contabilidad de Exquisite | 15/02/2026 | Actualizar balance del Inventario |
-| Arturo | Enviar saldos de Binance al 31/12/2025 | 29/01/2026 | ⚠️ VENCIDO |
+| Arturo | ~~Enviar saldos Binance 31/12/2025~~ | 29/01/2026 | ✅ HECHO |
 | Sergio | Depreciar activos en mal estado | - | [Spreadsheet](https://docs.google.com/spreadsheets/d/15vAScMQIQYzZfXx-i4-5TlPS6QP_2aVzJ7mxg0DRMv0/) |
 
 ---
 *Synced from Google Sheets Task Base - Amy 🟦*
+
+## 🔴 Revisar análisis Exquisite Enero 2026
+- **Asignado a:** Harto
+- **Deadline:** 2026-02-03
+- **De:** Sergio
+- **Descripción:** Revisar el análisis final de la venta de Exquisite Enero 2026
+- **Repo:** https://github.com/ssaravia25/Exquisite-Analysis-Enero2026
+- **Estado:** Pendiente
