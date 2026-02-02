@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Dennis Koch",
+      "subject": "Call for Submissions: BMAG Art Gallery at Bitcoin 2026 Las Vegas",
+      "time": "19:32",
+      "unread": true
+    },
+    {
       "sender": "CoinTracker",
       "subject": "Crypto portfolio update",
       "time": "19:25",
@@ -53,14 +59,8 @@
       "subject": "Este año, llena tu casa de energía positiva",
       "time": "17:49",
       "unread": true
-    },
-    {
-      "sender": "Load Gallery",
-      "subject": "On view until 14 February: Yatreda",
-      "time": "16:19",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T18:30:30Z"
+  "updated": "2026-02-02T19:01:42Z"
 }
