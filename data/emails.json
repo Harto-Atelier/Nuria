@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Fully On Chain",
+      "subject": "Fully On Chain - Issue #18",
+      "time": "18:31",
+      "unread": true
+    },
+    {
       "sender": "LinkedIn",
       "subject": "Echa un vistazo a lo que te perdiste de Harto Atelier la semana pasada",
       "time": "18:18",
@@ -53,14 +59,8 @@
       "subject": "ssaravia25 invited you to ssaravia25/Exquisite-Analysis-Enero2026",
       "time": "12:26",
       "unread": true
-    },
-    {
-      "sender": "Team Twilio",
-      "subject": "You’re almost done! Unlock exclusive features now.",
-      "time": "06:02",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T17:30:43Z"
+  "updated": "2026-02-02T18:00:37Z"
 }
