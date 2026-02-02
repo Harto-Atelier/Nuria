@@ -1,6 +1,24 @@
 {
   "emails": [
     {
+      "sender": "Railway Corporation",
+      "subject": "Your receipt from Railway Corporation #2773-6277",
+      "time": "14:45",
+      "unread": true
+    },
+    {
+      "sender": "Sergio Saravia",
+      "subject": "Status Proyecto Harto Studio - Financiamiento",
+      "time": "14:44",
+      "unread": true
+    },
+    {
+      "sender": "Sergio Saravia",
+      "subject": "Fwd: Harto prestamo",
+      "time": "14:40",
+      "unread": true
+    },
+    {
       "sender": "Patricia DELEAU",
       "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -  Viernes 6 de febrero 2026  a las 13:30h",
       "time": "12:38",
@@ -41,26 +59,8 @@
       "subject": "On view until 14 February: Yatreda",
       "time": "16:19",
       "unread": true
-    },
-    {
-      "sender": "ArtStation",
-      "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
-      "time": "10:57",
-      "unread": true
-    },
-    {
-      "sender": "Maleducat",
-      "subject": "Valoración de reserva en Maleducat",
-      "time": "09:21",
-      "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "New sign-in detected on your Vercel account",
-      "time": "15:43",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T13:31:17Z"
+  "updated": "2026-02-02T14:01:38Z"
 }
