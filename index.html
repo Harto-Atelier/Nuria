@@ -1440,6 +1440,14 @@
             .invoice-desc { font-size: 0.75rem; }
             .invoice-value { font-size: 0.9rem; }
             
+            /* Portfolio widget */
+            .portfolio-grid { grid-template-columns: 1fr; gap: 10px; }
+            .portfolio-item { padding: 12px; }
+            .portfolio-collection { font-size: 0.7rem; }
+            .portfolio-count { font-size: 0.65rem; }
+            .portfolio-floor { font-size: 0.7rem; }
+            .portfolio-value { font-size: 0.85rem; }
+            
             /* Calendar */
             .calendar-day { padding: 12px; }
             .calendar-day-name { font-size: 0.7rem; }
@@ -1700,6 +1708,59 @@
         .invoice-status.overdue { background: rgba(241, 76, 76, 0.2); color: var(--red); }
         .invoice-status.draft { background: rgba(128, 128, 128, 0.2); color: var(--muted); }
         
+        /* 💎 Portfolio Tracker Widget */
+        .portfolio-widget {
+            background: linear-gradient(135deg, rgba(78, 201, 176, 0.08), rgba(0, 122, 204, 0.05));
+            border: 1px solid rgba(78, 201, 176, 0.3);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .portfolio-item {
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            border-left: 3px solid var(--cyan);
+            transition: all 0.2s;
+        }
+        .portfolio-item:hover {
+            background: rgba(0,0,0,0.4);
+            border-left-color: var(--green);
+        }
+        .portfolio-collection {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--cyan);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .portfolio-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .portfolio-count {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+        .portfolio-floor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text);
+        }
+        .portfolio-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--green);
+            text-align: right;
+        }
+        
         /* 📊 Activity Widget */
         .activity-widget {
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(0, 122, 204, 0.05));
@@ -1930,6 +1991,21 @@
                 </div>
             </div>
             <div class="invoice-list" id="invoiceList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 💎 PORTFOLIO TRACKER -->
+    <section class="widget-grid" style="border-bottom: 1px solid var(--border);">
+        <div class="widget-card portfolio-widget" style="grid-column: span 2;">
+            <div class="widget-header">
+                <div class="widget-title">💎 ORDINALS PORTFOLIO</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    Total Value: <span id="portfolioTotalValue" style="color: var(--cyan); font-weight: 600;">- BTC</span>
+                </div>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid">
                 <!-- Populated by JS -->
             </div>
         </div>
@@ -2978,6 +3054,13 @@
                     renderTasks(tasksData);
                 }
                 
+                // Load portfolio
+                const portfolioRes = await fetch('data/portfolio.json?t=' + Date.now());
+                if (portfolioRes.ok) {
+                    const portfolioData = await portfolioRes.json();
+                    await renderPortfolio(portfolioData);
+                }
+                
                 // Team status is loaded from Upstash Redis in realtime (fetchTeamStatusRealtime)
                 // No need to load from static JSON
                 
@@ -3096,6 +3179,49 @@
             }).join('');
             
             taskList.innerHTML = tasksHtml || '<div style="color: var(--muted); padding: 15px;">No pending tasks 🎉</div>';
+        }
+        
+        // 💎 PORTFOLIO TRACKER
+        async function renderPortfolio(data) {
+            const container = document.getElementById('portfolioGrid');
+            let totalValue = 0;
+            
+            const itemsHtml = await Promise.all(data.holdings.map(async (holding) => {
+                try {
+                    // Fetch floor price from Magic Eden
+                    const response = await fetch(`https://api-mainnet.magiceden.dev/v2/ord/btc/stat?collectionSymbol=${holding.slug}`);
+                    const stats = await response.json();
+                    const floorPrice = stats.floorPrice ? (stats.floorPrice / 100000000) : 0; // Convert sats to BTC
+                    const holdingValue = floorPrice * holding.count;
+                    totalValue += holdingValue;
+                    
+                    return `
+                        <div class="portfolio-item">
+                            <div class="portfolio-collection">${holding.name}</div>
+                            <div class="portfolio-count">${holding.count.toLocaleString()} items</div>
+                            <div class="portfolio-stats">
+                                <div class="portfolio-floor">Floor: ${floorPrice.toFixed(4)} BTC</div>
+                                <div class="portfolio-value">${holdingValue.toFixed(2)} BTC</div>
+                            </div>
+                        </div>
+                    `;
+                } catch (err) {
+                    console.error(`Error fetching floor for ${holding.name}:`, err);
+                    return `
+                        <div class="portfolio-item">
+                            <div class="portfolio-collection">${holding.name}</div>
+                            <div class="portfolio-count">${holding.count.toLocaleString()} items</div>
+                            <div class="portfolio-stats">
+                                <div class="portfolio-floor">Floor: - BTC</div>
+                                <div class="portfolio-value">- BTC</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }));
+            
+            container.innerHTML = itemsHtml.join('');
+            document.getElementById('portfolioTotalValue').textContent = totalValue > 0 ? `${totalValue.toFixed(2)} BTC` : '- BTC';
         }
         
         function renderTeamStatus(data) {
