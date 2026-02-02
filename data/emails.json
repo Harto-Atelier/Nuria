@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Vercel",
+      "subject": "Failed preview deployments on team 'harto11's projects'",
+      "time": "23:51",
+      "unread": true
+    },
+    {
       "sender": "Lisa Highsmith",
       "subject": "Quick Taproot Test Before Sending Recursive Memory",
       "time": "22:54",
@@ -53,14 +59,8 @@
       "subject": "Your receipt from Railway Corporation #2773-6277",
       "time": "14:45",
       "unread": true
-    },
-    {
-      "sender": "Patricia DELEAU",
-      "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -  Viernes 6 de febrero 2026  a las 13:30h",
-      "time": "12:38",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T22:30:32Z"
+  "updated": "2026-02-02T23:00:41Z"
 }
