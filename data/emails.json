@@ -1,0 +1,66 @@
+{
+  "emails": [
+    {
+      "sender": "LA PEÑA",
+      "subject": "Tu pedido en LPBC ya está completo",
+      "time": "08:35",
+      "unread": true
+    },
+    {
+      "sender": "LPBC",
+      "subject": "Tu entradas de LPBC",
+      "time": "08:35",
+      "unread": true
+    },
+    {
+      "sender": "LA PEÑA",
+      "subject": "¡Hemos recibido tu pedido en LPBC!",
+      "time": "08:35",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Invitation: Carnestoltes Lys! @ Fri 13 Feb 2026 (hartostudio@gmail.com)",
+      "time": "08:28",
+      "unread": true
+    },
+    {
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "05:40",
+      "unread": true
+    },
+    {
+      "sender": "CapCut",
+      "subject": "Your CapCut subscription will expire tomorrow..",
+      "time": "05:16",
+      "unread": true
+    },
+    {
+      "sender": "CoinTracker",
+      "subject": "Crypto portfolio update",
+      "time": "20:32",
+      "unread": true
+    },
+    {
+      "sender": "HARTO ATELIER SL",
+      "subject": "Claude setup",
+      "time": "11:57",
+      "unread": true
+    },
+    {
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "05:21",
+      "unread": true
+    },
+    {
+      "sender": "Dennis Koch",
+      "subject": "Call for Submissions: BMAG Art Gallery at Bitcoin 2026 Las Vegas",
+      "time": "04:34",
+      "unread": true
+    }
+  ],
+  "unreadCount": 10,
+  "updated": "2026-02-02T09:02:33Z"
+}
