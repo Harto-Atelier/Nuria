@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "OpenRouter Team",
+      "subject": "Welcome to OpenRouter",
+      "time": "11:46",
+      "unread": true
+    },
+    {
       "sender": "Team Twilio",
       "subject": "You’re almost done! Unlock exclusive features now.",
       "time": "06:02",
@@ -53,14 +59,8 @@
       "subject": "Exquisite Daily Report - 2026-01-26",
       "time": "15:19",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Solicitud de reparación puerta baño (se queda abierta)",
-      "time": "16:05",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T10:30:44Z"
+  "updated": "2026-02-02T11:01:45Z"
 }
