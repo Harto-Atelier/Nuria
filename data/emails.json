@@ -1,6 +1,18 @@
 {
   "emails": [
     {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Invitation: Visite appart 49 torrent de l'olla @ Tue 3 Feb 2026 5:20pm - 6:20pm (CET) (hartostudio@gmail.com)",
+      "time": "12:29",
+      "unread": true
+    },
+    {
+      "sender": "ssaravia25",
+      "subject": "ssaravia25 invited you to ssaravia25/Exquisite-Analysis-Enero2026",
+      "time": "12:26",
+      "unread": true
+    },
+    {
       "sender": "OpenRouter Team",
       "subject": "Welcome to OpenRouter",
       "time": "11:46",
@@ -47,20 +59,8 @@
       "subject": "Valoración de reserva en Maleducat",
       "time": "09:21",
       "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "New sign-in detected on your Vercel account",
-      "time": "15:43",
-      "unread": true
-    },
-    {
-      "sender": "sgseaux@gmail.com",
-      "subject": "Exquisite Daily Report - 2026-01-26",
-      "time": "15:19",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T11:01:45Z"
+  "updated": "2026-02-02T11:30:25Z"
 }
