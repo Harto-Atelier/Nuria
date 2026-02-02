@@ -2,6 +2,18 @@
   "emails": [
     {
       "sender": "Vercel",
+      "subject": "Failed preview deployment on team 'harto11's projects'",
+      "time": "21:55",
+      "unread": true
+    },
+    {
+      "sender": "Emmanuel DELEAU",
+      "subject": "🚀 Webinaire du Chapitre IA de La Peña - lundi 9 février à 18H30.",
+      "time": "21:42",
+      "unread": true
+    },
+    {
+      "sender": "Vercel",
       "subject": "New sign-in detected on your Vercel account",
       "time": "21:27",
       "unread": true
@@ -47,20 +59,8 @@
       "subject": "ssaravia25 invited you to ssaravia25/Exquisite-Analysis-Enero2026",
       "time": "12:26",
       "unread": true
-    },
-    {
-      "sender": "Team Twilio",
-      "subject": "You’re almost done! Unlock exclusive features now.",
-      "time": "06:02",
-      "unread": true
-    },
-    {
-      "sender": "Deliveroo",
-      "subject": "7x7 € offerts pour un moment gourmand ❄️",
-      "time": "18:18",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T20:30:53Z"
+  "updated": "2026-02-02T21:00:46Z"
 }
