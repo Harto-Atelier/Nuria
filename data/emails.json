@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Eleven Labs Inc.",
+      "subject": "Your receipt from Eleven Labs Inc. #2653-3960-9697",
+      "time": "13:51",
+      "unread": true
+    },
+    {
       "sender": "Patricia DELEAU",
       "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -  Viernes 6 de febrero 2026  a las 13:30h",
       "time": "12:38",
@@ -53,14 +59,8 @@
       "subject": "Valoración de reserva en Maleducat",
       "time": "09:21",
       "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "New sign-in detected on your Vercel account",
-      "time": "15:43",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-02T12:30:36Z"
+  "updated": "2026-02-02T13:01:12Z"
 }
