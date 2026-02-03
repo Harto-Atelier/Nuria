@@ -8,11 +8,6 @@
 ],
   "upcoming": [
   {
-    "time": "16:45",
-    "title": "Visita c/ deu i mata 124",
-    "date": "2026-02-04"
-  },
-  {
     "time": "11:00",
     "title": "Aïoli chez Cris",
     "date": "2026-02-05"
@@ -38,5 +33,5 @@
     "date": "2026-02-07"
   }
 ],
-  "updated": "2026-02-03T21:20:03.000Z"
+  "updated": "2026-02-03T21:32:11.000Z"
 }
