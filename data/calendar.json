@@ -1,11 +1,5 @@
 {
-  "today": [
-  {
-    "time": "07:30",
-    "title": "Deporte",
-    "date": "2026-02-03"
-  }
-],
+  "today": [],
   "upcoming": [
   {
     "time": "11:00",
@@ -31,7 +25,32 @@
     "time": "10:00",
     "title": "📱 POST: Teaser Consensus HK (Art Basel pieces)",
     "date": "2026-02-07"
+  },
+  {
+    "time": "00:00",
+    "title": "🏖️ VACACIONES - No molestar",
+    "date": "2026-02-10"
+  },
+  {
+    "time": "02:00",
+    "title": "🎨 Consensus Hong Kong - Featured Artist",
+    "date": "2026-02-10"
+  },
+  {
+    "time": "07:30",
+    "title": "Deporte",
+    "date": "2026-02-10"
+  },
+  {
+    "time": "10:00",
+    "title": "📱 POST: Consensus HK Day 1",
+    "date": "2026-02-10"
+  },
+  {
+    "time": "17:30",
+    "title": "Récupérer Côme !",
+    "date": "2026-02-10"
   }
 ],
-  "updated": "2026-02-03T22:50:04.000Z"
+  "updated": "2026-02-03T23:00:27.000Z"
 }
