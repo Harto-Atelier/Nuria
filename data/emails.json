@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "06:00",
+      "unread": true
+    },
+    {
       "sender": "arthurm nolcha.com",
       "subject": "Art Basel to Consensus Hong Kong Nolcha Featured Artist",
       "time": "03:36",
@@ -53,14 +59,8 @@
       "subject": "Crypto portfolio update",
       "time": "19:25",
       "unread": true
-    },
-    {
-      "sender": "LinkedIn",
-      "subject": "Echa un vistazo a lo que te perdiste de Harto Atelier la semana pasada",
-      "time": "18:18",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-03T04:30:37Z"
+  "updated": "2026-02-03T05:00:43Z"
 }
