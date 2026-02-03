@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "arthurm nolcha.com",
+      "subject": "Art Basel to Consensus Hong Kong Nolcha Featured Artist",
+      "time": "03:36",
+      "unread": true
+    },
+    {
       "sender": "Vercel",
       "subject": "Failed preview deployments on team 'harto11's projects'",
       "time": "00:21",
@@ -53,14 +59,8 @@
       "subject": "Echa un vistazo a lo que te perdiste de Harto Atelier la semana pasada",
       "time": "18:18",
       "unread": true
-    },
-    {
-      "sender": "Railway Corporation",
-      "subject": "Your receipt from Railway Corporation #2773-6277",
-      "time": "14:45",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-03T02:30:36Z"
+  "updated": "2026-02-03T03:00:41Z"
 }
