@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Center - Harto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #000;
+      color: #0f0;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    header {
+      background: rgba(0, 255, 0, 0.1);
+      border: 2px solid #0f0;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 10px #0f0;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(0, 255, 0, 0.8); }
+    }
+
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 20px;
+      overflow: hidden;
+    }
+
+    .panel {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #0f0;
+      padding: 16px;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #0f0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .agent-status {
+      margin: 8px 0;
+      padding: 8px;
+      background: rgba(0, 255, 0, 0.05);
+      border-left: 3px solid #0f0;
+      font-size: 12px;
+    }
+
+    .agent-name {
+      font-weight: 700;
+    }
+
+    .activity-line {
+      margin: 4px 0;
+      font-size: 11px;
+      opacity: 0.8;
+      font-family: monospace;
+    }
+
+    .metric-big {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .metric-value {
+      font-size: 72px;
+      font-weight: 700;
+      text-shadow: 0 0 20px #0f0;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .metric-label {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 8px;
+      letter-spacing: 2px;
+    }
+
+    .queue-bar {
+      margin: 8px 0;
+      padding: 8px;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    .bar {
+      height: 4px;
+      background: rgba(0, 255, 0, 0.3);
+      margin: 4px 0;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #0f0;
+      box-shadow: 0 0 10px #0f0;
+      transition: width 0.5s ease;
+    }
+
+    .task-item {
+      margin: 6px 0;
+      padding: 6px;
+      background: rgba(0, 255, 0, 0.05);
+      border-left: 2px solid #0f0;
+      font-size: 11px;
+    }
+
+    .priority-high { border-left-color: #ff0; color: #ff0; }
+    .priority-medium { border-left-color: #0f0; }
+    .priority-low { border-left-color: #0ff; color: #0ff; }
+
+    .timestamp {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 14px;
+      opacity: 0.5;
+    }
+
+    .status-ok { color: #0f0; }
+    .status-warning { color: #ff0; }
+    .status-error { color: #f00; }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #0f0;
+      box-shadow: 0 0 10px #0f0;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="matrix-bg" id="matrix"></canvas>
+  
+  <div class="timestamp" id="timestamp"></div>
+
+  <div class="container">
+    <header>🎯 HARTO COMMAND CENTER</header>
+
+    <div class="main-grid">
+      <!-- Team Status -->
+      <div class="panel">
+        <div class="panel-title">🤖 TEAM STATUS</div>
+        <div id="teamStatus">Loading...</div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="panel">
+        <div class="panel-title">📊 ACTIVITY FEED</div>
+        <div id="activityFeed">Loading...</div>
+      </div>
+
+      <!-- Metrics -->
+      <div class="panel">
+        <div class="metric-big">
+          <div class="metric-value" id="completionRate">0%</div>
+          <div class="metric-label">COMPLETION RATE</div>
+        </div>
+      </div>
+
+      <!-- Queue Status -->
+      <div class="panel">
+        <div class="panel-title">📋 TASK QUEUE</div>
+        <div id="queueStatus">Loading...</div>
+      </div>
+
+      <!-- Pending Tasks -->
+      <div class="panel">
+        <div class="panel-title">📥 PENDING TASKS</div>
+        <div id="pendingTasks">Loading...</div>
+      </div>
+
+      <!-- System Health -->
+      <div class="panel">
+        <div class="metric-big">
+          <div class="metric-value" id="activeAgents">0</div>
+          <div class="metric-label">ACTIVE AGENTS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix rain background
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const matrix = "HARTOCOMMAND0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+
+    // Update timestamp
+    function updateTimestamp() {
+      const now = new Date();
+      document.getElementById('timestamp').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateTimestamp, 1000);
+    updateTimestamp();
+
+    // Fetch and render data
+    async function fetchData() {
+      try {
+        const [teamData, analyticsData] = await Promise.all([
+          fetch('data/team-status.json').then(r => r.json()),
+          fetch('data/analytics.json').then(r => r.json())
+        ]);
+
+        renderTeamStatus(teamData);
+        renderActivity(teamData);
+        renderMetrics(analyticsData);
+        renderQueue(analyticsData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    function renderTeamStatus(data) {
+      const agents = Object.values(data.agents).filter(a => a.name !== 'Exe #0097');
+      const html = agents.map(agent => `
+        <div class="agent-status">
+          <div class="agent-name">${agent.emoji} ${agent.name}</div>
+          <div style="font-size: 10px; opacity: 0.7;">${agent.status.toUpperCase()} - ${agent.task || 'idle'}</div>
+        </div>
+      `).join('');
+      document.getElementById('teamStatus').innerHTML = html;
+    }
+
+    function renderActivity(data) {
+      const activities = data.activityLog.slice(0, 15);
+      const html = activities.map(act => `
+        <div class="activity-line">[${act.time}] ${act.action}</div>
+      `).join('');
+      document.getElementById('activityFeed').innerHTML = html;
+    }
+
+    function renderMetrics(data) {
+      document.getElementById('completionRate').textContent = data.metrics.completionRate + '%';
+      document.getElementById('activeAgents').textContent = data.metrics.activeAgents;
+    }
+
+    function renderQueue(data) {
+      const total = data.queue.total || 1;
+      const html = `
+        <div class="queue-bar">
+          <div style="font-size: 11px;">COMPLETED: ${data.queue.completed}</div>
+          <div class="bar"><div class="bar-fill" style="width: ${data.queue.completed/total*100}%"></div></div>
+        </div>
+        <div class="queue-bar">
+          <div style="font-size: 11px;">IN PROGRESS: ${data.queue.inProgress}</div>
+          <div class="bar"><div class="bar-fill" style="width: ${data.queue.inProgress/total*100}%"></div></div>
+        </div>
+        <div class="queue-bar">
+          <div style="font-size: 11px;">PENDING: ${data.queue.pending}</div>
+          <div class="bar"><div class="bar-fill" style="width: ${data.queue.pending/total*100}%"></div></div>
+        </div>
+      `;
+      document.getElementById('queueStatus').innerHTML = html;
+    }
+
+    // Auto-refresh
+    fetchData();
+    setInterval(fetchData, 5000);
+  </script>
+</body>
+</html>
