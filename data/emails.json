@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Invitation: Revisió CUAP Lys @ Thu 30 Apr 2026 3:40pm - 4:40pm (CEST) (hartostudio@gmail.com)",
+      "time": "21:09",
+      "unread": true
+    },
+    {
       "sender": "Marco from Transient Labs",
       "subject": "Announcing \"Always Has Been\" by Chikai",
       "time": "19:56",
@@ -37,12 +43,6 @@
       "unread": true
     },
     {
-      "sender": "sergio saravia",
-      "subject": "Workshop BEYOND CHATGPT",
-      "time": "13:55",
-      "unread": true
-    },
-    {
       "sender": "Patricia DELEAU",
       "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -  Viernes 6 de febrero 2026  a las 13:30h",
       "time": "12:50",
@@ -62,5 +62,5 @@
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-03T20:00:56Z"
+  "updated": "2026-02-03T20:30:33Z"
 }
