@@ -1,64 +1,49 @@
-# Tareas Pendientes
-*Última actualización: 2026-02-02 12:00*
+# Tasks (Synced from Google Sheets)
 
-## 🔴 TO DO (Urgentes)
+*Last sync: 2026-02-03 08:00*
 
-### ICONIC
-| Responsable | Tarea | Detalle |
-|-------------|-------|---------|
-| Sergio | Cobrar segunda factura | Preguntar por direcciones y añadir packaging (cartón doble canal con papel protección) |
-| Sergio | Enviar 1 of 1 museo | - |
-| Sergio | Caja obra museo | - |
-| Juliette | Enviar obras paul US | - |
-| Juliette | Packaging - Sobres | Meter certificados y explicativos en sobres para envío de cada obra |
+## Pending Tasks
 
-## 🟡 PENDING
+### Superrare Project
+- **Arturo** (2h) - Leer y probar Manifold.xyz - [Link](https://manifold.xyz/)
+- **Arturo** (8h) - Finalizar codigo - [GitHub](https://github.com/Harto-Atelier/error-states)
+- **Arturo** (2h) - Crear obras digitales (NFT = 0.5 ETH x 30)
+- **Arturo** (10h) - Crear obras fisicas (Big: 6 ETH, Small: 2.5 ETH x 3)
+- **Sergio** (1h) - Gestionar pagos (65%/35 split)
 
-### Superrare (23h)
-| Responsable | Horas | Tarea | Detalle |
-|-------------|-------|-------|---------|
-| Arturo | 2 | Leer y probar Manifold | [manifold.xyz](https://manifold.xyz/) / [efficax.diid.art](https://efficax.diid.art/) onchain extension by 0xdid |
-| Arturo | 8 | Finalizar código | [GitHub repo](https://github.com/Harto-Atelier/error-states) |
-| Arturo | 2 | Crear obras digitales | NFT = 0.5 ETH x 30 |
-| Arturo | 10 | Crear obras físicas | Big piece(130x97cm): 6 ETH / Small piece(65x46cm): 2.5 ETH x 3 |
-| Sergio | 1 | Gestionar pagos | Preguntar sobre cobros 65%/35 / [splits.org](https://splits.org/) |
+### ICONIC Project
+- **Sergio** (1h) - Cobrar segunda factura ⏰ To do
+- **Sergio** (1h) - Enviar obras (1 of 1 museo) ⏰ To do
+- **Sergio** (1h) - Caja obra museo ⏰ To do
+- **Juliette** (1h) - Enviar obras Paul US ⏰ To do
+- **Juliette** (1h) - Packaging sobres ⏰ To do
 
-### POL (5h)
-| Responsable | Horas | Tarea | Detalle |
-|-------------|-------|-------|---------|
-| Sergio | 5 | Enviar POLs | [Project tasks](https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/) |
+### POL Project
+- **Sergio** (5h) - Enviar POLs - [Task Sheet](https://docs.google.com/spreadsheets/d/1p3ydf2ULZ042f5bbs4fJ51wADewq2SrxnV6cYZNcrvM/edit?gid=0#gid=0)
 
-### PFP (60h)
-| Responsable | Horas | Tarea | Detalle |
-|-------------|-------|-------|---------|
-| - | 60 | - | [Project tasks](https://docs.google.com/spreadsheets/d/1F27ZNOzO29_ZGlVGuf0KBECT7qUcToNkuZXerAaeUp0/) |
+### PFP Project
+- (60h) - PROJECT TASKS - [Sheet](https://docs.google.com/spreadsheets/d/1F27ZNOzO29_ZGlVGuf0KBECT7qUcToNkuZXerAaeUp0/edit?gid=0#gid=0)
 
 ### ADMINISTRACIÓN
-| Responsable | Tarea | Deadline | Detalle |
-|-------------|-------|----------|---------|
-| Juliette | Facturas y gastos (10h) | - | - |
-| Arturo | ~~Factura final CM Chino~~ | 30/01/2026 | ✅ HECHO |
-| Arturo y Sergio | Desarrollo Token | 15/02/2026 | Definir Roadmap |
-| Arturo | nurIA Trading | 15/02/2026 | Darle 100$ para trading en Polymarket |
-| Arturo | POL V2 Perdido | - | - |
-| Arturo | Enviar Obras ICONIC | - | - |
-| Arturo | Enviar Gastos a PAUL ICONIC | - | Enviar gastos de envío a Sergio para factura |
-| Arturo | Hacer Facturas | - | - |
-| Arturo | Control de Saldos Wallets y Transacciones | - | - |
-| Arturo | Avanzar Stock Digital HARTO y Arturo | - | - |
-| Arturo | Pedir Cita Ayuntamiento | - | Aclarar tema basura |
-| Arturo | ~~Movimientos Binance Enero, Factura Exquisite~~ | 29/01/2026 | ✅ HECHO - [Spreadsheet](https://docs.google.com/spreadsheets/d/1Pm_UvsJUAWIzagdbB_LbawGxsu1ir6A6rof9SH-raYg/) |
-| Arturo | Contabilidad de Exquisite | 15/02/2026 | Actualizar balance del Inventario |
-| Arturo | ~~Enviar saldos Binance 31/12/2025~~ | 29/01/2026 | ✅ HECHO |
-| Sergio | Depreciar activos en mal estado | - | [Spreadsheet](https://docs.google.com/spreadsheets/d/15vAScMQIQYzZfXx-i4-5TlPS6QP_2aVzJ7mxg0DRMv0/) |
+- **Juliette** (10h) - Facturas y gastos
+- **Arturo** - Factura final del CM Chino ⏰ 30/01/2026
+- **Arturo y Sergio** - Desarrollo Token (Definir Roadmap) ⏰ 15/02/2026
+- **Arturo** - nurIA Trading (100$ Polymarket) ⏰ 15/02/2026
+- **Arturo** - POL V2 Perdido
+- **Arturo** - Enviar Obras ICONIC
+- **Arturo** - Enviar Gastos a PAUL ICONIC
+- **Arturo** - Hacer Facturas
+- **Arturo** - Control de Saldos Wallets y Transacciones
+- **Arturo** - Avanzar Stock Digital HARTO y Arturo
+- **Arturo** - Pedir Cita Ayuntamiento para aclarar lo de la basura
+- **Arturo** - Movimientos Binance Enero, Factura Exquisite ⏰ 29/01/2026 - [Sheet](https://docs.google.com/spreadsheets/d/1Pm_UvsJUAWIzagdbB_LbawGxsu1ir6A6rof9SH-raYg/edit?gid=0#gid=0)
+- **Arturo** - Contabilidad de Exquisite (Actualizar balance del Inventario) ⏰ 15/02/2026
+- **Arturo** - Enviar saldos de Binance al 31/12/2025 ⏰ 29/01/2026
+
+### General
+- **Sergio** - Sergio Inbox: Depreciar activos en mal estado - [Sheet](https://docs.google.com/spreadsheets/d/15vAScMQIQYzZfXx-i4-5TlPS6QP_2aVzJ7mxg0DRMv0/edit?gid=985903469#gid=985903469)
 
 ---
-*Synced from Google Sheets Task Base - Amy 🟦*
 
-## 🔴 Revisar análisis Exquisite Enero 2026
-- **Asignado a:** Harto
-- **Deadline:** 2026-02-03
-- **De:** Sergio
-- **Descripción:** Revisar el análisis final de la venta de Exquisite Enero 2026
-- **Repo:** https://github.com/ssaravia25/Exquisite-Analysis-Enero2026
-- **Estado:** Pendiente
+**Total Pending:** 28 tasks
+**Priority:** Facturas vencidas (30/01, 29/01), Token Roadmap (15/02), nurIA Trading (15/02)
