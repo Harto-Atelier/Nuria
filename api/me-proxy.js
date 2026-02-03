@@ -52,10 +52,13 @@ export default async function handler(req, res) {
         }
     }
     
+    const ME_API_KEY = process.env.MAGIC_EDEN_API_KEY || 'a9091e2e-d2c8-40bc-bd9d-a59666a02db2';
+    
     const response = await fetch(meUrl, {
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (compatible; NuriaDashboard/1.0)'
+        'User-Agent': 'Mozilla/5.0 (compatible; NuriaDashboard/1.0)',
+        'Authorization': `Bearer ${ME_API_KEY}`
       }
     });
     

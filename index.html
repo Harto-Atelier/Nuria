@@ -3182,20 +3182,14 @@
         }
         
         // 💎 PORTFOLIO TRACKER
-        const MAGIC_EDEN_API_KEY = 'a9091e2e-d2c8-40bc-bd9d-a59666a02db2';
-        
         async function renderPortfolio(data) {
             const container = document.getElementById('portfolioGrid');
             let totalValue = 0;
             
             const itemsHtml = await Promise.all(data.holdings.map(async (holding) => {
                 try {
-                    // Fetch floor price from Magic Eden with API key
-                    const response = await fetch(`https://api-mainnet.magiceden.dev/v2/ord/btc/stat?collectionSymbol=${holding.slug}`, {
-                        headers: {
-                            'Authorization': `Bearer ${MAGIC_EDEN_API_KEY}`
-                        }
-                    });
+                    // Fetch floor price via proxy (avoids CORS and includes API key)
+                    const response = await fetch(`/api/me-proxy?endpoint=stat&symbol=${holding.slug}`);
                     const stats = await response.json();
                     const floorPrice = stats.floorPrice ? (stats.floorPrice / 100000000) : 0; // Convert sats to BTC
                     const holdingValue = floorPrice * holding.count;
