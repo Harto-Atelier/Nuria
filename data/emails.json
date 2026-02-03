@@ -25,12 +25,6 @@
       "unread": true
     },
     {
-      "sender": "HARTO ATELIER SL",
-      "subject": "CANCELACIÓN preaviso de rescisión de contrato de arrendamiento",
-      "time": "13:39",
-      "unread": true
-    },
-    {
       "sender": "Vercel",
       "subject": "Failed preview deployment on team 'harto11's projects'",
       "time": "12:33",
@@ -59,8 +53,14 @@
       "subject": "New sign-in detected on your Vercel account",
       "time": "15:43",
       "unread": true
+    },
+    {
+      "sender": "sgseaux@gmail.com",
+      "subject": "Exquisite Daily Report - 2026-01-26",
+      "time": "15:19",
+      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-03T13:01:11Z"
+  "updated": "2026-02-03T13:31:11Z"
 }
