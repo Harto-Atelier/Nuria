@@ -1,9 +1,15 @@
 {
   "emails": [
     {
+      "sender": "HARTO ATELIER SL",
+      "subject": "CANCELACIÓN preaviso de rescisión de contrato de arrendamiento",
+      "time": "12:09",
+      "unread": true
+    },
+    {
       "sender": "Vercel",
       "subject": "Failed preview deployment on team 'harto11's projects'",
-      "time": "11:57",
+      "time": "12:30",
       "unread": true
     },
     {
@@ -53,14 +59,8 @@
       "subject": "CashFlow_HartoStudio - @hartostudio@gmail.com  este impuesto...",
       "time": "11:56",
       "unread": true
-    },
-    {
-      "sender": "gon esp (via Google Sheets)",
-      "subject": "Spreadsheet shared with you: ‘Exquisite Analysis’",
-      "time": "20:21",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-03T11:02:05Z"
+  "updated": "2026-02-03T11:30:34Z"
 }
