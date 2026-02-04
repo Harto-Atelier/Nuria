@@ -1,6 +1,36 @@
 {
   "emails": [
     {
+      "sender": "Asprey Studio",
+      "subject": "CHANGE OF DATE | 25 Feb 2026 | Tim Yip Solo Exhibition at Asprey Studio",
+      "time": "18:27",
+      "unread": true
+    },
+    {
+      "sender": "Marco from Transient Labs",
+      "subject": "Botto’s \"Genesis: #000-0051\" Special Editions now available",
+      "time": "18:22",
+      "unread": true
+    },
+    {
+      "sender": "CoinTracker",
+      "subject": "Crypto portfolio update",
+      "time": "18:08",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Facture billets Ploërmel Rennes 05.04.26",
+      "time": "18:06",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billets Flixbus Ploërmel Rennes 05.04.26",
+      "time": "18:06",
+      "unread": true
+    },
+    {
       "sender": "Juliette Lavedan-Forment",
       "subject": "Factures billets Flixbus 05.04.26 Rennes - Nantes",
       "time": "17:52",
@@ -29,38 +59,8 @@
       "subject": "Weekly Usage Summary for harto11's projects",
       "time": "17:17",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Billets Barcelona Ploërmel - BCN-Nantes 28 marzo, NTE-BCN 06 abril",
-      "time": "17:16",
-      "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Invitation: Ploërmel ! @ Sat 28 Mar - Sun 5 Apr 2026 (hartostudio@gmail.com)",
-      "time": "17:14",
-      "unread": true
-    },
-    {
-      "sender": "Centre Gestor S.A.U.",
-      "subject": "Centre Gestor Lleida S.A.U. li ha enviat un document per a signar",
-      "time": "17:01",
-      "unread": true
-    },
-    {
-      "sender": "Sergio Saravia",
-      "subject": "Follow-up on invoice & cost details for the release - ICONIC-HARTO",
-      "time": "16:55",
-      "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Fwd: Tu envío Correos_Express ES2026PRO0000217504: Ajuste de precio",
-      "time": "16:32",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T17:01:15Z"
+  "updated": "2026-02-04T17:31:06Z"
 }
