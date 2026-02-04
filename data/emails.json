@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Upstash",
+      "subject": "Discover more with your Upstash free account",
+      "time": "16:01",
+      "unread": true
+    },
+    {
       "sender": "Servicio de prevención sp|activa",
       "subject": "Documentación sp|activa",
       "time": "15:27",
@@ -53,14 +59,8 @@
       "subject": "Announcing \"Always Has Been\" by Chikai",
       "time": "19:56",
       "unread": true
-    },
-    {
-      "sender": "OpenAI Team",
-      "subject": "Legacy models are being retired from ChatGPT on February 13",
-      "time": "19:51",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T14:30:30Z"
+  "updated": "2026-02-04T15:02:25Z"
 }
