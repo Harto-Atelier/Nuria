@@ -1,6 +1,18 @@
 {
   "emails": [
     {
+      "sender": "Stripe",
+      "subject": "Se ha iniciado sesión en tu cuenta de Stripe desde un dispositivo desconocido.",
+      "time": "23:18",
+      "unread": true
+    },
+    {
+      "sender": "Stripe",
+      "subject": "Tu contraseña de Stripe se ha actualizado",
+      "time": "23:18",
+      "unread": true
+    },
+    {
       "sender": "Juliette Lavedan-Forment",
       "subject": "Billets Flixbus Rennes Ploërmel 29.03.26",
       "time": "22:18",
@@ -47,20 +59,8 @@
       "subject": "Fwd: Mensaje automático: IMPORTANTE: Documentación de Aduana Incorrecta/Incompleta - ES2026PRO0000217445",
       "time": "16:31",
       "unread": true
-    },
-    {
-      "sender": "Upstash",
-      "subject": "Discover more with your Upstash free account",
-      "time": "16:01",
-      "unread": true
-    },
-    {
-      "sender": "Servicio de prevención sp|activa",
-      "subject": "Documentación sp|activa",
-      "time": "15:27",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T22:03:12Z"
+  "updated": "2026-02-04T22:30:47Z"
 }
