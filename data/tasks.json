@@ -1,12 +1,12 @@
 {
-  "lastUpdate": "2026-02-02T11:49:16.109Z",
+  "lastUpdate": "2026-02-04T21:01:19.015Z",
   "sheetId": "1LIdaTvRvKEZOMJbqXcBIrA5Xq6bEnzfiiFkFp_A6pTY",
   "stats": {
-    "total": 66,
-    "pending": 28,
-    "todo": 5,
+    "total": 67,
+    "pending": 29,
+    "todo": 6,
     "done": 38,
-    "totalHours": 29
+    "totalHours": 30
   },
   "mits": [
     {
@@ -49,6 +49,69 @@
       "id": 49,
       "title": "Sobres",
       "meta": "Juliette • ICONIC",
+      "xp": 50,
+      "done": false,
+      "date": null,
+      "priority": "urgent"
+    },
+    {
+      "id": 50,
+      "title": "PROJECT TASKS  = ",
+      "meta": "Sergio • POL",
+      "xp": 50,
+      "done": false,
+      "date": "2025-11-05",
+      "priority": "normal"
+    },
+    {
+      "id": 52,
+      "title": "Factura final del CM Chino",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 50,
+      "done": false,
+      "date": "2026-01-30",
+      "priority": "normal"
+    },
+    {
+      "id": 53,
+      "title": "Desarrollo Token",
+      "meta": "Arturo y Sergio • ADMINISTRACIÓN",
+      "xp": 50,
+      "done": false,
+      "date": "2026-02-15",
+      "priority": "normal"
+    },
+    {
+      "id": 64,
+      "title": "Movimientos Binance Enero, Factura Exquisite",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 50,
+      "done": false,
+      "date": "2026-01-29",
+      "priority": "normal"
+    },
+    {
+      "id": 65,
+      "title": "Contabilidad de Exquisite ",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 50,
+      "done": false,
+      "date": "2026-02-15",
+      "priority": "normal"
+    },
+    {
+      "id": 66,
+      "title": "Enviar saldos de Binance al 31/12/2025",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 50,
+      "done": false,
+      "date": "2026-01-29",
+      "priority": "normal"
+    },
+    {
+      "id": 68,
+      "title": "Revisar: GitHub invite de Sergio",
+      "meta": "Arturo • ADMINISTRACIÓN",
       "xp": 50,
       "done": false,
       "date": null,
@@ -121,6 +184,14 @@
       "priority": "normal"
     },
     {
+      "id": 54,
+      "title": "Revisar email: Billets Flixbus Ploërmel Rennes 05.04.26",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
       "id": 56,
       "title": "POL V2 Perdido",
       "meta": "Arturo • ADMINISTRACIÓN",
@@ -132,6 +203,54 @@
       "id": 57,
       "title": "Enviar Obras ICONIC",
       "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 58,
+      "title": "Enviar Gastos a PAUL ICONIC",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 59,
+      "title": "Hacer Facturas",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 60,
+      "title": "Control de Saldos Wallets y Transacciones",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 61,
+      "title": "Avanzar Stock Digital HARTO y Arturo",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 63,
+      "title": "Pedir Cita Ayuntamiento para aclarar lo de la basura",
+      "meta": "Arturo • ADMINISTRACIÓN",
+      "xp": 15,
+      "done": false,
+      "priority": "normal"
+    },
+    {
+      "id": 67,
+      "title": "Depreciar activos en mal estado",
+      "meta": "Sergio • General",
       "xp": 15,
       "done": false,
       "priority": "normal"

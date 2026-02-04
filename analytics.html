@@ -226,6 +226,24 @@
       </div>
     </div>
 
+    <!-- Sales Analytics Section -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">💰 Sales Analytics</div>
+      </div>
+      <div class="metrics-grid" id="salesMetrics" style="margin-bottom: 20px;">
+        <!-- Sales metrics will be populated by JavaScript -->
+      </div>
+      <div style="margin-top: 20px;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; opacity: 0.8;">Recent Sales</div>
+        <div id="recentSales"></div>
+      </div>
+      <div style="margin-top: 30px;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; opacity: 0.8;">Top Collections</div>
+        <div id="topCollections"></div>
+      </div>
+    </div>
+
     <div class="chart-container">
       <div class="chart-header">
         <div class="chart-title">Task Queue Status</div>
@@ -249,6 +267,7 @@
   <script>
     let analytics = null;
     let marketData = null;
+    let salesData = null;
 
     async function fetchMarketData() {
       try {
@@ -316,6 +335,114 @@
           </div>
         </div>
       `;
+    }
+
+    async function fetchSalesData() {
+      try {
+        const response = await fetch('data/sales.json');
+        salesData = await response.json();
+        renderSalesAnalytics();
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
+        document.getElementById('salesMetrics').innerHTML = `
+          <div class="metric-card" style="grid-column: 1 / -1; text-align: center; opacity: 0.5;">
+            Unable to load sales data.
+          </div>
+        `;
+      }
+    }
+
+    function renderSalesAnalytics() {
+      if (!salesData || !salesData.sales) return;
+
+      const sales = salesData.sales;
+      
+      // Calculate metrics
+      const totalSales = sales.length;
+      const totalRevenue = sales.reduce((sum, sale) => sum + sale.price, 0);
+      const avgPrice = totalRevenue / totalSales;
+      const lastSaleDate = sales[0]?.date || 'N/A';
+      
+      // Render key metrics
+      const salesMetrics = document.getElementById('salesMetrics');
+      salesMetrics.innerHTML = `
+        <div class="metric-card">
+          <div class="metric-label">Total Sales</div>
+          <div class="metric-value">${totalSales}</div>
+          <div class="metric-change" style="opacity: 0.5;">All-time</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Total Revenue</div>
+          <div class="metric-value">${totalRevenue.toFixed(2)} ₿</div>
+          <div class="metric-change" style="opacity: 0.5;">Bitcoin</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Average Price</div>
+          <div class="metric-value">${avgPrice.toFixed(3)} ₿</div>
+          <div class="metric-change" style="opacity: 0.5;">Per sale</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Last Sale</div>
+          <div class="metric-value" style="font-size: 20px;">${lastSaleDate}</div>
+          <div class="metric-change" style="opacity: 0.5;">Most recent</div>
+        </div>
+      `;
+
+      // Render recent sales table (top 5)
+      const recentSales = document.getElementById('recentSales');
+      const recentSalesHTML = sales.slice(0, 5).map(sale => `
+        <div class="stat-row">
+          <div>
+            <div style="font-weight: 600;">${sale.collection} ${sale.tokenId}</div>
+            <div style="font-size: 11px; opacity: 0.5;">Inscription #${sale.inscription}</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 600; color: #22c55e;">${sale.price} ₿</div>
+            <div style="font-size: 11px; opacity: 0.5;">${sale.date}</div>
+          </div>
+        </div>
+      `).join('');
+      recentSales.innerHTML = recentSalesHTML;
+
+      // Calculate top collections
+      const collectionStats = {};
+      sales.forEach(sale => {
+        if (!collectionStats[sale.collection]) {
+          collectionStats[sale.collection] = {
+            name: sale.collection,
+            sales: 0,
+            revenue: 0
+          };
+        }
+        collectionStats[sale.collection].sales++;
+        collectionStats[sale.collection].revenue += sale.price;
+      });
+
+      const topCollectionsData = Object.values(collectionStats)
+        .map(col => ({
+          ...col,
+          avgPrice: col.revenue / col.sales
+        }))
+        .sort((a, b) => b.revenue - a.revenue);
+
+      // Render top collections
+      const topCollections = document.getElementById('topCollections');
+      const topCollectionsHTML = topCollectionsData.map(col => `
+        <div class="stat-row">
+          <div>
+            <div style="font-weight: 600;">${col.name}</div>
+            <div style="font-size: 11px; opacity: 0.5;">${col.sales} sales • Avg: ${col.avgPrice.toFixed(3)} ₿</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 600; color: #4d57a0;">${col.revenue.toFixed(2)} ₿</div>
+            <div style="font-size: 11px; opacity: 0.5;">Total revenue</div>
+          </div>
+        </div>
+      `).join('');
+      topCollections.innerHTML = topCollectionsHTML;
     }
 
     async function fetchAnalytics() {
@@ -421,12 +548,16 @@
     // Initial load
     fetchAnalytics();
     fetchMarketData();
+    fetchSalesData();
 
     // Auto-refresh every 10 seconds for analytics
     setInterval(fetchAnalytics, 10000);
     
     // Auto-refresh market data every 30 seconds (CoinGecko rate limit friendly)
     setInterval(fetchMarketData, 30000);
+    
+    // Auto-refresh sales data every 60 seconds
+    setInterval(fetchSalesData, 60000);
   </script>
 </body>
 </html>

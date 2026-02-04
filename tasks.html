@@ -342,10 +342,17 @@
         
         .task-main {
             display: grid;
-            grid-template-columns: 50px 120px 1fr 150px 120px 100px;
+            grid-template-columns: 40px 100px 1fr 80px auto 50px;
             align-items: center;
             padding: 15px 20px;
-            gap: 15px;
+            gap: 10px;
+        }
+        @media (max-width: 1200px) {
+            .task-main {
+                grid-template-columns: 40px 80px 1fr 60px auto 40px;
+                gap: 8px;
+                padding: 12px 15px;
+            }
         }
         
         .task-checkbox {
@@ -405,14 +412,15 @@
             gap: 5px;
         }
         .status-btn {
-            padding: 6px 10px;
+            padding: 4px 8px;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--muted);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .status-btn:hover {
             border-color: var(--cyan);
@@ -644,7 +652,8 @@
         </div>
         <div class="filter-group">
             <span class="filter-label">STATUS:</span>
-            <button class="filter-btn active" data-filter="all" onclick="setFilter('status', 'all')">All</button>
+            <button class="filter-btn" data-filter="all" onclick="setFilter('status', 'all')">All</button>
+            <button class="filter-btn active" data-filter="not-done" onclick="setFilter('status', 'not-done')">📌 Active</button>
             <button class="filter-btn" data-filter="Pending" onclick="setFilter('status', 'Pending')">⏳ Pending</button>
             <button class="filter-btn" data-filter="To do" onclick="setFilter('status', 'To do')">📋 To Do</button>
             <button class="filter-btn" data-filter="Done" onclick="setFilter('status', 'Done')">✅ Done</button>
@@ -691,7 +700,7 @@
         // Task data - will be loaded and modified
         let tasks = [];
         let changes = JSON.parse(localStorage.getItem('task_changes') || '[]');
-        let filters = { status: 'all', owner: 'all', project: 'all' };
+        let filters = { status: 'not-done', owner: 'all', project: 'all' }; // Default: hide Done tasks
         
         // Initial data from Google Sheets (63 tasks)
         const initialTasks = [
@@ -760,10 +769,23 @@
 
         ];
         
-        // Load tasks with local modifications
-        function loadTasks() {
-            const localTasks = JSON.parse(localStorage.getItem('tasks_data') || 'null');
-            tasks = localTasks || [...initialTasks];
+        // Load tasks from API or localStorage
+        async function loadTasks() {
+            try {
+                // Fetch fresh data from Google Sheets via JSON
+                const res = await fetch('/data/tasks-full.json?t=' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    tasks = data.tasks || [];
+                    console.log('Loaded', tasks.length, 'tasks from API');
+                } else {
+                    throw new Error('API failed');
+                }
+            } catch (e) {
+                console.log('Falling back to localStorage/initial');
+                const localTasks = JSON.parse(localStorage.getItem('tasks_data') || 'null');
+                tasks = localTasks || [...initialTasks];
+            }
             applyFilters();
             updateStats();
             updatePendingChanges();
@@ -838,7 +860,9 @@
         function applyFilters() {
             let filtered = tasks;
             
-            if (filters.status !== 'all') {
+            if (filters.status === 'not-done') {
+                filtered = filtered.filter(t => t.status !== 'Done');
+            } else if (filters.status !== 'all') {
                 filtered = filtered.filter(t => t.status === filters.status);
             }
             if (filters.owner !== 'all') {

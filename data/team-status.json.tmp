@@ -86,6 +86,11 @@
   },
   "activityLog": [
     {
+      "time": "23:01",
+      "agent": "pepe",
+      "action": "✅ Completó: Analyze market trends"
+    },
+    {
       "time": "04:03",
       "agent": "nuria",
       "action": "✅ Completó: Check email inbox"
@@ -179,11 +184,6 @@
       "time": "03:52",
       "agent": "nuria",
       "action": "✅ Completó: Check email inbox"
-    },
-    {
-      "time": "03:50",
-      "agent": "pepe",
-      "action": "✅ Completó: Monitor social media"
     }
   ],
   "stats": {
@@ -202,10 +202,6 @@
       "agent": "nuria",
       "message": "Nuria coordinando equipo",
       "timestamp": "2026-02-03T15:05:51Z"
-    }
-  ]
-}
-15:05:51Z"
     }
   ]
 }

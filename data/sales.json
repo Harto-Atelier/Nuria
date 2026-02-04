@@ -1,0 +1,58 @@
+{
+  "sales": [
+    {
+      "collection": "Golden Ratio",
+      "tokenId": "#147",
+      "inscription": "82054389",
+      "price": 0.18,
+      "date": "2026-01-28",
+      "buyer": "collector_xyz",
+      "marketplace": "Magic Eden"
+    },
+    {
+      "collection": "SATS",
+      "tokenId": "#23",
+      "inscription": "8815",
+      "price": 1.2,
+      "date": "2026-01-15",
+      "buyer": "whale.btc",
+      "marketplace": "Magic Eden"
+    },
+    {
+      "collection": "Exquisite",
+      "tokenId": "#6556",
+      "inscription": "75842133",
+      "price": 0.05,
+      "date": "2026-01-10",
+      "buyer": "nuria_holder",
+      "marketplace": "Magic Eden"
+    },
+    {
+      "collection": "FloraForms",
+      "tokenId": "#2048",
+      "inscription": "45123789",
+      "price": 0.08,
+      "date": "2025-12-20",
+      "buyer": "art_collector",
+      "marketplace": "Magic Eden"
+    },
+    {
+      "collection": "2048",
+      "tokenId": "#512",
+      "inscription": "62341098",
+      "price": 0.12,
+      "date": "2025-12-15",
+      "buyer": "ordinals_fan",
+      "marketplace": "Magic Eden"
+    },
+    {
+      "collection": "Golden Ratio",
+      "tokenId": "#89",
+      "inscription": "82054201",
+      "price": 0.22,
+      "date": "2025-12-01",
+      "buyer": "crypto_art",
+      "marketplace": "Magic Eden"
+    }
+  ]
+}

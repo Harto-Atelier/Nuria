@@ -1,0 +1,21 @@
+{
+  "date": "2026-02-03",
+  "hourly": [
+    {
+      "hour": "16",
+      "timestamp": "2026-02-03T15:22:20Z",
+      "pending": 2,
+      "inProgress": 14,
+      "completed": 12,
+      "activeAgents": 4,
+      "completionsThisHour": 9
+    }
+  ],
+  "summary": {
+    "totalTasks": 28,
+    "completed": 12,
+    "avgCompletionTime": 0,
+    "peakHour": "",
+    "topPerformer": ""
+  }
+}
