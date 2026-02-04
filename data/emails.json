@@ -1,6 +1,54 @@
 {
   "emails": [
     {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Factures billets Flixbus 05.04.26 Rennes - Nantes",
+      "time": "17:52",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billet Flixbus 05.04.26 Rennes - Nantes",
+      "time": "17:52",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billet Flixbus 28.03.26 Nantes - Rennes",
+      "time": "17:51",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billet Flixbus 28.03.26 Nantes - Rennes",
+      "time": "17:51",
+      "unread": true
+    },
+    {
+      "sender": "Vercel",
+      "subject": "Weekly Usage Summary for harto11's projects",
+      "time": "17:17",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billets Barcelona Ploërmel - BCN-Nantes 28 marzo, NTE-BCN 06 abril",
+      "time": "17:16",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Invitation: Ploërmel ! @ Sat 28 Mar - Sun 5 Apr 2026 (hartostudio@gmail.com)",
+      "time": "17:14",
+      "unread": true
+    },
+    {
+      "sender": "Centre Gestor S.A.U.",
+      "subject": "Centre Gestor Lleida S.A.U. li ha enviat un document per a signar",
+      "time": "17:01",
+      "unread": true
+    },
+    {
       "sender": "Sergio Saravia",
       "subject": "Follow-up on invoice & cost details for the release - ICONIC-HARTO",
       "time": "16:55",
@@ -11,56 +59,8 @@
       "subject": "Fwd: Tu envío Correos_Express ES2026PRO0000217504: Ajuste de precio",
       "time": "16:32",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Fwd: Mensaje automático: IMPORTANTE: Documentación de Aduana Incorrecta/Incompleta - ES2026PRO0000217445",
-      "time": "16:31",
-      "unread": true
-    },
-    {
-      "sender": "Upstash",
-      "subject": "Discover more with your Upstash free account",
-      "time": "16:01",
-      "unread": true
-    },
-    {
-      "sender": "Servicio de prevención sp|activa",
-      "subject": "Documentación sp|activa",
-      "time": "15:27",
-      "unread": true
-    },
-    {
-      "sender": "MutualArt.com",
-      "subject": "➽ Alerts for Werner Bronkhorst",
-      "time": "15:24",
-      "unread": true
-    },
-    {
-      "sender": "moments. agency",
-      "subject": "Last Call: Love is in the Art 💕",
-      "time": "15:04",
-      "unread": true
-    },
-    {
-      "sender": "OpenRouter Team",
-      "subject": "Protecting your data: logging and training policies",
-      "time": "11:46",
-      "unread": true
-    },
-    {
-      "sender": "BlenderKit",
-      "subject": "New feature: Get your add-ons 15% off directly in Blender! 🔥🔥🔥",
-      "time": "09:03",
-      "unread": true
-    },
-    {
-      "sender": "Marco from Transient Labs",
-      "subject": "Announcing \"Always Has Been\" by Chikai",
-      "time": "19:56",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T16:00:37Z"
+  "updated": "2026-02-04T17:01:15Z"
 }
