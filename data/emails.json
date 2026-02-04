@@ -1,6 +1,24 @@
 {
   "emails": [
     {
+      "sender": "Sergio Saravia",
+      "subject": "Follow-up on invoice & cost details for the release - ICONIC-HARTO",
+      "time": "16:55",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Fwd: Tu envío Correos_Express ES2026PRO0000217504: Ajuste de precio",
+      "time": "16:32",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Fwd: Mensaje automático: IMPORTANTE: Documentación de Aduana Incorrecta/Incompleta - ES2026PRO0000217445",
+      "time": "16:31",
+      "unread": true
+    },
+    {
       "sender": "Upstash",
       "subject": "Discover more with your Upstash free account",
       "time": "16:01",
@@ -25,12 +43,6 @@
       "unread": true
     },
     {
-      "sender": "Pepephone",
-      "subject": "Ya tienes disponible tu factura de enero 2026",
-      "time": "13:08",
-      "unread": true
-    },
-    {
       "sender": "OpenRouter Team",
       "subject": "Protecting your data: logging and training policies",
       "time": "11:46",
@@ -43,18 +55,6 @@
       "unread": true
     },
     {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Cancelled event: Visite appart 49 torrent de l'olla @ Tue 3 Feb 2026 5:20pm - 6:20pm (CET) (hartostudio@gmail.com)",
-      "time": "21:53",
-      "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Invitation: Revisió CUAP Lys @ Thu 30 Apr 2026 3:40pm - 4:40pm (CEST) (hartostudio@gmail.com)",
-      "time": "21:09",
-      "unread": true
-    },
-    {
       "sender": "Marco from Transient Labs",
       "subject": "Announcing \"Always Has Been\" by Chikai",
       "time": "19:56",
@@ -62,5 +62,5 @@
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T15:30:30Z"
+  "updated": "2026-02-04T16:00:37Z"
 }
