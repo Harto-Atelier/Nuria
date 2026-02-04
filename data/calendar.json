@@ -1,6 +1,5 @@
 {
-  "today": [],
-  "upcoming": [
+  "today": [
   {
     "time": "11:00",
     "title": "Aïoli chez Cris",
@@ -10,7 +9,9 @@
     "time": "16:00",
     "title": "Humus Check ",
     "date": "2026-02-05"
-  },
+  }
+],
+  "upcoming": [
   {
     "time": "13:30",
     "title": "Rdv Susana colegio",
@@ -52,5 +53,5 @@
     "date": "2026-02-10"
   }
 ],
-  "updated": "2026-02-04T22:50:04.000Z"
+  "updated": "2026-02-04T23:00:20.000Z"
 }
