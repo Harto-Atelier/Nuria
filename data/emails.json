@@ -1,6 +1,24 @@
 {
   "emails": [
     {
+      "sender": "Servicio de prevención sp|activa",
+      "subject": "Documentación sp|activa",
+      "time": "15:27",
+      "unread": true
+    },
+    {
+      "sender": "MutualArt.com",
+      "subject": "➽ Alerts for Werner Bronkhorst",
+      "time": "15:24",
+      "unread": true
+    },
+    {
+      "sender": "moments. agency",
+      "subject": "Last Call: Love is in the Art 💕",
+      "time": "15:04",
+      "unread": true
+    },
+    {
       "sender": "Pepephone",
       "subject": "Ya tienes disponible tu factura de enero 2026",
       "time": "13:08",
@@ -41,26 +59,8 @@
       "subject": "Legacy models are being retired from ChatGPT on February 13",
       "time": "19:51",
       "unread": true
-    },
-    {
-      "sender": "CoinTracker",
-      "subject": "Crypto portfolio update",
-      "time": "18:05",
-      "unread": true
-    },
-    {
-      "sender": "extranetcg@centregestor.es",
-      "subject": "Signar un document",
-      "time": "17:50",
-      "unread": true
-    },
-    {
-      "sender": "hey@panotmobility.com",
-      "subject": "🙌 1000 km recorridos con tu bici: ¡nadie te detiene!",
-      "time": "17:36",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T14:01:33Z"
+  "updated": "2026-02-04T14:30:30Z"
 }
