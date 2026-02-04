@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "06:30",
+      "unread": true
+    },
+    {
       "sender": "Juliette Lavedan-Forment",
       "subject": "Cancelled event: Visite appart 49 torrent de l'olla @ Tue 3 Feb 2026 5:20pm - 6:20pm (CET) (hartostudio@gmail.com)",
       "time": "21:53",
@@ -53,14 +59,8 @@
       "subject": "✨ La Peña Barcelona✨Todavía puedes apuntarte - Próximo Almuerzo en Barcelona -  Viernes 6 de febrero 2026  a las 13:30h",
       "time": "12:50",
       "unread": true
-    },
-    {
-      "sender": "Patricia DELEAU",
-      "subject": "💥 La Peña Lisbonne - Déjeuner networking du vendredi 13 février 2026 à 13h.",
-      "time": "12:46",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-04T05:00:43Z"
+  "updated": "2026-02-04T05:30:28Z"
 }
