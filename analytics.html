@@ -226,6 +226,23 @@
       </div>
     </div>
 
+    <!-- Social Media Analytics Section -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">🐦 Social Media Analytics</div>
+      </div>
+      <div class="metrics-grid" id="socialMetrics" style="margin-bottom: 20px;">
+        <!-- Social metrics will be populated by JavaScript -->
+      </div>
+      <div style="margin-top: 20px;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px; opacity: 0.8;">Recent Performance</div>
+        <div id="topTweets"></div>
+      </div>
+      <div style="margin-top: 20px; text-align: center; opacity: 0.5; font-size: 11px;">
+        <span id="socialLastUpdate">Last updated: Never</span>
+      </div>
+    </div>
+
     <!-- Sales Analytics Section -->
     <div class="chart-container">
       <div class="chart-header">
@@ -268,6 +285,7 @@
     let analytics = null;
     let marketData = null;
     let salesData = null;
+    let socialData = null;
 
     async function fetchMarketData() {
       try {
@@ -445,6 +463,127 @@
       topCollections.innerHTML = topCollectionsHTML;
     }
 
+    async function fetchSocialData() {
+      // Sample data - will be replaced with real Twitter API integration later
+      socialData = {
+        profile: {
+          handle: '@harto_art',
+          followers: 68245,
+          following: 892,
+          tweets: 5432,
+          joinDate: 'June 2019',
+          verified: true
+        },
+        growth: {
+          followersWeek: 245,
+          followersWeekPercent: 0.36,
+          followersMonth: 1120,
+          followersMonthPercent: 1.67
+        },
+        engagement: {
+          avgLikes: 189,
+          avgRetweets: 42,
+          avgReplies: 18,
+          engagementRate: 2.8
+        },
+        topTweets: [
+          {
+            text: 'New generative piece dropping this week. Pure geometry, pure emotion.',
+            likes: 523,
+            retweets: 78,
+            replies: 34,
+            date: '2 days ago',
+            engagementRate: 4.2
+          },
+          {
+            text: 'The intersection of code and canvas. Building something special.',
+            likes: 412,
+            retweets: 65,
+            replies: 28,
+            date: '4 days ago',
+            engagementRate: 3.8
+          },
+          {
+            text: 'Ordinals marketplace update coming soon. Stay tuned.',
+            likes: 398,
+            retweets: 89,
+            replies: 45,
+            date: '5 days ago',
+            engagementRate: 4.1
+          }
+        ]
+      };
+
+      renderSocialMetrics();
+      updateSocialTimestamp();
+    }
+
+    function renderSocialMetrics() {
+      if (!socialData) return;
+
+      const socialMetrics = document.getElementById('socialMetrics');
+      const changeClass = socialData.growth.followersWeekPercent > 0 ? 'positive' : 'negative';
+      const changeSymbol = socialData.growth.followersWeekPercent > 0 ? '↑' : '↓';
+
+      socialMetrics.innerHTML = `
+        <div class="metric-card">
+          <div class="metric-label">Followers</div>
+          <div class="metric-value">${socialData.profile.followers.toLocaleString()}</div>
+          <div class="metric-change ${changeClass}">
+            ${changeSymbol} ${socialData.growth.followersWeek.toLocaleString()} this week (+${socialData.growth.followersWeekPercent}%)
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Engagement Rate</div>
+          <div class="metric-value">${socialData.engagement.engagementRate}%</div>
+          <div style="font-size: 11px; opacity: 0.6; margin-top: 8px;">
+            ❤️ ${socialData.engagement.avgLikes} avg likes<br>
+            🔄 ${socialData.engagement.avgRetweets} avg retweets
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total Tweets</div>
+          <div class="metric-value">${socialData.profile.tweets.toLocaleString()}</div>
+          <div style="font-size: 11px; opacity: 0.6; margin-top: 8px;">
+            Account since ${socialData.profile.joinDate}
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly Growth</div>
+          <div class="metric-value">+${socialData.growth.followersMonth.toLocaleString()}</div>
+          <div class="metric-change positive">
+            ↑ ${socialData.growth.followersMonthPercent}% this month
+          </div>
+        </div>
+      `;
+
+      // Render top tweets
+      const topTweets = document.getElementById('topTweets');
+      const topTweetsHTML = socialData.topTweets.map(tweet => `
+        <div class="stat-row" style="flex-direction: column; align-items: flex-start; gap: 12px;">
+          <div style="width: 100%;">
+            <div style="font-size: 13px; line-height: 1.5; margin-bottom: 8px;">"${tweet.text}"</div>
+            <div style="display: flex; gap: 20px; font-size: 11px; opacity: 0.6;">
+              <span>❤️ ${tweet.likes}</span>
+              <span>🔄 ${tweet.retweets}</span>
+              <span>💬 ${tweet.replies}</span>
+              <span style="margin-left: auto;">${tweet.date}</span>
+            </div>
+          </div>
+          <div style="width: 100%; height: 4px; background: #2a2a2a; border-radius: 2px; overflow: hidden;">
+            <div style="width: ${tweet.engagementRate * 10}%; height: 100%; background: linear-gradient(90deg, #4d57a0 0%, #3b82f6 100%);"></div>
+          </div>
+        </div>
+      `).join('');
+      topTweets.innerHTML = topTweetsHTML;
+    }
+
+    function updateSocialTimestamp() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('socialLastUpdate').textContent = `Last updated: ${timeString}`;
+    }
+
     async function fetchAnalytics() {
       try {
         const response = await fetch('data/analytics.json');
@@ -549,6 +688,7 @@
     fetchAnalytics();
     fetchMarketData();
     fetchSalesData();
+    fetchSocialData();
 
     // Auto-refresh every 10 seconds for analytics
     setInterval(fetchAnalytics, 10000);
@@ -558,6 +698,9 @@
     
     // Auto-refresh sales data every 60 seconds
     setInterval(fetchSalesData, 60000);
+    
+    // Auto-refresh social data every 5 minutes (300 seconds)
+    setInterval(fetchSocialData, 300000);
   </script>
 </body>
 </html>
