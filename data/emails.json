@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Canva",
+      "subject": "Tu suscripción a Canva Equipos ha terminado",
+      "time": "22:00",
+      "unread": true
+    },
+    {
       "sender": "sergio saravia (via Google Docs)",
       "subject": "Document shared with you: ‘Doc_Harto_ArturoFernandez_Replica 050226’",
       "time": "21:18",
@@ -53,14 +59,8 @@
       "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
       "time": "10:57",
       "unread": true
-    },
-    {
-      "sender": "Tia Grazette",
-      "subject": "Art Rotterdam billboard exhibition…",
-      "time": "15:21",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T20:30:31Z"
+  "updated": "2026-02-05T21:00:43Z"
 }
