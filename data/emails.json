@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "sergio saravia (via Google Docs)",
+      "subject": "Document shared with you: ‘Doc_Harto_ArturoFernandez_Replica 050226’",
+      "time": "21:18",
+      "unread": true
+    },
+    {
       "sender": "Vagon Team",
       "subject": "Your computer has been shut down️",
       "time": "18:58",
@@ -53,14 +59,8 @@
       "subject": "Art Rotterdam billboard exhibition…",
       "time": "15:21",
       "unread": true
-    },
-    {
-      "sender": "Lisa Highsmith",
-      "subject": "Quick Taproot Test Before Sending Recursive Memory",
-      "time": "09:38",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T20:00:50Z"
+  "updated": "2026-02-05T20:30:31Z"
 }
