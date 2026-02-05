@@ -2,6 +2,18 @@
   "emails": [
     {
       "sender": "Vagon Team",
+      "subject": "Your computer has been shut down️",
+      "time": "13:44",
+      "unread": true
+    },
+    {
+      "sender": "sergio saravia",
+      "subject": "Factura Servicios Enero 2026",
+      "time": "13:41",
+      "unread": true
+    },
+    {
+      "sender": "Vagon Team",
       "subject": "Your Vagon is ready!",
       "time": "13:22",
       "unread": true
@@ -47,20 +59,8 @@
       "subject": "Summary of failures for Google Apps Script: Untitled project",
       "time": "06:42",
       "unread": true
-    },
-    {
-      "sender": "Stripe",
-      "subject": "Se ha iniciado sesión en tu cuenta de Stripe desde un dispositivo desconocido.",
-      "time": "23:18",
-      "unread": true
-    },
-    {
-      "sender": "Stripe",
-      "subject": "Tu contraseña de Stripe se ha actualizado",
-      "time": "23:18",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T12:30:36Z"
+  "updated": "2026-02-05T13:01:29Z"
 }
