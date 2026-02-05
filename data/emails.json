@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Gemini",
+      "subject": "Gemini Ceasing Operations in Your Region - Action Required",
+      "time": "22:41",
+      "unread": true
+    },
+    {
       "sender": "Canva",
       "subject": "Tu suscripción a Canva Equipos ha terminado",
       "time": "22:00",
@@ -53,14 +59,8 @@
       "subject": "How does OpenRouter pricing work?",
       "time": "11:46",
       "unread": true
-    },
-    {
-      "sender": "ArtStation",
-      "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
-      "time": "10:57",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T21:32:24Z"
+  "updated": "2026-02-05T22:04:20Z"
 }
