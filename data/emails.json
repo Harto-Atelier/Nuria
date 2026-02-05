@@ -7,45 +7,9 @@
       "unread": true
     },
     {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Rennes 28.03.26 Votre réservation à l'établissement Hotel-Restaurant Le Victoria est confirmée",
-      "time": "15:46",
-      "unread": true
-    },
-    {
-      "sender": "MutualArt.com",
-      "subject": "➽ Alerts for Werner Bronkhorst",
-      "time": "15:21",
-      "unread": true
-    },
-    {
-      "sender": "Vagon Team",
-      "subject": "Your computer has been shut down️",
-      "time": "13:44",
-      "unread": true
-    },
-    {
       "sender": "sergio saravia",
       "subject": "Factura Servicios Enero 2026",
       "time": "13:41",
-      "unread": true
-    },
-    {
-      "sender": "Vagon Team",
-      "subject": "Your Vagon is ready!",
-      "time": "13:22",
-      "unread": true
-    },
-    {
-      "sender": "Google",
-      "subject": "Security alert",
-      "time": "13:14",
-      "unread": true
-    },
-    {
-      "sender": "Vagon Team",
-      "subject": "Congrats, you’ve got a brand new Vagon computer! 🎉",
-      "time": "13:12",
       "unread": true
     },
     {
@@ -59,8 +23,44 @@
       "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
       "time": "10:57",
       "unread": true
+    },
+    {
+      "sender": "Tia Grazette",
+      "subject": "Art Rotterdam billboard exhibition…",
+      "time": "15:21",
+      "unread": true
+    },
+    {
+      "sender": "Lisa Highsmith",
+      "subject": "Quick Taproot Test Before Sending Recursive Memory",
+      "time": "09:38",
+      "unread": true
+    },
+    {
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "06:42",
+      "unread": true
+    },
+    {
+      "sender": "Stripe",
+      "subject": "Se ha iniciado sesión en tu cuenta de Stripe desde un dispositivo desconocido.",
+      "time": "23:18",
+      "unread": true
+    },
+    {
+      "sender": "Stripe",
+      "subject": "Tu contraseña de Stripe se ha actualizado",
+      "time": "23:18",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billets Flixbus Rennes Ploërmel 29.03.26",
+      "time": "22:18",
+      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T15:30:33Z"
+  "updated": "2026-02-05T16:00:45Z"
 }
