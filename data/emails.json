@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "OpenRouter Team",
+      "subject": "How does OpenRouter pricing work?",
+      "time": "11:46",
+      "unread": true
+    },
+    {
       "sender": "ArtStation",
       "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
       "time": "10:57",
@@ -53,14 +59,8 @@
       "subject": "Crypto portfolio update",
       "time": "18:08",
       "unread": true
-    },
-    {
-      "sender": "Vercel",
-      "subject": "Weekly Usage Summary for harto11's projects",
-      "time": "17:17",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T10:31:05Z"
+  "updated": "2026-02-05T11:02:01Z"
 }
