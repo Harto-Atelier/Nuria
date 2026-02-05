@@ -1,6 +1,24 @@
 {
   "emails": [
     {
+      "sender": "Vagon Team",
+      "subject": "Your Vagon is ready!",
+      "time": "13:22",
+      "unread": true
+    },
+    {
+      "sender": "Google",
+      "subject": "Security alert",
+      "time": "13:14",
+      "unread": true
+    },
+    {
+      "sender": "Vagon Team",
+      "subject": "Congrats, you’ve got a brand new Vagon computer! 🎉",
+      "time": "13:12",
+      "unread": true
+    },
+    {
       "sender": "OpenRouter Team",
       "subject": "How does OpenRouter pricing work?",
       "time": "11:46",
@@ -41,26 +59,8 @@
       "subject": "Tu contraseña de Stripe se ha actualizado",
       "time": "23:18",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Billets Flixbus Rennes Ploërmel 29.03.26",
-      "time": "22:18",
-      "unread": true
-    },
-    {
-      "sender": "Marco from Transient Labs",
-      "subject": "Botto’s \"Genesis: #000-0051\" Special Editions now available",
-      "time": "18:22",
-      "unread": true
-    },
-    {
-      "sender": "CoinTracker",
-      "subject": "Crypto portfolio update",
-      "time": "18:08",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T12:00:39Z"
+  "updated": "2026-02-05T12:30:36Z"
 }
