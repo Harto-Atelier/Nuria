@@ -1,6 +1,42 @@
 {
   "emails": [
     {
+      "sender": "Vercel",
+      "subject": "Increased On-Demand Usage for harto11's projects",
+      "time": "17:17",
+      "unread": true
+    },
+    {
+      "sender": "Vagon Team",
+      "subject": "Your computer has been shut down️",
+      "time": "17:10",
+      "unread": true
+    },
+    {
+      "sender": "Google Play",
+      "subject": "Your Google Play Order Receipt from 5 Feb 2026",
+      "time": "17:07",
+      "unread": true
+    },
+    {
+      "sender": "Google Play",
+      "subject": "Your Google Play refund has been approved",
+      "time": "17:07",
+      "unread": true
+    },
+    {
+      "sender": "Google One",
+      "subject": "Explore your new Google AI Pro plan, HARTO",
+      "time": "17:07",
+      "unread": true
+    },
+    {
+      "sender": "Centre Gestor S.A.U.",
+      "subject": "Centre Gestor Lleida S.A.U. li ha enviat un document per a signar",
+      "time": "17:01",
+      "unread": true
+    },
+    {
       "sender": "SuperRare",
       "subject": "Richard Nadler: HabiTextures",
       "time": "16:04",
@@ -23,44 +59,8 @@
       "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
       "time": "10:57",
       "unread": true
-    },
-    {
-      "sender": "Tia Grazette",
-      "subject": "Art Rotterdam billboard exhibition…",
-      "time": "15:21",
-      "unread": true
-    },
-    {
-      "sender": "Lisa Highsmith",
-      "subject": "Quick Taproot Test Before Sending Recursive Memory",
-      "time": "09:38",
-      "unread": true
-    },
-    {
-      "sender": "noreply-apps-scripts-notifications@google.com",
-      "subject": "Summary of failures for Google Apps Script: Untitled project",
-      "time": "06:42",
-      "unread": true
-    },
-    {
-      "sender": "Stripe",
-      "subject": "Se ha iniciado sesión en tu cuenta de Stripe desde un dispositivo desconocido.",
-      "time": "23:18",
-      "unread": true
-    },
-    {
-      "sender": "Stripe",
-      "subject": "Tu contraseña de Stripe se ha actualizado",
-      "time": "23:18",
-      "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "Billets Flixbus Rennes Ploërmel 29.03.26",
-      "time": "22:18",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T16:00:45Z"
+  "updated": "2026-02-05T16:31:00Z"
 }
