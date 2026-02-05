@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Vagon Team",
+      "subject": "Your computer has been shut down️",
+      "time": "18:58",
+      "unread": true
+    },
+    {
       "sender": "CoinTracker",
       "subject": "Crypto portfolio update",
       "time": "18:18",
@@ -53,14 +59,8 @@
       "subject": "Quick Taproot Test Before Sending Recursive Memory",
       "time": "09:38",
       "unread": true
-    },
-    {
-      "sender": "noreply-apps-scripts-notifications@google.com",
-      "subject": "Summary of failures for Google Apps Script: Untitled project",
-      "time": "06:42",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-05T17:30:57Z"
+  "updated": "2026-02-05T18:00:41Z"
 }
