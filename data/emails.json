@@ -1,15 +1,9 @@
 {
   "emails": [
     {
-      "sender": "arthurm nolcha.com",
-      "subject": "Art Basel to Consensus Hong Kong Nolcha Featured Artist",
+      "sender": "Centre Gestor S.A.U.",
+      "subject": "VIDsigner: Document signat",
       "time": "10:02",
-      "unread": true
-    },
-    {
-      "sender": "Marta | Declarando",
-      "subject": "11 errores frecuentes en tus facturas europeas",
-      "time": "08:19",
       "unread": true
     },
     {
@@ -19,48 +13,54 @@
       "unread": true
     },
     {
-      "sender": "Gemini",
-      "subject": "Gemini Ceasing Operations in Your Region - Action Required",
-      "time": "22:41",
+      "sender": "SuperRare",
+      "subject": "Richard Nadler: HabiTextures",
+      "time": "16:04",
       "unread": true
     },
     {
-      "sender": "Canva",
-      "subject": "Tu suscripción a Canva Equipos ha terminado",
-      "time": "22:00",
+      "sender": "OpenRouter Team",
+      "subject": "How does OpenRouter pricing work?",
+      "time": "11:46",
       "unread": true
     },
     {
-      "sender": "sergio saravia (via Google Docs)",
-      "subject": "Document shared with you: ‘Doc_Harto_ArturoFernandez_Replica 050226’",
-      "time": "21:18",
+      "sender": "ArtStation",
+      "subject": "Shop Winter Sale Deals on the ArtStation Marketplace!",
+      "time": "10:57",
       "unread": true
     },
     {
-      "sender": "Vagon Team",
-      "subject": "Your computer has been shut down️",
-      "time": "18:58",
+      "sender": "Lisa Highsmith",
+      "subject": "Quick Taproot Test Before Sending Recursive Memory",
+      "time": "09:38",
       "unread": true
     },
     {
-      "sender": "CoinTracker",
-      "subject": "Crypto portfolio update",
-      "time": "18:18",
+      "sender": "noreply-apps-scripts-notifications@google.com",
+      "subject": "Summary of failures for Google Apps Script: Untitled project",
+      "time": "06:42",
       "unread": true
     },
     {
-      "sender": "Google One",
-      "subject": "Explore your new Google AI Pro plan, HARTO",
-      "time": "17:07",
+      "sender": "Stripe",
+      "subject": "Se ha iniciado sesión en tu cuenta de Stripe desde un dispositivo desconocido.",
+      "time": "23:18",
       "unread": true
     },
     {
-      "sender": "Centre Gestor S.A.U.",
-      "subject": "Centre Gestor Lleida S.A.U. li ha enviat un document per a signar",
-      "time": "17:01",
+      "sender": "Stripe",
+      "subject": "Tu contraseña de Stripe se ha actualizado",
+      "time": "23:18",
+      "unread": true
+    },
+    {
+      "sender": "Juliette Lavedan-Forment",
+      "subject": "Billets Flixbus Rennes Ploërmel 29.03.26",
+      "time": "22:18",
       "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-06T08:30:59Z"
+  "updated": "2026-02-06T09:02:37Z"
 }
