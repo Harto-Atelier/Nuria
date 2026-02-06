@@ -1,6 +1,11 @@
 {
   "today": [
   {
+    "time": "12:45",
+    "title": "🏠 Visita piso Passeig de Gràcia 128",
+    "date": "2026-02-06"
+  },
+  {
     "time": "13:30",
     "title": "Rdv Susana colegio",
     "date": "2026-02-06"
@@ -48,5 +53,5 @@
     "date": "2026-02-11"
   }
 ],
-  "updated": "2026-02-06T09:30:49.000Z"
+  "updated": "2026-02-06T09:40:04.000Z"
 }
