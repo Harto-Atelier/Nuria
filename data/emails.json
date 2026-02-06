@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "CoinTracker",
+      "subject": "Crypto portfolio update",
+      "time": "19:18",
+      "unread": true
+    },
+    {
       "sender": "Ollama",
       "subject": "Qwen3-Coder-Next available in Ollama",
       "time": "17:18",
@@ -53,14 +59,8 @@
       "subject": "Richard Nadler: HabiTextures",
       "time": "16:04",
       "unread": true
-    },
-    {
-      "sender": "OpenRouter Team",
-      "subject": "How does OpenRouter pricing work?",
-      "time": "11:46",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-06T18:00:45Z"
+  "updated": "2026-02-06T18:30:30Z"
 }
