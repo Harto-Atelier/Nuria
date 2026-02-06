@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "Reve Team",
+      "subject": "Introducing References",
+      "time": "02:14",
+      "unread": true
+    },
+    {
       "sender": "Gemini",
       "subject": "Gemini Ceasing Operations in Your Region - Action Required",
       "time": "22:41",
@@ -53,14 +59,8 @@
       "subject": "Factura Servicios Enero 2026",
       "time": "19:29",
       "unread": true
-    },
-    {
-      "sender": "OpenRouter Team",
-      "subject": "How does OpenRouter pricing work?",
-      "time": "11:46",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-06T01:00:49Z"
+  "updated": "2026-02-06T01:30:28Z"
 }
