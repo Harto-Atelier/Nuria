@@ -1,6 +1,18 @@
 {
   "emails": [
     {
+      "sender": "OpenRouter Team",
+      "subject": "Tool calling that just works",
+      "time": "11:46",
+      "unread": true
+    },
+    {
+      "sender": "Vercel",
+      "subject": "Failed production deployment on team 'harto11's projects'",
+      "time": "11:42",
+      "unread": true
+    },
+    {
       "sender": "Extranet Centre Gestor - CG365",
       "subject": "Centre Gestor: Aviso disponibilidad factura",
       "time": "22:45",
@@ -47,20 +59,8 @@
       "subject": "Comparing different models with the same prompt",
       "time": "11:46",
       "unread": true
-    },
-    {
-      "sender": "Juliette Lavedan-Forment",
-      "subject": "re enviar el lunes",
-      "time": "11:35",
-      "unread": true
-    },
-    {
-      "sender": "Reve Team",
-      "subject": "Introducing References",
-      "time": "02:14",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-07T10:30:54Z"
+  "updated": "2026-02-07T11:01:46Z"
 }
