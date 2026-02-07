@@ -1,6 +1,12 @@
 {
   "emails": [
     {
+      "sender": "chafouin",
+      "subject": "Photographer 5.8.2 is available with Bloom kernel support and a lot of fixes for Blender 5.0.",
+      "time": "09:12",
+      "unread": true
+    },
+    {
       "sender": "Extranet Centre Gestor - CG365",
       "subject": "Centre Gestor: Aviso disponibilidad factura",
       "time": "22:45",
@@ -53,14 +59,8 @@
       "subject": "re enviar el lunes",
       "time": "11:35",
       "unread": true
-    },
-    {
-      "sender": "Reve Team",
-      "subject": "Introducing References",
-      "time": "02:14",
-      "unread": true
     }
   ],
   "unreadCount": 10,
-  "updated": "2026-02-07T08:01:40Z"
+  "updated": "2026-02-07T08:31:10Z"
 }
